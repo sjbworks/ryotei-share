@@ -1,51 +1,18 @@
-import {
-  Timeline as MUITimeline,
-  TimelineItem,
-  TimelineSeparator,
-  TimelineConnector,
-  TimelineContent,
-  TimelineDot,
-} from '@mui/lab'
-
-type TimelineItem = {
-  label: string
-  color: string
-}
+import { Timeline as MUITimeline } from '@mui/lab'
+import { TimelineItem, TimelineItemProps } from './TimelineItem'
+import { FC } from 'react'
 
 type TimeLineProps = {
-  items: Array<TimelineItem>
+  items: Array<TimelineItemProps>
   className?: string
 }
-export const Timeline = () => {
+export const Timeline: FC<TimeLineProps> = (props) => {
+  const { items } = props
   return (
     <MUITimeline position="left">
-      <TimelineItem>
-        <TimelineSeparator>
-          <TimelineDot />
-          <TimelineConnector />
-        </TimelineSeparator>
-        <TimelineContent>Eat</TimelineContent>
-      </TimelineItem>
-      <TimelineItem>
-        <TimelineSeparator>
-          <TimelineDot />
-          <TimelineConnector />
-        </TimelineSeparator>
-        <TimelineContent>Code</TimelineContent>
-      </TimelineItem>
-      <TimelineItem>
-        <TimelineSeparator>
-          <TimelineDot />
-          <TimelineConnector />
-        </TimelineSeparator>
-        <TimelineContent>Sleep</TimelineContent>
-      </TimelineItem>
-      <TimelineItem>
-        <TimelineSeparator>
-          <TimelineDot />
-        </TimelineSeparator>
-        <TimelineContent>Repeat</TimelineContent>
-      </TimelineItem>
+      {items.map((props, i) => (
+        <TimelineItem {...props} key={i} />
+      ))}
     </MUITimeline>
   )
 }
