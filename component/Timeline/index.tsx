@@ -9,7 +9,7 @@ type TimeLineProps = {
 export const Timeline: FC<TimeLineProps> = (props) => {
   const { items } = props
   return (
-    <MUITimeline position="left">
+    <MUITimeline>
       {items.map((props, i) => (
         <TimelineItem {...props} key={i} />
       ))}

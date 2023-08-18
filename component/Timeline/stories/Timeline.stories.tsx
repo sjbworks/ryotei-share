@@ -21,6 +21,7 @@ const items = [
   {
     label: 'スキー場',
     color: 'primary',
+    isLast: true,
   },
 ]
 
