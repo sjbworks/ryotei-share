@@ -28,7 +28,16 @@ export const TimelineItem: FC<TimelineItemProps> = (props) => {
         <TimelineDot />
         <TimelineConnector />
       </TimelineSeparator>
-      <TimelineContent sx={{ py: 'auto', px: 2, alignItems: 'center', justifyContent: 'center' }}>
+      <TimelineContent
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          py: 'auto',
+          px: 2,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
         {title && (
           <Typography variant="h6" component="span">
             {title}

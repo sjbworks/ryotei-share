@@ -12,6 +12,7 @@ type Story = StoryObj<typeof TimelineComponent>
 const items = [
   {
     label: '大宮',
+    title: 'タイトル',
     color: 'primary',
   },
   {
