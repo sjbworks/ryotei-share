@@ -19,19 +19,18 @@ export type TimelineItemProps = {
 
 export const TimelineItem: FC<TimelineItemProps> = (props) => {
   const { time, label, color, isLast, title } = props
+  const timelineContentSx = {
+    display: 'flex',
+    flexDirection: 'column',
+    px: 2,
+    justifyContent: 'center',
+  }
   return (
     <MUITimelineItem>
       {/*<TimelineOppositeContent sx={{ m: 'auto 0' }} align="right" variant="body2" color="text.secondary">*/}
-      <TimelineOppositeContent
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          px: 2,
-          justifyContent: 'center',
-        }}
-      >
+      <TimelineOppositeContent sx={timelineContentSx}>
         {title && (
-          <Typography variant="h6" component="span">
+          <Typography variant="subtitle1" component="span">
             {title}
           </Typography>
         )}
@@ -42,14 +41,7 @@ export const TimelineItem: FC<TimelineItemProps> = (props) => {
         <TimelineDot />
         <TimelineConnector />
       </TimelineSeparator>
-      <TimelineContent
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          px: 2,
-          justifyContent: 'center',
-        }}
-      >
+      <TimelineContent sx={timelineContentSx}>
         {/*<TimelineContent>*/}
         {title && (
           <Typography variant="h6" component="span">
