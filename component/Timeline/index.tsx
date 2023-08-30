@@ -2,7 +2,7 @@ import { Timeline as MUITimeline } from '@mui/lab'
 import { TimelineItem, TimelineItemProps } from './TimelineItem'
 import { FC } from 'react'
 
-type TimeLineProps = {
+export type TimeLineProps = {
   items: Array<TimelineItemProps>
   className?: string
 }

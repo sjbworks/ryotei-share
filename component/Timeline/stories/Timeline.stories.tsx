@@ -1,5 +1,8 @@
 import { Timeline as TimelineComponent } from '../index'
 import type { Meta, StoryObj } from '@storybook/react'
+import { ComponentProps } from 'react'
+
+type Props = ComponentProps<typeof TimelineComponent>
 
 const meta: Meta<typeof TimelineComponent> = {
   component: TimelineComponent,
@@ -9,7 +12,7 @@ const meta: Meta<typeof TimelineComponent> = {
 export default meta
 type Story = StoryObj<typeof TimelineComponent>
 
-const items = [
+const items: Props['items'] = [
   {
     time: '9:00',
     label: '大宮',
@@ -20,6 +23,7 @@ const items = [
     time: '10:00',
     label: '新潟',
     color: 'primary',
+    icon: 'walk',
   },
   {
     time: '12:00',
