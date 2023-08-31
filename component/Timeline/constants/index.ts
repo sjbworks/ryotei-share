@@ -9,7 +9,7 @@ import {
   MorningIcon,
   MoonIcon,
 } from '@/component/Icon'
-import { type } from 'doctrine'
+
 export const ICON_MAP = {
   food: FoodIcon,
   airPlane: AirPlaneIcon,
