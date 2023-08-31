@@ -9,8 +9,6 @@ import {
 import { Typography } from '@mui/material'
 import { FC } from 'react'
 import { ICON_MAP, IconKey } from './constants'
-// import { FoodIcon } from '@/component/Icon'
-import * as FoodIcon from '@mui/icons-material/Restaurant'
 
 export type TimelineItemProps = {
   time: string
@@ -21,7 +19,8 @@ export type TimelineItemProps = {
   icon?: IconKey
 }
 
-const Icon = (icon?: IconKey) => {
+type Props = { icon?: IconKey }
+const Icon = ({ icon }: Props) => {
   if (icon) return ICON_MAP[icon]
   return <></>
 }
@@ -34,7 +33,7 @@ export const TimelineItem: FC<TimelineItemProps> = (props) => {
     px: 2,
     justifyContent: 'center',
   }
-  // const Icon = icon ? ICON_MAP[icon] : ICON_MAP['food']
+  const Icon = icon ? ICON_MAP[icon] : ICON_MAP['food']
   return (
     <MUITimelineItem>
       {/*<TimelineOppositeContent sx={{ m: 'auto 0' }} align="right" variant="body2" color="text.secondary">*/}
@@ -49,7 +48,7 @@ export const TimelineItem: FC<TimelineItemProps> = (props) => {
       <TimelineSeparator>
         <TimelineConnector />
         <TimelineDot>
-          <FoodIcon />
+          <Icon />
         </TimelineDot>
         <TimelineConnector />
       </TimelineSeparator>
