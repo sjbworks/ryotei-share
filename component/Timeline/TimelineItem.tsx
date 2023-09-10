@@ -36,7 +36,6 @@ export const TimelineItem: FC<TimelineItemProps> = (props) => {
   const Icon = icon ? ICON_MAP[icon] : ICON_MAP['food']
   return (
     <MUITimelineItem>
-      {/*<TimelineOppositeContent sx={{ m: 'auto 0' }} align="right" variant="body2" color="text.secondary">*/}
       <TimelineOppositeContent sx={timelineContentSx}>
         {title && (
           <Typography variant="subtitle1" component="span">
@@ -53,7 +52,6 @@ export const TimelineItem: FC<TimelineItemProps> = (props) => {
         <TimelineConnector />
       </TimelineSeparator>
       <TimelineContent sx={timelineContentSx}>
-        {/*<TimelineContent>*/}
         {title && (
           <Typography variant="h6" component="span">
             {title}
