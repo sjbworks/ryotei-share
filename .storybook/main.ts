@@ -1,4 +1,5 @@
 import type { StorybookConfig } from '@storybook/nextjs'
+const path = require('path')
 
 const config: StorybookConfig = {
   stories: ['../**/stories/**/*.mdx', '../**/stories/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
@@ -18,6 +19,7 @@ const config: StorybookConfig = {
   webpackFinal: async (config) => {
     config.resolve.alias = {
       ...config.resolve.alias,
+      '@': path.resolve(__dirname, '..'),
     }
     config.module.rules.push({
       test: /\.(graphql|gql)$/,
