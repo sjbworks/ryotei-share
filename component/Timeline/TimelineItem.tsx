@@ -19,12 +19,6 @@ export type TimelineItemProps = {
   icon?: IconKey
 }
 
-type Props = { icon?: IconKey }
-const Icon = ({ icon }: Props) => {
-  if (icon) return ICON_MAP[icon]
-  return <></>
-}
-
 export const TimelineItem: FC<TimelineItemProps> = (props) => {
   const { time, label, color, isLast, title, icon } = props
   const timelineContentSx = {
@@ -33,7 +27,7 @@ export const TimelineItem: FC<TimelineItemProps> = (props) => {
     px: 2,
     justifyContent: 'center',
   }
-  const Icon = icon ? ICON_MAP[icon] : ICON_MAP['food']
+  const Icon = icon ? ICON_MAP[icon] : ICON_MAP['default']
   return (
     <MUITimelineItem>
       <TimelineOppositeContent sx={timelineContentSx}>

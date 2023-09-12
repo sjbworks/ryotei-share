@@ -7,5 +7,17 @@ import WalkIcon from '@mui/icons-material/DirectionsWalkRounded'
 import SleepIcon from '@mui/icons-material/HotelRounded'
 import MorningIcon from '@mui/icons-material/LightModeRounded'
 import MoonIcon from '@mui/icons-material/DarkModeRounded'
+import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord'
 
-export { FoodIcon, AirPlaneIcon, TrainIcon, TaxiIcon, CarIcon, WalkIcon, SleepIcon, MorningIcon, MoonIcon }
+export {
+  FoodIcon,
+  AirPlaneIcon,
+  TrainIcon,
+  TaxiIcon,
+  CarIcon,
+  WalkIcon,
+  SleepIcon,
+  MorningIcon,
+  MoonIcon,
+  FiberManualRecordIcon,
+}
