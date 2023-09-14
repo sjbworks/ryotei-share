@@ -5,6 +5,7 @@ import {
   TimelineContent,
   TimelineDot,
   TimelineOppositeContent,
+  TimelineDotProps,
 } from '@mui/lab'
 import { Typography } from '@mui/material'
 import { FC } from 'react'
@@ -13,14 +14,13 @@ import { ICON_MAP, IconKey } from './constants'
 export type TimelineItemProps = {
   time: string
   label: string
-  color: string
-  isLast?: boolean
+  color?: TimelineDotProps['color']
   title?: string
   icon?: IconKey
 }
 
 export const TimelineItem: FC<TimelineItemProps> = (props) => {
-  const { time, label, color, isLast, title, icon } = props
+  const { time, label, color, title, icon } = props
   const timelineContentSx = {
     display: 'flex',
     flexDirection: 'column',
@@ -40,7 +40,7 @@ export const TimelineItem: FC<TimelineItemProps> = (props) => {
       </TimelineOppositeContent>
       <TimelineSeparator>
         <TimelineConnector />
-        <TimelineDot>
+        <TimelineDot color={color}>
           <Icon />
         </TimelineDot>
         <TimelineConnector />
