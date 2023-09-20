@@ -26,6 +26,11 @@ const config: StorybookConfig = {
       exclude: /node_modules/,
       loader: 'graphql-tag/loader',
     })
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      react: path.resolve(__dirname, '../node_modules/react'),
+      'react-dom': path.resolve(__dirname, '../node_modules/react-dom'),
+    }
     return config
   },
 }
