@@ -12,15 +12,7 @@ const meta: Meta<typeof BottomSheetComponent> = {
 export default meta
 type Story = StoryObj<typeof BottomSheetComponent>
 
-const useTimelineStory = () => {
-  const [open, setOpen] = useState(false)
-  return {
-    open,
-    onOpen: () => setOpen(true),
-    onClose: () => setOpen(false),
-  }
-}
-export const Timeline: Story = {
+export const BottomSheet: Story = {
   render: function Comp(args) {
     const [open, setOpen] = useState(false)
     return (
@@ -33,10 +25,3 @@ export const Timeline: Story = {
     )
   },
 }
-
-// export const Timeline = {
-//   ...story,
-//   args: {
-//     items: [{ ...Unchecked.args }],
-//   },
-// }
