@@ -4,54 +4,34 @@ import {
   TimelineConnector,
   TimelineContent,
   TimelineDot,
-  TimelineOppositeContent,
   TimelineDotProps,
 } from '@mui/lab'
 import { Typography } from '@mui/material'
 import { FC } from 'react'
-import { ICON_MAP, IconKey } from './constants'
 
 export type TimelineItemProps = {
   time: string
   label: string
   color?: TimelineDotProps['color']
   title?: string
-  icon?: IconKey
+  isLast?: boolean
 }
 
 export const TimelineItem: FC<TimelineItemProps> = (props) => {
-  const { time, label, color, title, icon } = props
-  const timelineContentSx = {
-    display: 'flex',
-    flexDirection: 'column',
-    px: 2,
-    justifyContent: 'center',
-  }
-  const Icon = icon ? ICON_MAP[icon] : ICON_MAP['default']
+  const { time, label, color, title, isLast } = props
   return (
     <MUITimelineItem>
-      <TimelineOppositeContent sx={timelineContentSx}>
-        {title && (
-          <Typography variant="subtitle1" component="span">
-            {title}
-          </Typography>
-        )}
-        {time}
-      </TimelineOppositeContent>
       <TimelineSeparator>
-        <TimelineConnector />
-        <TimelineDot color={color}>
-          <Icon />
-        </TimelineDot>
+        <TimelineDot color={color} />
         <TimelineConnector />
       </TimelineSeparator>
-      <TimelineContent sx={timelineContentSx}>
-        {title && (
-          <Typography variant="h6" component="span">
-            {title}
+      <TimelineContent>
+        {time && (
+          <Typography variant="subtitle2" component="span">
+            {time}
           </Typography>
         )}
-        <Typography>{label}</Typography>
+        <Typography variant="body1">{label}</Typography>
       </TimelineContent>
     </MUITimelineItem>
   )

@@ -23,7 +23,6 @@ const items: Props['items'] = [
     time: '10:00',
     label: '新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟',
     color: 'info',
-    icon: 'walk',
   },
   {
     time: '12:00',
