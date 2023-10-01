@@ -8,6 +8,7 @@ import {
 } from '@mui/lab'
 import { Typography } from '@mui/material'
 import { FC } from 'react'
+import { AccessTimeIcon } from '../Icon'
 
 export type TimelineItemProps = {
   time: string
@@ -19,6 +20,10 @@ export type TimelineItemProps = {
 
 export const TimelineItem: FC<TimelineItemProps> = (props) => {
   const { time, label, color, title, isLast } = props
+  const timeSx = {
+    display: 'flex',
+    alignItems: 'center',
+  }
   return (
     <MUITimelineItem>
       <TimelineSeparator>
@@ -27,11 +32,14 @@ export const TimelineItem: FC<TimelineItemProps> = (props) => {
       </TimelineSeparator>
       <TimelineContent>
         {time && (
-          <Typography variant="subtitle2" component="span">
+          <Typography variant="subtitle2" component="span" color="grey.500" sx={timeSx}>
+            <AccessTimeIcon fontSize="small" sx={{ marginRight: '4px' }} />
             {time}
           </Typography>
         )}
-        <Typography variant="body1">{label}</Typography>
+        <Typography variant="body1" color="grey.800">
+          {label}
+        </Typography>
       </TimelineContent>
     </MUITimelineItem>
   )

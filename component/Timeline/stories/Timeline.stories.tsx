@@ -42,7 +42,6 @@ const items: Props['items'] = [
   {
     time: '13:00',
     label: 'スキー場',
-    color: 'warning',
   },
 ]
 

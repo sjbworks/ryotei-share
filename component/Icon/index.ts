@@ -8,6 +8,7 @@ import SleepIcon from '@mui/icons-material/HotelRounded'
 import MorningIcon from '@mui/icons-material/LightModeRounded'
 import MoonIcon from '@mui/icons-material/DarkModeRounded'
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord'
+import AccessTimeIcon from '@mui/icons-material/AccessTime'
 
 export {
   FoodIcon,
@@ -20,4 +21,5 @@ export {
   MorningIcon,
   MoonIcon,
   FiberManualRecordIcon,
+  AccessTimeIcon,
 }
