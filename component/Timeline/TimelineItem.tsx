@@ -33,7 +33,7 @@ export const TimelineItem: FC<TimelineItemProps> = (props) => {
       <TimelineContent>
         {time && (
           <Typography variant="subtitle2" component="span" color="grey.500" sx={timeSx}>
-            <AccessTimeIcon fontSize="small" sx={{ marginRight: '4px' }} />
+            <AccessTimeIcon fontSize="small" sx={{ marginRight: '2px' }} />
             {time}
           </Typography>
         )}
