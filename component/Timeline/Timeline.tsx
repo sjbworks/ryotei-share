@@ -1,3 +1,4 @@
+'use client'
 import { Timeline as MUITimeline, timelineItemClasses } from '@mui/lab'
 import { TimelineItem, TimelineItemProps } from './TimelineItem'
 import { FC } from 'react'

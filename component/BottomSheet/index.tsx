@@ -1,3 +1,4 @@
+'use client'
 import SwipeableDrawer from '@mui/material/SwipeableDrawer'
 import { FC, ReactNode } from 'react'
 
