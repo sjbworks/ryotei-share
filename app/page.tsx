@@ -1,10 +1,12 @@
-import { Timeline } from '@/component/Timeline'
+'use client'
+import { Timeline, BottomSheet, Layout } from '@/component'
+import { useState } from 'react'
 
 export default function Home() {
   const items = [
     {
       time: '9:00',
-      label: '大宮駅　豆の木',
+      label: '大宮駅 豆の木',
       title: 'タイトル',
     },
     {
@@ -28,9 +30,20 @@ export default function Home() {
       label: 'スキー場',
     },
   ]
+
+  const [open, setOpen] = useState(false)
+  const onClose = () => setOpen(false)
+  const onOpen = () => setOpen(true)
+  const bottomSheet = { open, onClose, onOpen }
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <Timeline items={items} />
+      <Layout>
+        <Timeline items={items} />
+        <BottomSheet {...bottomSheet}>
+          <div></div>
+        </BottomSheet>
+      </Layout>
     </main>
   )
 }
