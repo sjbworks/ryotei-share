@@ -1,6 +1,7 @@
 'use client'
 import { Timeline, BottomSheet, Layout } from '@/component'
 import { useState } from 'react'
+import Button from '@mui/material/Button'
 
 export default function Home() {
   const items = [
@@ -32,16 +33,20 @@ export default function Home() {
   ]
 
   const [open, setOpen] = useState(false)
+  const handleClick = () => setOpen(!open)
   const onClose = () => setOpen(false)
   const onOpen = () => setOpen(true)
-  const bottomSheet = { open, onClose, onOpen }
+  const bottomSheet = { open, onOpen, onClose }
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <Layout>
         <Timeline items={items} />
+        <Button className="justify-end" onClick={handleClick}>
+          あ
+        </Button>
         <BottomSheet {...bottomSheet}>
-          <div></div>
+          <div>aaa</div>
         </BottomSheet>
       </Layout>
     </main>
