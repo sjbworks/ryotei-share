@@ -15,7 +15,7 @@ type Story = StoryObj<typeof TimelineComponent>
 const items: Props['items'] = [
   {
     time: '9:00',
-    label: '大宮駅　豆の木',
+    label: '大宮駅 豆の木',
     title: 'タイトル',
     color: 'primary',
   },
