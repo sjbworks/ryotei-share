@@ -19,22 +19,24 @@ export const Form = () => {
   } = useForm<FormInput>({ reValidateMode: 'onBlur', defaultValues: undefined })
   const onSubmit: SubmitHandler<FormInput> = (data) => console.log(data)
   return (
-    <div className="grid grid-rows-1 grid-flow-col gap-1">
+    <div className="grid gap-4">
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Controller
           name="datetime"
           control={control}
           rules={{ required: true }}
-          render={({ field }) => <DateTimePicker {...field} />}
+          render={({ field }) => <DateTimePicker {...field} className="block w-full" />}
         />
       </LocalizationProvider>
       <TextField
         {...register('description', { required: true })}
         error={!!errors.description}
         helperText={errors.description && 'Description is required'}
+        className="block w-full"
       />
-      <input type="submit" />
-      <Button onClick={handleSubmit(onSubmit)}>送信</Button>
+      <Button onClick={handleSubmit(onSubmit)} className="block w-full">
+        送信
+      </Button>
     </div>
   )
 }
