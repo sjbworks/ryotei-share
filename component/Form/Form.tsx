@@ -1,7 +1,13 @@
-import { useForm, Controller } from 'react-hook-form'
+import { useForm, Controller, SubmitHandler } from 'react-hook-form'
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import TextField from '@mui/material/TextField'
+import { Button } from '@/component/Button'
+
+type FormInput = {
+  datetime: Date
+  description: string
+}
 
 export const Form = () => {
   const {
@@ -10,9 +16,10 @@ export const Form = () => {
     watch,
     control,
     formState: { errors },
-  } = useForm()
+  } = useForm<FormInput>({ reValidateMode: 'onBlur', defaultValues: undefined })
+  const onSubmit: SubmitHandler<FormInput> = (data) => console.log(data)
   return (
-    <div className="flex flex-col">
+    <div className="grid grid-rows-1 grid-flow-col gap-1">
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Controller
           name="datetime"
@@ -22,11 +29,12 @@ export const Form = () => {
         />
       </LocalizationProvider>
       <TextField
-        {...register('title', { required: true })}
-        error={!!errors.title}
-        helperText={errors.title && 'Title is required'}
+        {...register('description', { required: true })}
+        error={!!errors.description}
+        helperText={errors.description && 'Description is required'}
       />
       <input type="submit" />
+      <Button onClick={handleSubmit(onSubmit)}>送信</Button>
     </div>
   )
 }

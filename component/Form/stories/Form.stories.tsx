@@ -12,6 +12,6 @@ const meta: Meta<typeof FormComponent> = {
 export default meta
 type Story = StoryObj<typeof FormComponent>
 
-export const Timeline: Story = {
+export const Form: Story = {
   render: () => <FormComponent />,
 }
