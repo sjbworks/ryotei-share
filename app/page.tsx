@@ -1,7 +1,6 @@
 'use client'
-import { Timeline, BottomSheet, Layout } from '@/component'
+import { Timeline, BottomSheet, Layout, Form, Button } from '@/component'
 import { useState } from 'react'
-import Button from '@mui/material/Button'
 
 export default function Home() {
   const items = [
@@ -46,7 +45,7 @@ export default function Home() {
           あ
         </Button>
         <BottomSheet {...bottomSheet}>
-          <div>aaa</div>
+          <Form />
         </BottomSheet>
       </Layout>
     </main>
