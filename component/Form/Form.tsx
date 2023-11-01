@@ -30,16 +30,28 @@ export const Form = () => {
     >
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Controller
-          name="datetime"
           control={control}
           rules={{ required: true }}
-          render={({ field }) => <DateTimePicker {...field} className="block w-full" />}
+          {...register('datetime', { required: true })}
+          render={({ field }) => (
+            <DateTimePicker
+              {...field}
+              slotProps={{
+                textField: {
+                  variant: 'outlined',
+                  error: !!errors.datetime,
+                  helperText: errors.datetime && '日時を入力してください。',
+                },
+              }}
+              className="block w-full"
+            />
+          )}
         />
       </LocalizationProvider>
       <TextField
         {...register('description', { required: true })}
         error={!!errors.description}
-        helperText={errors.description && 'Description is required'}
+        helperText={errors.description && '内容を入力してください。'}
         className="block w-full"
       />
       <Button onClick={handleSubmit(onSubmit)} className="block w-full">
