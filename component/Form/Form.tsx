@@ -26,7 +26,7 @@ export const Form = () => {
       }}
       noValidate
       autoComplete="off"
-      className="flex flex-col"
+      className="flex flex-col justify-between p-10"
     >
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Controller
@@ -55,7 +55,7 @@ export const Form = () => {
         className="block w-full"
       />
       <Button onClick={handleSubmit(onSubmit)} className="block w-full">
-        送信
+        登録
       </Button>
     </Box>
   )
