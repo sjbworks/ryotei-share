@@ -41,6 +41,7 @@
     "@storybook/nextjs": "7.2.3",
     "@storybook/react": "7.2.3",
     "@storybook/testing-library": "0.2.0",
+    "clsx": "2.0.0",
     "eslint": "8.46.0",
     "eslint-config-next": "13.4.12",
     "eslint-plugin-storybook": "^0.6.13",

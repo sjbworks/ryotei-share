@@ -11,7 +11,7 @@ export default function Home() {
     },
     {
       time: '10:00',
-      label: '新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟',
+      label: '新潟',
     },
     {
       time: '12:00',
@@ -36,7 +36,7 @@ export default function Home() {
   const onClose = () => setOpen(false)
   const onOpen = () => setOpen(true)
   const bottomSheet = { open, onOpen, onClose }
-  const containerStyle = 'flex min-h-screen flex-col items-center justify-between p-24'
+  const containerStyle = 'flex min-h-screen flex-col items-center justify-between p-10'
 
   return (
     <main className={containerStyle}>
