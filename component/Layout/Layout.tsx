@@ -1,5 +1,6 @@
 'use client'
 import Button from '@mui/material/Button'
+import Box from '@mui/material/Box'
 import { ReactNode } from 'react'
 
 type Props = {
@@ -8,13 +9,13 @@ type Props = {
 }
 export const Layout = ({ children, onClick }: Props) => {
   return (
-    <div>
-      <header className="flex">
-        <Button className="justify-end" onClick={onClick}>
-          共有する
-        </Button>
+    <Box>
+      <header>
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Button onClick={onClick}>共有する</Button>
+        </Box>
       </header>
       {children}
-    </div>
+    </Box>
   )
 }

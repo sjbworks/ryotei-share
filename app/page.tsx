@@ -36,7 +36,7 @@ export default function Home() {
   const onClose = () => setOpen(false)
   const onOpen = () => setOpen(true)
   const bottomSheet = { open, onOpen, onClose }
-  const containerStyle = 'flex min-h-screen flex-col items-center justify-between p-10'
+  const containerStyle = 'flex flex-col  justify-between p-10 max-w-xl m-auto container'
 
   return (
     <main className={containerStyle}>
