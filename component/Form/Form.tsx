@@ -4,13 +4,18 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import TextField from '@mui/material/TextField'
 import Box from '@mui/material/Box'
 import { Button } from '@/component/Button'
+import clsx from 'clsx'
 
 type FormInput = {
   datetime: Date
   description: string
 }
 
-export const Form = () => {
+type Props = {
+  className?: string
+}
+
+export const Form = ({ className }: Props) => {
   const {
     register,
     handleSubmit,
@@ -18,6 +23,7 @@ export const Form = () => {
     formState: { errors },
   } = useForm<FormInput>({ reValidateMode: 'onBlur', defaultValues: undefined })
   const onSubmit: SubmitHandler<FormInput> = (data) => console.log(data)
+  const classProps = clsx('flex flex-col justify-between p-10', className)
   return (
     <Box
       component="form"
@@ -26,7 +32,7 @@ export const Form = () => {
       }}
       noValidate
       autoComplete="off"
-      className="flex flex-col justify-between p-10"
+      className={classProps}
     >
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Controller

@@ -36,7 +36,7 @@ export default function Home() {
   const onClose = () => setOpen(false)
   const onOpen = () => setOpen(true)
   const bottomSheet = { open, onOpen, onClose }
-  const containerStyle = 'flex flex-col  justify-between p-10 max-w-xl m-auto container'
+  const containerStyle = 'flex flex-col justify-between p-10 max-w-xl m-auto container'
 
   return (
     <main className={containerStyle}>
@@ -46,8 +46,8 @@ export default function Home() {
           <AddIcon />
           旅程を登録
         </Button>
-        <BottomSheet {...bottomSheet} className="p-10">
-          <Form />
+        <BottomSheet {...bottomSheet}>
+          <Form className={containerStyle} />
         </BottomSheet>
       </Layout>
     </main>
