@@ -1,7 +1,8 @@
 import { default as MUIButton, ButtonTypeMap } from '@mui/material/Button'
+import { ReactNode } from 'react'
 
 type Props = {
-  children: string
+  children: string | ReactNode
   onClick: () => void
   variant?: ButtonTypeMap['props']['variant']
   color?: ButtonTypeMap['props']['color']

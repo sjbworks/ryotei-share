@@ -1,5 +1,5 @@
 'use client'
-import { Timeline, BottomSheet, Layout, Form, Button } from '@/component'
+import { Timeline, BottomSheet, Layout, Form, Button, AddIcon } from '@/component'
 import { useState } from 'react'
 
 export default function Home() {
@@ -42,7 +42,10 @@ export default function Home() {
     <main className={containerStyle}>
       <Layout>
         <Timeline items={items} />
-        <Button onClick={handleClick}>旅程を登録</Button>
+        <Button variant="text" className="flex mt-4 items-center justify-items-center" onClick={handleClick}>
+          <AddIcon />
+          旅程を登録
+        </Button>
         <BottomSheet {...bottomSheet} className="p-10">
           <Form />
         </BottomSheet>
