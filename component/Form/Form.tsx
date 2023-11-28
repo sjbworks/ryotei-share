@@ -1,4 +1,4 @@
-import { useForm, Controller, SubmitHandler } from 'react-hook-form'
+import { useForm, Controller, SubmitHandler, set } from 'react-hook-form'
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import TextField from '@mui/material/TextField'
@@ -6,23 +6,27 @@ import Box from '@mui/material/Box'
 import { Button } from '@/component/Button'
 import clsx from 'clsx'
 
-type FormInput = {
+export type FormInput = {
   datetime: Date
   description: string
 }
 
 type Props = {
   className?: string
+  setData?: (data: FormInput) => void
 }
 
-export const Form = ({ className }: Props) => {
+export const Form = ({ className, setData }: Props) => {
   const {
     register,
     handleSubmit,
     control,
     formState: { errors },
   } = useForm<FormInput>({ reValidateMode: 'onBlur', defaultValues: undefined })
-  const onSubmit: SubmitHandler<FormInput> = (data) => console.log(data)
+  const onSubmit: SubmitHandler<FormInput> = (data) => {
+    console.log(data)
+    setData && setData(data)
+  }
   const classProps = clsx('flex flex-col justify-between p-10', className)
   return (
     <Box

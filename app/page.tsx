@@ -1,42 +1,28 @@
 'use client'
-import { Timeline, BottomSheet, Layout, Form, Button, AddIcon } from '@/component'
-import { useState } from 'react'
+import { Timeline, BottomSheet, Layout, Form, Button, AddIcon, FormInput } from '@/component'
+import { useState, useMemo } from 'react'
+import dayjs from 'dayjs'
+
+type Ryotei = Array<FormInput>
 
 export default function Home() {
-  const items = [
-    {
-      time: '9:00',
-      label: '大宮駅 豆の木',
-    },
-    {
-      time: '10:00',
-      label:
-        '新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟',
-    },
-    {
-      time: '12:00',
-      label: 'スキー場',
-    },
-    {
-      time: '13:00',
-      label: 'スキー場',
-    },
-    {
-      time: '13:00',
-      label: 'スキー場',
-    },
-    {
-      time: '13:00',
-      label: 'スキー場',
-    },
-  ]
-
   const [open, setOpen] = useState(false)
   const handleClick = () => setOpen(!open)
   const onClose = () => setOpen(false)
   const onOpen = () => setOpen(true)
   const bottomSheet = { open, onOpen, onClose }
   const containerStyle = 'flex flex-col justify-between p-10 max-w-xl m-auto container'
+  const [data, setData] = useState<Ryotei>([])
+
+  const items = useMemo(
+    () =>
+      data?.map(({ datetime, description }) => ({
+        time: dayjs(datetime).format('HH:mm'),
+        label: description,
+      })) || [],
+    [data]
+  )
+  const setNewData = (newData: FormInput) => setData([...data, newData])
 
   return (
     <main className={containerStyle}>
@@ -47,7 +33,7 @@ export default function Home() {
           旅程を登録
         </Button>
         <BottomSheet {...bottomSheet}>
-          <Form className={containerStyle} />
+          <Form className={containerStyle} setData={setNewData} />
         </BottomSheet>
       </Layout>
     </main>
