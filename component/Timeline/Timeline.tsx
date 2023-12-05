@@ -11,9 +11,9 @@ export type TimeLineProps = {
   className?: string
 }
 export const Timeline: FC<TimeLineProps> = (props) => {
-  const { title, items } = props
+  const { title, items, className } = props
   return (
-    <Box>
+    <Box className={className}>
       <Typography variant="h5" color="grey.700">
         {title}
       </Typography>

@@ -10,7 +10,7 @@ const Timelines = ({ data }: Props) => {
   return (
     <>
       {Object.entries(data).map(([key, data]) => (
-        <Timeline key={key} title={key} items={data} />
+        <Timeline key={key} title={key} items={data} className="mb-3" />
       ))}
     </>
   )
@@ -48,8 +48,6 @@ export default function Home() {
 
     return sortedGroupedData
   }, [data])
-
-  console.log(grouped)
 
   const setNewData = (newData: FormInput) => setData([...data, newData])
 
