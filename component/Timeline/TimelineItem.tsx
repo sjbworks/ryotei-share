@@ -9,18 +9,24 @@ import {
 import { Typography } from '@mui/material'
 import { FC } from 'react'
 import { AccessTimeIcon, MoreHorizIcon } from '../Icon'
+import { Menu } from '../Menu'
 import IconButton from '@mui/material/IconButton'
+import { ComponentProps } from 'react'
 
 export type TimelineItemProps = {
   time: string
   label: string
   color?: TimelineDotProps['color']
   isLast?: boolean
-  onClick?: () => void
+  onClick: () => void
+  onClose: () => void
+  open: boolean
+  anchor: HTMLElement | null
+  menuItems: ComponentProps<typeof Menu>['items']
 }
 
 export const TimelineItem: FC<TimelineItemProps> = (props) => {
-  const { time, label, color, onClick } = props
+  const { time, label, color, onClick, open, anchor, onClose, menuItems } = props
   const timeSx = {
     display: 'flex',
     alignItems: 'center',
@@ -38,9 +44,16 @@ export const TimelineItem: FC<TimelineItemProps> = (props) => {
             {time}
           </Typography>
           <div>
-            <IconButton size="small" onClick={onClick}>
+            <IconButton
+              size="small"
+              onClick={onClick}
+              aria-controls={open ? 'basic-menu' : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? 'true' : undefined}
+            >
               <MoreHorizIcon />
             </IconButton>
+            <Menu open={open} anchorEl={anchor} onClose={onClose} items={menuItems} />
           </div>
         </div>
         <Typography variant="body1" color="grey.800">
