@@ -11,22 +11,22 @@ import { FC } from 'react'
 import { AccessTimeIcon, MoreHorizIcon } from '../Icon'
 import { Menu } from '../Menu'
 import IconButton from '@mui/material/IconButton'
-import { ComponentProps } from 'react'
+import { ComponentProps, MouseEvent } from 'react'
 
 export type TimelineItemProps = {
   time: string
   label: string
   color?: TimelineDotProps['color']
   isLast?: boolean
-  onClick: () => void
+  onClick: (event: MouseEvent<HTMLButtonElement>) => void
   onClose: () => void
-  open: boolean
   anchor: HTMLElement | null
   menuItems: ComponentProps<typeof Menu>['items']
 }
 
 export const TimelineItem: FC<TimelineItemProps> = (props) => {
-  const { time, label, color, onClick, open, anchor, onClose, menuItems } = props
+  const { time, label, color, onClick, anchor, onClose, menuItems } = props
+  const open = Boolean(anchor)
   const timeSx = {
     display: 'flex',
     alignItems: 'center',
