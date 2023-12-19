@@ -23,7 +23,11 @@ export const Action = ({ onClick }: Props) => {
     onClose()
     onClick?.(action)
   }
-  const items = Object.entries(action).map(([key, Icon]) => ({ label: key, action: () => onItemClick(key), Icon }))
+  const items = Object.entries(action).map(([key, Icon]) => ({
+    label: key,
+    action: () => onItemClick(key as Action),
+    Icon,
+  }))
 
   return (
     <div>
