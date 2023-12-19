@@ -8,25 +8,18 @@ import {
 } from '@mui/lab'
 import { Typography } from '@mui/material'
 import { FC } from 'react'
-import { AccessTimeIcon, MoreHorizIcon } from '../Icon'
-import { Menu } from '../Menu'
-import IconButton from '@mui/material/IconButton'
-import { ComponentProps, MouseEvent } from 'react'
+import { AccessTimeIcon } from '../Icon'
+import { Action } from './Action'
 
 export type TimelineItemProps = {
   time: string
   label: string
   color?: TimelineDotProps['color']
   isLast?: boolean
-  onClick: (event: MouseEvent<HTMLButtonElement>) => void
-  onClose: () => void
-  anchor: HTMLElement | null
-  menuItems: ComponentProps<typeof Menu>['items']
 }
 
 export const TimelineItem: FC<TimelineItemProps> = (props) => {
-  const { time, label, color, onClick, anchor, onClose, menuItems } = props
-  const open = Boolean(anchor)
+  const { time, label, color } = props
   const timeSx = {
     display: 'flex',
     alignItems: 'center',
@@ -43,18 +36,7 @@ export const TimelineItem: FC<TimelineItemProps> = (props) => {
             <AccessTimeIcon fontSize="small" sx={{ marginRight: '2px' }} />
             {time}
           </Typography>
-          <div>
-            <IconButton
-              size="small"
-              onClick={onClick}
-              aria-controls={open ? 'basic-menu' : undefined}
-              aria-haspopup="true"
-              aria-expanded={open ? 'true' : undefined}
-            >
-              <MoreHorizIcon />
-            </IconButton>
-            <Menu open={open} anchorEl={anchor} onClose={onClose} items={menuItems} />
-          </div>
+          <Action />
         </div>
         <Typography variant="body1" color="grey.800">
           {label}
