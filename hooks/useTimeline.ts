@@ -1,5 +1,6 @@
 'use client'
 import { FormInput } from '@/component'
+import { Action } from '@/component/Timeline/MenuControl'
 import { useState, useMemo } from 'react'
 import dayjs from 'dayjs'
 
@@ -14,6 +15,12 @@ export const useTimeline = () => {
   const bottomSheet = { open: bottomOpen, onOpen: onBottomOpen, onClose: onBottomClose }
 
   const [data, setData] = useState<Ryotei>([])
+  const onClick = (action: Action) => {
+    console.log(action)
+    if (action === 'delete') {
+      setBottomOpen(true)
+    }
+  }
 
   const grouped: { [key: string]: TimelineItems } = useMemo(() => {
     const groupedData: { [key: string]: TimelineItems } = data.reduce(

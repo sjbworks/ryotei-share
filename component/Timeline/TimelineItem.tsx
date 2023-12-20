@@ -9,17 +9,17 @@ import {
 import { Typography } from '@mui/material'
 import { FC } from 'react'
 import { AccessTimeIcon } from '../Icon'
-import { MenuControl } from './MenuControl'
+import { MenuControl, Action } from './MenuControl'
 
 export type TimelineItemProps = {
   time: string
   label: string
   color?: TimelineDotProps['color']
-  isLast?: boolean
+  onClick?: (action: Action) => void
 }
 
 export const TimelineItem: FC<TimelineItemProps> = (props) => {
-  const { time, label, color } = props
+  const { time, label, color, onClick } = props
   const timeSx = {
     display: 'flex',
     alignItems: 'center',
@@ -36,7 +36,7 @@ export const TimelineItem: FC<TimelineItemProps> = (props) => {
             <AccessTimeIcon fontSize="small" sx={{ marginRight: '2px' }} />
             {time}
           </Typography>
-          <MenuControl />
+          <MenuControl onClick={onClick} />
         </div>
         <Typography variant="body1" color="grey.800">
           {label}

@@ -8,7 +8,7 @@ const action = {
   delete: DeleteIcon,
 } as const
 
-type Action = keyof typeof action
+export type Action = keyof typeof action
 
 type Props = {
   onClick?: (action: Action) => void
@@ -25,7 +25,7 @@ export const MenuControl = ({ onClick }: Props) => {
   const items = Object.entries(action).map(([key, Icon]) => ({
     label: key as Action,
     action: () => onItemClick(key as Action),
-    Icon,
+    icon: <Icon />,
   }))
 
   return (

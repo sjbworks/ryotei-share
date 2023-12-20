@@ -4,6 +4,7 @@ import MenuItem from '@mui/material/MenuItem'
 type Item = {
   label: string
   action: () => void
+  icon?: React.ReactNode
 }
 
 type Props = MenuProps & {
@@ -21,8 +22,9 @@ export const Menu = ({ open, anchorEl, onClose, items }: Props) => {
         'aria-labelledby': 'basic-button',
       }}
     >
-      {items?.map(({ label, action }, index) => (
+      {items?.map(({ label, action, icon }, index) => (
         <MenuItem onClick={action} key={index}>
+          {icon}
           {label}
         </MenuItem>
       ))}
