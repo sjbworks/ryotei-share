@@ -9,7 +9,7 @@ import {
 import { Typography } from '@mui/material'
 import { FC } from 'react'
 import { AccessTimeIcon } from '../Icon'
-import { Action } from './Action'
+import { MenuControl } from './MenuControl'
 
 export type TimelineItemProps = {
   time: string
@@ -36,7 +36,7 @@ export const TimelineItem: FC<TimelineItemProps> = (props) => {
             <AccessTimeIcon fontSize="small" sx={{ marginRight: '2px' }} />
             {time}
           </Typography>
-          <Action />
+          <MenuControl />
         </div>
         <Typography variant="body1" color="grey.800">
           {label}

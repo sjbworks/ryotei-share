@@ -39,7 +39,6 @@ export const useTimeline = () => {
     return sortedGroupedData
   }, [data]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  console.log(grouped)
   const setNewData = (newData: FormInput) => setData([...data, newData])
   return {
     grouped,

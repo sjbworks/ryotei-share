@@ -24,7 +24,6 @@ export const Form = ({ className, setData }: Props) => {
     formState: { errors },
   } = useForm<FormInput>({ reValidateMode: 'onBlur', defaultValues: undefined })
   const onSubmit: SubmitHandler<FormInput> = (data) => {
-    console.log(data)
     setData && setData(data)
   }
   const classProps = clsx('flex flex-col justify-between p-10', className)

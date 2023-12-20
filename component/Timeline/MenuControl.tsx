@@ -14,17 +14,16 @@ type Props = {
   onClick?: (action: Action) => void
 }
 
-export const Action = ({ onClick }: Props) => {
+export const MenuControl = ({ onClick }: Props) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
   const onOpen = (e: MouseEvent<HTMLButtonElement>) => setAnchorEl(e.currentTarget)
   const onClose = () => setAnchorEl(null)
   const onItemClick = (action: Action) => {
-    console.log(action)
     onClose()
     onClick?.(action)
   }
   const items = Object.entries(action).map(([key, Icon]) => ({
-    label: key,
+    label: key as Action,
     action: () => onItemClick(key as Action),
     Icon,
   }))
