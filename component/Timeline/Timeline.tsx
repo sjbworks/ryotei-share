@@ -7,11 +7,12 @@ import { Typography } from '@mui/material'
 
 export type TimeLineProps = {
   title: string
-  items: Array<TimelineItemProps>
+  items: Array<Omit<TimelineItemProps, 'onClick'>>
+  onClick?: TimelineItemProps['onClick']
   className?: string
 }
 export const Timeline: FC<TimeLineProps> = (props) => {
-  const { title, items, className } = props
+  const { title, items, className, onClick } = props
   return (
     <Box className={className}>
       <Typography variant="h5" color="grey.700">
@@ -26,7 +27,7 @@ export const Timeline: FC<TimeLineProps> = (props) => {
         }}
       >
         {items.map((props, i) => {
-          return <TimelineItem {...props} key={i} />
+          return <TimelineItem {...props} onClick={onClick} key={i} />
         })}
       </MUITimeline>
     </Box>

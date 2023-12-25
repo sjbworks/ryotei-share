@@ -1,10 +1,11 @@
 'use client'
 import { FormInput } from '@/component'
+import { TimelineItemProps } from '@/component/Timeline/TimelineItem'
 import { Action } from '@/component/Timeline/MenuControl'
 import { useState, useMemo } from 'react'
 import dayjs from 'dayjs'
 
-type TimelineItems = { time: string; label: string }[]
+type TimelineItems = { plan: TimelineItemProps['plan'] }[]
 type Ryotei = Array<FormInput>
 
 export const useTimeline = () => {
@@ -15,11 +16,8 @@ export const useTimeline = () => {
   const bottomSheet = { open: bottomOpen, onOpen: onBottomOpen, onClose: onBottomClose }
 
   const [data, setData] = useState<Ryotei>([])
-  const onClick = (action: Action) => {
-    console.log(action)
-    if (action === 'delete') {
-      setBottomOpen(true)
-    }
+  const onMenuClick = (action: Action, plan: TimelineItemProps['plan']) => {
+    console.log(action, plan)
   }
 
   const grouped: { [key: string]: TimelineItems } = useMemo(() => {
@@ -27,9 +25,9 @@ export const useTimeline = () => {
       (acc, { datetime, description }) => {
         const date = dayjs(datetime).format('YYYY-MM-DD')
         if (date in acc) {
-          acc[date].push({ time: dayjs(datetime).format('HH:mm'), label: description })
+          acc[date].push({ plan: { time: dayjs(datetime).format('HH:mm'), label: description } })
         } else {
-          acc[date] = [{ time: dayjs(datetime).format('HH:mm'), label: description }]
+          acc[date] = [{ plan: { time: dayjs(datetime).format('HH:mm'), label: description } }]
         }
         return acc
       },
@@ -52,5 +50,6 @@ export const useTimeline = () => {
     bottomSheet,
     setNewData,
     handleClick,
+    onMenuClick,
   }
 }
