@@ -13,14 +13,10 @@ export const AuthButton = () => {
       },
     })
   }
-  const handleSignOut = async () => {
-    await supabase.auth.signOut()
-  }
 
   return (
     <>
       <button onClick={handleSignIn}>Login</button>
-      <button onClick={handleSignOut}>Logout</button>
     </>
   )
 }
