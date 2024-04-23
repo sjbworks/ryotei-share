@@ -20,6 +20,7 @@
     "@mui/utils": "5.14.11",
     "@mui/x-date-pickers": "6.16.3",
     "@supabase/auth-helpers-nextjs": "0.8.7",
+    "@supabase/ssr": "^0.3.0",
     "@supabase/supabase-js": "2.39.2",
     "@types/node": "20.4.5",
     "@types/react": "18.2.18",
@@ -43,11 +44,13 @@
     "@storybook/nextjs": "7.2.3",
     "@storybook/react": "7.2.3",
     "@storybook/testing-library": "0.2.0",
+    "bufferutil": "4.0.8",
     "clsx": "2.0.0",
     "eslint": "8.46.0",
     "eslint-config-next": "13.4.12",
     "eslint-plugin-storybook": "^0.6.13",
     "prettier": "3.0.1",
-    "storybook": "^7.2.3"
+    "storybook": "7.2.3",
+    "utf-8-validate": "6.0.3"
   }
 }
