@@ -4,6 +4,7 @@ import { TimelineItemProps } from '@/component/Timeline/TimelineItem'
 import { Action } from '@/component/Timeline/MenuControl'
 import { useState, useMemo } from 'react'
 import dayjs from 'dayjs'
+import { addRyotei } from '../api/addRyotei'
 
 type TimelineItems = { plan: TimelineItemProps['plan'] }[]
 type Ryotei = Array<FormInput>
@@ -44,7 +45,10 @@ export const useTimeline = () => {
     return sortedGroupedData
   }, [data]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const setNewData = (newData: FormInput) => setData([...data, newData])
+  const setNewData = async (newData: FormInput) => {
+    await addRyotei(JSON.stringify(newData))
+    setData([...data, newData])
+  }
   return {
     grouped,
     bottomSheet,
