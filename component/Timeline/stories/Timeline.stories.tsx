@@ -14,37 +14,43 @@ type Story = StoryObj<typeof TimelineComponent>
 
 const items: Props['items'] = [
   {
-    time: '9:00',
-    label: '大宮駅 豆の木',
-    title: 'タイトル',
-    color: 'primary',
+    plan: {
+      time: '9:00',
+      label: '大宮駅 豆の木',
+    },
   },
   {
-    time: '10:00',
-    label: '新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟',
-    color: 'info',
+    plan: {
+      time: '10:00',
+      label: '新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟',
+    },
   },
   {
-    time: '12:00',
-    label: 'スキー場',
-    color: 'success',
+    plan: {
+      time: '12:00',
+      label: 'スキー場',
+    },
   },
   {
-    time: '13:00',
-    label: 'スキー場',
-    color: 'secondary',
+    plan: {
+      time: '13:00',
+      label: 'スキー場',
+    },
   },
   {
-    time: '13:00',
-    label: 'スキー場',
-    color: 'error',
+    plan: {
+      time: '13:00',
+      label: 'スキー場',
+    },
   },
   {
-    time: '13:00',
-    label: 'スキー場',
+    plan: {
+      time: '13:00',
+      label: 'スキー場',
+    },
   },
 ]
 
 export const Timeline: Story = {
-  render: () => <TimelineComponent items={items} />,
+  render: () => <TimelineComponent items={items} title="aaaa" />,
 }
