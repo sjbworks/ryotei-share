@@ -1,13 +1,13 @@
 'use client'
 import { Button } from '@/component'
-import { PROVIDERS, auth } from '@/feature/auth'
+import { PROVIDERS } from '@/feature/auth'
+import { Provider } from '@supabase/gotrue-js'
 
-export const AuthButton = () => {
-  const { signIn } = auth()
+export const AuthButton = ({ login }: { login: (provider: Provider) => void }) => {
   return (
     <>
       {PROVIDERS.map((provider) => (
-        <Button onClick={() => signIn(provider)} key={provider}>
+        <Button onClick={() => login(provider)} key={provider}>
           {provider}でログイン
         </Button>
       ))}
