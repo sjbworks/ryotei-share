@@ -1,3 +1,4 @@
+'use client'
 import IconButton from '@mui/material/IconButton'
 import { MoreHorizIcon, EditIcon, DeleteIcon } from '../Icon'
 import { Menu } from '../Menu'

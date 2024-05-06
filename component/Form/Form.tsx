@@ -1,3 +1,4 @@
+'use client'
 import { useForm, Controller, SubmitHandler, set } from 'react-hook-form'
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
