@@ -11,16 +11,14 @@ import { FC } from 'react'
 import { AccessTimeIcon } from '../Icon'
 import { MenuControl, Action } from './MenuControl'
 
-type Plan = { time: string; label: string }
-export type TimelineItemProps = {
-  plan: Plan
+export type Plan = { datetime: string; description: string }
+export type TimelineItemProps = Plan & {
   color?: TimelineDotProps['color']
   onClick?: (action: Action, value: Plan) => void
 }
 
 export const TimelineItem: FC<TimelineItemProps> = (props) => {
-  const { plan, color, onClick } = props
-  const { time, label } = plan
+  const { datetime, description, color, onClick } = props
   const timeSx = {
     display: 'flex',
     alignItems: 'center',
@@ -35,12 +33,12 @@ export const TimelineItem: FC<TimelineItemProps> = (props) => {
         <div className="flex justify-between">
           <Typography variant="subtitle2" component="span" color="grey.500" sx={timeSx}>
             <AccessTimeIcon fontSize="small" sx={{ marginRight: '2px' }} />
-            {time}
+            {datetime}
           </Typography>
-          <MenuControl onClick={onClick} plan={plan} />
+          <MenuControl onClick={onClick} datetime={datetime} description={description} />
         </div>
         <Typography variant="body1" color="grey.800">
-          {label}
+          {description}
         </Typography>
       </TimelineContent>
     </MUITimelineItem>

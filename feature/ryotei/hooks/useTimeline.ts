@@ -1,12 +1,10 @@
 'use client'
 import { FormInput } from '@/component'
-import { TimelineItemProps } from '@/component/Timeline/TimelineItem'
+import { Plan } from '@/component/Timeline/TimelineItem'
 import { Action } from '@/component/Timeline/MenuControl'
-import { useState, useMemo } from 'react'
-import dayjs from 'dayjs'
-import { addRyotei } from '../api/addRyotei'
+import { useState } from 'react'
+import { addRyotei } from '../api'
 
-type TimelineItems = { plan: TimelineItemProps['plan'] }[]
 type Ryotei = Array<FormInput>
 
 export const useTimeline = () => {
@@ -17,40 +15,15 @@ export const useTimeline = () => {
   const bottomSheet = { open: bottomOpen, onOpen: onBottomOpen, onClose: onBottomClose }
 
   const [data, setData] = useState<Ryotei>([])
-  const onMenuClick = (action: Action, plan: TimelineItemProps['plan']) => {
+  const onMenuClick = (action: Action, plan: Plan) => {
     console.log(action, plan)
   }
-
-  const grouped: { [key: string]: TimelineItems } = useMemo(() => {
-    const groupedData: { [key: string]: TimelineItems } = data.reduce(
-      (acc, { datetime, description }) => {
-        const date = dayjs(datetime).format('YYYY-MM-DD')
-        if (date in acc) {
-          acc[date].push({ plan: { time: dayjs(datetime).format('HH:mm'), label: description } })
-        } else {
-          acc[date] = [{ plan: { time: dayjs(datetime).format('HH:mm'), label: description } }]
-        }
-        return acc
-      },
-      {} as { [key: string]: TimelineItems }
-    )
-
-    const sortedKeys = Object.keys(groupedData).sort()
-
-    const sortedGroupedData: { [key: string]: TimelineItems } = {}
-    sortedKeys.forEach((key) => {
-      sortedGroupedData[key] = groupedData[key]
-    })
-
-    return sortedGroupedData
-  }, [data]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const setNewData = async (newData: FormInput) => {
     await addRyotei(JSON.stringify(newData))
     setData([...data, newData])
   }
   return {
-    grouped,
     bottomSheet,
     setNewData,
     handleClick,

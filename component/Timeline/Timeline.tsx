@@ -13,6 +13,7 @@ export type TimeLineProps = {
 }
 export const Timeline: FC<TimeLineProps> = (props) => {
   const { title, items, className, onClick } = props
+  console.log('items', items)
   return (
     <Box className={className}>
       <Typography variant="h5" color="grey.700">

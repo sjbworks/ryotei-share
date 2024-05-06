@@ -2,7 +2,7 @@ import IconButton from '@mui/material/IconButton'
 import { MoreHorizIcon, EditIcon, DeleteIcon } from '../Icon'
 import { Menu } from '../Menu'
 import { MouseEvent, useState } from 'react'
-import { TimelineItemProps } from './TimelineItem'
+import { TimelineItemProps, Plan } from './TimelineItem'
 
 const action = {
   edit: EditIcon,
@@ -11,22 +11,21 @@ const action = {
 
 export type Action = keyof typeof action
 
-type Props = {
-  plan: TimelineItemProps['plan']
+type Props = Plan & {
   onClick?: TimelineItemProps['onClick']
 }
 
-export const MenuControl = ({ onClick, plan }: Props) => {
+export const MenuControl = ({ onClick, datetime, description }: Props) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
   const onOpen = (e: MouseEvent<HTMLButtonElement>) => setAnchorEl(e.currentTarget)
   const onClose = () => setAnchorEl(null)
-  const onItemClick = (action: Action, value: TimelineItemProps['plan']) => {
+  const onItemClick = (action: Action, value: Plan) => {
     onClose()
     onClick?.(action, value)
   }
   const items = Object.entries(action).map(([key, Icon]) => ({
     label: key as Action,
-    action: () => onItemClick(key as Action, plan),
+    action: () => onItemClick(key as Action, { datetime, description }),
     icon: <Icon />,
   }))
 
