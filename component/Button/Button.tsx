@@ -1,3 +1,4 @@
+'use client'
 import { default as MUIButton, ButtonTypeMap } from '@mui/material/Button'
 import { ReactNode } from 'react'
 
