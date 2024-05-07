@@ -1,5 +1,5 @@
-import { createClient } from '@/utils/supabase/client'
 import { Provider } from '@supabase/gotrue-js'
+import { createClient } from '@/utils/supabase/client'
 
 export async function login(provider: Provider) {
   const supabase = createClient()
