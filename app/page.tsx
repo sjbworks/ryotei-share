@@ -7,7 +7,6 @@ import { Layout } from '@/component'
 export default async function Home() {
   const containerStyle = 'flex flex-col justify-between p-10 max-w-xl m-auto container'
   const res = await getRyotei(cookies().toString())
-  console.log(res)
 
   return (
     <main className={containerStyle}>
