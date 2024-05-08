@@ -1,14 +1,15 @@
-// import { cookies } from 'next/headers'
 import { Plan } from '@/component/Timeline/TimelineItem'
 import { format, parseISO } from 'date-fns'
+import { redirect } from 'next/navigation'
 
 export const getRyotei = async (cookies: string) => {
   try {
-    const res = await fetch('http://localhost:3000/api/ryotei', {
+    const res = await fetch(`${process.env.BASE_URL}/api/ryotei`, {
       method: 'GET',
       headers: { Cookie: cookies },
     })
     const data = await res.json()
+    if (data.message) throw new Error(data.message)
 
     const formatted = data.data.map(({ datetime, description }: Plan) => {
       return { datetime, description }
@@ -37,5 +38,7 @@ export const getRyotei = async (cookies: string) => {
       )
 
     return sortedGrouped
-  } catch {}
+  } catch (error) {
+    if (error instanceof Error) redirect('/login')
+  }
 }

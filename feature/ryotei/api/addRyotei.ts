@@ -1,7 +1,5 @@
 export const addRyotei = async (body: BodyInit) => {
-  try {
-    await fetch('/api/ryotei', { method: 'POST', body })
-  } catch (error) {
-    console.log(error)
-  }
+  const res = await fetch('/api/ryotei', { method: 'POST', body })
+  const data = await res.json()
+  if (data.message) throw new Error(data.message)
 }
