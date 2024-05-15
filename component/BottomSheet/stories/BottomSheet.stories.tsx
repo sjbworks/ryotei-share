@@ -1,8 +1,6 @@
 import { BottomSheet as BottomSheetComponent } from '../index'
 import type { Meta, StoryObj } from '@storybook/react'
-import { ComponentProps, useState } from 'react'
-
-type Props = ComponentProps<typeof BottomSheetComponent>
+import { useState } from 'react'
 
 const meta: Meta<typeof BottomSheetComponent> = {
   component: BottomSheetComponent,
