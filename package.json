@@ -8,11 +8,16 @@
     "start": "next start",
     "lint": "next lint",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "codegen": "graphql-codegen --require dotenv/config --config codegen.ts dotenv_config_path=.env.local"
   },
   "dependencies": {
+    "@apollo/client": "3.10.5",
     "@emotion/react": "11.11.1",
     "@emotion/styled": "11.11.0",
+    "@graphql-codegen/import-types-preset": "^3.0.0",
+    "@graphql-codegen/typescript": "^4.0.9",
+    "@graphql-codegen/typescript-operations": "^4.2.3",
     "@mui/base": "5.0.0-beta.17",
     "@mui/icons-material": "5.14.6",
     "@mui/lab": "5.0.0-alpha.146",
@@ -28,6 +33,7 @@
     "autoprefixer": "10.4.14",
     "date-fns": "2.30.0",
     "dayjs": "1.11.10",
+    "graphql": "16.8.2",
     "next": "13.4.7",
     "postcss": "8.4.27",
     "react": "18.2.0",
@@ -37,6 +43,7 @@
     "typescript": "5.1.6"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "5.0.2",
     "@storybook/addon-essentials": "7.2.3",
     "@storybook/addon-interactions": "7.2.3",
     "@storybook/addon-links": "7.2.3",
