@@ -1,0 +1,11 @@
+query GetRyotei($orderBy: [tasksOrderBy!]) {
+  ryoteiCollection(orderBy: $orderBy) {
+    edges {
+      node {
+        id
+        description
+        datetime
+      }
+    }
+  }
+}
