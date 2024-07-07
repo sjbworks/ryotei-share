@@ -1,4 +1,4 @@
-query GetRyotei($orderBy: [tasksOrderBy!]) {
+query GetRyotei($orderBy: [ryoteiOrderBy!]) {
   ryoteiCollection(orderBy: $orderBy) {
     edges {
       node {

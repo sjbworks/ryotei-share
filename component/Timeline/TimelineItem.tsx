@@ -12,7 +12,7 @@ import { FC } from 'react'
 import { AccessTimeIcon } from '../Icon'
 import { MenuControl, Action } from './MenuControl'
 
-export type Plan = { datetime: string; description: string }
+export type Plan = { datetime: string; description: string; id: string }
 export type TimelineItemProps = Plan & {
   color?: TimelineDotProps['color']
   onClick?: (action: Action, value: Plan) => void
