@@ -8,7 +8,7 @@ const config: CodegenConfig = {
       },
     },
   },
-  documents: ['**/*.tsx', '**/*.ts'],
+  documents: ['**/*.gql'],
   generates: {
     './feature/api/graphql/schema.ts': {
       plugins: ['typescript'],
