@@ -3,7 +3,7 @@
 import { Timeline, BottomSheet, Layout, Form, Button, AddIcon, Plan, NoData } from '@/component'
 import { useTimeline } from '@/feature/ryotei/hooks/useTimeline'
 import { useMemo } from 'react'
-import { useGetRyotei } from './useGetRyotei'
+import { useGetRyotei } from '../hooks/useGetRyotei'
 
 type Props = { data?: Record<string, Plan[]> }
 

@@ -10,6 +10,7 @@ const httpLink = new HttpLink({
   uri: process.env.NEXT_PUBLIC_SCHEMA_URL!,
   // you can configure the Next.js fetch cache here if you want to
   fetchOptions: { cache: 'force-cache' },
+
   // alternatively you can override the default `fetchOptions` on a per query basis
   // via the `context` property on the options passed as a second argument
   // to an Apollo Client data fetching hook, e.g.:

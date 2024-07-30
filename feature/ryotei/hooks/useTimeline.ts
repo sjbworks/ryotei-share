@@ -5,6 +5,7 @@ import { Action } from '@/component/Timeline/MenuControl'
 import { useEffect, useState } from 'react'
 import { addRyotei } from '../api'
 import { redirect } from 'next/navigation'
+import { MUTATION_ADD_RYOTEI } from '@/feature/ryotei/graphql'
 
 type Ryotei = Array<FormInput>
 
@@ -22,6 +23,7 @@ export const useTimeline = () => {
 
   const setNewData = async (newData: FormInput) => {
     try {
+      // TODO: REPLACE THIS WITH GRAPHQL
       await addRyotei(JSON.stringify(newData))
     } catch (e) {
       setRedirecReq(true)

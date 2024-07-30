@@ -1,5 +1,5 @@
 import { Plan } from '@/component'
-import { QUERY_GET_RYOTEI } from '@/feature/api/supabase'
+import { QUERY_GET_RYOTEI } from '@/feature/ryotei/graphql'
 import { GetRyoteiQuery, GetRyoteiQueryVariables, RyoteiOrderBy, OrderByDirection } from '@/feature/api/graphql'
 import { useQuery } from '@apollo/client'
 import { format, parseISO } from 'date-fns'
