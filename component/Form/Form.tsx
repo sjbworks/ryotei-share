@@ -6,15 +6,11 @@ import TextField from '@mui/material/TextField'
 import Box from '@mui/material/Box'
 import { Button } from '@/component/Button'
 import clsx from 'clsx'
-
-export type FormInput = {
-  datetime: Date
-  description: string
-}
+import { RyoteiInsertInput } from '@/feature/api/graphql'
 
 type Props = {
   className?: string
-  setData?: (data: FormInput) => void
+  setData?: (data: RyoteiInsertInput) => void
 }
 
 export const Form = ({ className, setData }: Props) => {
@@ -23,8 +19,8 @@ export const Form = ({ className, setData }: Props) => {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm<FormInput>({ reValidateMode: 'onBlur', defaultValues: undefined })
-  const onSubmit: SubmitHandler<FormInput> = (data) => {
+  } = useForm<RyoteiInsertInput>({ reValidateMode: 'onBlur', defaultValues: undefined })
+  const onSubmit: SubmitHandler<RyoteiInsertInput> = (data) => {
     setData && setData(data)
   }
   const classProps = clsx('flex flex-col justify-between p-10', className)

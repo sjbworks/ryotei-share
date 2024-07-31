@@ -1,13 +1,17 @@
 'use client'
-import { FormInput } from '@/component'
 import { Plan } from '@/component/Timeline/TimelineItem'
 import { Action } from '@/component/Timeline/MenuControl'
 import { useEffect, useState } from 'react'
-import { addRyotei } from '../api'
 import { redirect } from 'next/navigation'
 import { MUTATION_ADD_RYOTEI } from '@/feature/ryotei/graphql'
+import { useMutation } from '@apollo/client'
+import {
+  InsertIntoryoteiCollectionMutation as AddRyoteiMutation,
+  InsertIntoryoteiCollectionMutationVariables as AddRyoteiMutationVariables,
+  RyoteiInsertInput,
+} from '@/feature/api/graphql'
 
-type Ryotei = Array<FormInput>
+type Ryotei = Array<RyoteiInsertInput>
 
 export const useTimeline = () => {
   const [bottomOpen, setBottomOpen] = useState(false)
@@ -20,11 +24,11 @@ export const useTimeline = () => {
   const onMenuClick = (action: Action, plan: Plan) => {
     console.log(action, plan)
   }
+  const [addRyotei] = useMutation<AddRyoteiMutation, AddRyoteiMutationVariables>(MUTATION_ADD_RYOTEI)
 
-  const setNewData = async (newData: FormInput) => {
+  const setNewData = async (newData: RyoteiInsertInput) => {
     try {
-      // TODO: REPLACE THIS WITH GRAPHQL
-      await addRyotei(JSON.stringify(newData))
+      await addRyotei({ variables: { objects: newData } })
     } catch (e) {
       setRedirecReq(true)
     }
