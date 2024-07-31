@@ -177,24 +177,12 @@ export type IntListFilter = {
 /** The root type for creating and mutating data */
 export type Mutation = {
   __typename?: 'Mutation'
-  /** Deletes zero or more records from the `blog` collection */
-  deleteFromblogCollection: BlogDeleteResponse
   /** Deletes zero or more records from the `ryotei` collection */
   deleteFromryoteiCollection: RyoteiDeleteResponse
-  /** Adds one or more `blog` records to the collection */
-  insertIntoblogCollection?: Maybe<BlogInsertResponse>
   /** Adds one or more `ryotei` records to the collection */
   insertIntoryoteiCollection?: Maybe<RyoteiInsertResponse>
-  /** Updates zero or more records in the `blog` collection */
-  updateblogCollection: BlogUpdateResponse
   /** Updates zero or more records in the `ryotei` collection */
   updateryoteiCollection: RyoteiUpdateResponse
-}
-
-/** The root type for creating and mutating data */
-export type MutationDeleteFromblogCollectionArgs = {
-  atMost?: Scalars['Int']['input']
-  filter?: InputMaybe<BlogFilter>
 }
 
 /** The root type for creating and mutating data */
@@ -204,20 +192,8 @@ export type MutationDeleteFromryoteiCollectionArgs = {
 }
 
 /** The root type for creating and mutating data */
-export type MutationInsertIntoblogCollectionArgs = {
-  objects: Array<BlogInsertInput>
-}
-
-/** The root type for creating and mutating data */
 export type MutationInsertIntoryoteiCollectionArgs = {
   objects: Array<RyoteiInsertInput>
-}
-
-/** The root type for creating and mutating data */
-export type MutationUpdateblogCollectionArgs = {
-  atMost?: Scalars['Int']['input']
-  filter?: InputMaybe<BlogFilter>
-  set: BlogUpdateInput
 }
 
 /** The root type for creating and mutating data */
@@ -261,23 +237,10 @@ export type PageInfo = {
 /** The root type for querying data */
 export type Query = {
   __typename?: 'Query'
-  /** A pagable collection of type `blog` */
-  blogCollection?: Maybe<BlogConnection>
   /** Retrieve a record by its `ID` */
   node?: Maybe<Node>
   /** A pagable collection of type `ryotei` */
   ryoteiCollection?: Maybe<RyoteiConnection>
-}
-
-/** The root type for querying data */
-export type QueryBlogCollectionArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>
-  before?: InputMaybe<Scalars['Cursor']['input']>
-  filter?: InputMaybe<BlogFilter>
-  first?: InputMaybe<Scalars['Int']['input']>
-  last?: InputMaybe<Scalars['Int']['input']>
-  offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<BlogOrderBy>>
 }
 
 /** The root type for querying data */
@@ -358,75 +321,6 @@ export type UuidListFilter = {
   eq?: InputMaybe<Array<Scalars['UUID']['input']>>
   is?: InputMaybe<FilterIs>
   overlaps?: InputMaybe<Array<Scalars['UUID']['input']>>
-}
-
-export type Blog = Node & {
-  __typename?: 'blog'
-  id: Scalars['Int']['output']
-  /** Globally Unique Record Identifier */
-  nodeId: Scalars['ID']['output']
-  title: Scalars['String']['output']
-}
-
-export type BlogConnection = {
-  __typename?: 'blogConnection'
-  edges: Array<BlogEdge>
-  pageInfo: PageInfo
-}
-
-export type BlogDeleteResponse = {
-  __typename?: 'blogDeleteResponse'
-  /** Count of the records impacted by the mutation */
-  affectedCount: Scalars['Int']['output']
-  /** Array of records impacted by the mutation */
-  records: Array<Blog>
-}
-
-export type BlogEdge = {
-  __typename?: 'blogEdge'
-  cursor: Scalars['String']['output']
-  node: Blog
-}
-
-export type BlogFilter = {
-  /** Returns true only if all its inner filters are true, otherwise returns false */
-  and?: InputMaybe<Array<BlogFilter>>
-  id?: InputMaybe<IntFilter>
-  nodeId?: InputMaybe<IdFilter>
-  /** Negates a filter */
-  not?: InputMaybe<BlogFilter>
-  /** Returns true if at least one of its inner filters is true, otherwise returns false */
-  or?: InputMaybe<Array<BlogFilter>>
-  title?: InputMaybe<StringFilter>
-}
-
-export type BlogInsertInput = {
-  title?: InputMaybe<Scalars['String']['input']>
-}
-
-export type BlogInsertResponse = {
-  __typename?: 'blogInsertResponse'
-  /** Count of the records impacted by the mutation */
-  affectedCount: Scalars['Int']['output']
-  /** Array of records impacted by the mutation */
-  records: Array<Blog>
-}
-
-export type BlogOrderBy = {
-  id?: InputMaybe<OrderByDirection>
-  title?: InputMaybe<OrderByDirection>
-}
-
-export type BlogUpdateInput = {
-  title?: InputMaybe<Scalars['String']['input']>
-}
-
-export type BlogUpdateResponse = {
-  __typename?: 'blogUpdateResponse'
-  /** Count of the records impacted by the mutation */
-  affectedCount: Scalars['Int']['output']
-  /** Array of records impacted by the mutation */
-  records: Array<Blog>
 }
 
 export type Ryotei = Node & {

@@ -1,5 +1,14 @@
 import * as Types from './schema'
 
+export type InsertIntoryoteiCollectionMutationVariables = Types.Exact<{
+  objects: Array<Types.RyoteiInsertInput> | Types.RyoteiInsertInput
+}>
+
+export type InsertIntoryoteiCollectionMutation = {
+  __typename?: 'Mutation'
+  insertIntoryoteiCollection?: { __typename?: 'ryoteiInsertResponse'; affectedCount: number } | null
+}
+
 export type GetRyoteiQueryVariables = Types.Exact<{
   orderBy?: Types.InputMaybe<Array<Types.RyoteiOrderBy> | Types.RyoteiOrderBy>
 }>

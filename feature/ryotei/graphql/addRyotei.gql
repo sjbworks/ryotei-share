@@ -1,5 +1,5 @@
-mutation InsertIntoryoteiCollection($object: [RyoteiInsertInput!]) {
-  insertIntoryoteiCollection(object: $object) {
+mutation InsertIntoryoteiCollection($objects: [ryoteiInsertInput!]!) {
+  insertIntoryoteiCollection(objects: $objects) {
     affectedCount
   }
 }
