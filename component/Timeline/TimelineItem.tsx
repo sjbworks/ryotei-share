@@ -19,7 +19,7 @@ export type TimelineItemProps = Plan & {
 }
 
 export const TimelineItem: FC<TimelineItemProps> = (props) => {
-  const { datetime, description, color, onClick } = props
+  const { id, datetime, description, color, onClick } = props
   const timeSx = {
     display: 'flex',
     alignItems: 'center',
@@ -36,7 +36,7 @@ export const TimelineItem: FC<TimelineItemProps> = (props) => {
             <AccessTimeIcon fontSize="small" sx={{ marginRight: '2px' }} />
             {datetime}
           </Typography>
-          <MenuControl onClick={onClick} datetime={datetime} description={description} />
+          <MenuControl onClick={onClick} id={id} datetime={datetime} description={description} />
         </div>
         <Typography variant="body1" color="grey.800">
           {description}

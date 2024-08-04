@@ -16,7 +16,7 @@ type Props = Plan & {
   onClick?: TimelineItemProps['onClick']
 }
 
-export const MenuControl = ({ onClick, datetime, description }: Props) => {
+export const MenuControl = ({ onClick, id, datetime, description }: Props) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
   const onOpen = (e: MouseEvent<HTMLButtonElement>) => setAnchorEl(e.currentTarget)
   const onClose = () => setAnchorEl(null)
@@ -26,7 +26,7 @@ export const MenuControl = ({ onClick, datetime, description }: Props) => {
   }
   const items = Object.entries(action).map(([key, Icon]) => ({
     label: key as Action,
-    action: () => onItemClick(key as Action, { datetime, description }),
+    action: () => onItemClick(key as Action, { id, datetime, description }),
     icon: <Icon />,
   }))
 
