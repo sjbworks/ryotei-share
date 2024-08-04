@@ -13,7 +13,7 @@ import {
 
 type Ryotei = Array<RyoteiInsertInput>
 
-export const useTimeline = () => {
+export const useTimeline = (refetch: () => void) => {
   const [bottomOpen, setBottomOpen] = useState(false)
   const handleClick = () => setBottomOpen(!bottomOpen)
   const onBottomClose = () => setBottomOpen(false)
@@ -29,6 +29,8 @@ export const useTimeline = () => {
   const setNewData = async (newData: RyoteiInsertInput) => {
     try {
       await addRyotei({ variables: { objects: newData } })
+      await refetch()
+      onBottomClose()
     } catch (e) {
       setRedirecReq(true)
     }

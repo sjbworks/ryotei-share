@@ -9,8 +9,8 @@ type Props = { data?: Record<string, Plan[]> }
 
 export const TimelineView = () => {
   const containerStyle = 'flex flex-col justify-between p-10 max-w-xl m-auto container'
-  const { handleClick, bottomSheet, setNewData, onMenuClick } = useTimeline()
-  const data = useGetRyotei()
+  const { data, refetch } = useGetRyotei()
+  const { handleClick, bottomSheet, setNewData, onMenuClick } = useTimeline(refetch)
   const isExist = useMemo(() => data && Object.keys(data).length > 0, [data])
 
   return (

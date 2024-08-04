@@ -8,7 +8,7 @@ export const useGetRyotei = () => {
   const variables: GetRyoteiQueryVariables = {
     orderBy: [{ datetime: OrderByDirection.DescNullsLast }],
   }
-  const { data } = useQuery<GetRyoteiQuery, GetRyoteiQueryVariables>(QUERY_GET_RYOTEI, {
+  const { data, refetch } = useQuery<GetRyoteiQuery, GetRyoteiQueryVariables>(QUERY_GET_RYOTEI, {
     variables,
   })
 
@@ -25,12 +25,15 @@ export const useGetRyotei = () => {
     },
     {}
   )
-  return grouped
-    ? Object.keys(grouped)
-        .sort()
-        .reduce((acc: Record<string, Plan[]>, key: string) => {
-          acc[key] = grouped[key]
-          return acc
-        }, {})
-    : undefined
+  return {
+    data: grouped
+      ? Object.keys(grouped)
+          .sort()
+          .reduce((acc: Record<string, Plan[]>, key: string) => {
+            acc[key] = grouped[key]
+            return acc
+          }, {})
+      : undefined,
+    refetch,
+  }
 }
