@@ -1,0 +1,5 @@
+mutation updateryoteiCollection($set: ryoteiUpdateInput!) {
+  updateryoteiCollection(set: $set) {
+    affectedCount
+  }
+}

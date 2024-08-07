@@ -1,0 +1,5 @@
+mutation deleteFromryoteiCollection($filter: ryoteiFilter!) {
+  deleteFromryoteiCollection(filter: $filter, atMost: 1) {
+    affectedCount
+  }
+}
