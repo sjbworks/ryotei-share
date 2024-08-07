@@ -9,6 +9,15 @@ export type InsertIntoryoteiCollectionMutation = {
   insertIntoryoteiCollection?: { __typename?: 'ryoteiInsertResponse'; affectedCount: number } | null
 }
 
+export type DeleteFromryoteiCollectionMutationVariables = Types.Exact<{
+  filter: Types.RyoteiFilter
+}>
+
+export type DeleteFromryoteiCollectionMutation = {
+  __typename?: 'Mutation'
+  deleteFromryoteiCollection: { __typename?: 'ryoteiDeleteResponse'; affectedCount: number }
+}
+
 export type GetRyoteiQueryVariables = Types.Exact<{
   orderBy?: Types.InputMaybe<Array<Types.RyoteiOrderBy> | Types.RyoteiOrderBy>
 }>
@@ -22,4 +31,13 @@ export type GetRyoteiQuery = {
       node: { __typename?: 'ryotei'; id: any; description: string; datetime: any }
     }>
   } | null
+}
+
+export type UpdateryoteiCollectionMutationVariables = Types.Exact<{
+  set: Types.RyoteiUpdateInput
+}>
+
+export type UpdateryoteiCollectionMutation = {
+  __typename?: 'Mutation'
+  updateryoteiCollection: { __typename?: 'ryoteiUpdateResponse'; affectedCount: number }
 }
