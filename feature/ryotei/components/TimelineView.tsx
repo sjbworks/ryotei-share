@@ -5,13 +5,12 @@ import { useTimeline } from '@/feature/ryotei/hooks/useTimeline'
 import { useMemo } from 'react'
 import { useGetRyotei } from '../hooks/useGetRyotei'
 
-type Props = { data?: Record<string, Plan[]> }
-
 export const TimelineView = () => {
   const containerStyle = 'flex flex-col justify-between p-10 max-w-xl m-auto container'
   const { data, refetch } = useGetRyotei()
-  const { handleClick, bottomSheet, setNewData, onMenuClick, modalProps } = useTimeline(refetch)
+  const { handleClick, bottomSheet, onMenuClick, modalProps, mode, bottomFormProps } = useTimeline(refetch)
   const isExist = useMemo(() => data && Object.keys(data).length > 0, [data])
+  const modalChildren = mode === 'edit' ? <Form {...modalProps} /> : '削除しますか？'
 
   return (
     <>
@@ -26,9 +25,9 @@ export const TimelineView = () => {
         <AddIcon />
         旅程を登録
       </Button>
-      <Modal {...modalProps}>{'test'}</Modal>
+      <Modal {...modalProps}>{modalChildren}</Modal>
       <BottomSheet {...bottomSheet}>
-        <Form className={containerStyle} setData={setNewData} />
+        <Form className={containerStyle} {...bottomFormProps} />
       </BottomSheet>
     </>
   )

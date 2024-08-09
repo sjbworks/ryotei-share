@@ -13,7 +13,6 @@ import {
   DeleteFromryoteiCollectionMutation as DeleteRyoteiMutation,
   DeleteFromryoteiCollectionMutationVariables as DeleteRyoteiMutationVariables,
   RyoteiInsertInput,
-  RyoteiFilter,
 } from '@/feature/api/graphql'
 
 type Ryotei = Array<RyoteiInsertInput>
@@ -28,7 +27,7 @@ export const useTimeline = (refetch: () => void) => {
   const [data, setData] = useState<Ryotei>([])
   const [redirectReq, setRedirecReq] = useState(false)
   const [mode, setMode] = useState<Action | null>(null)
-  const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null)
+  const [selectedPlan, setSelectedPlan] = useState<RyoteiInsertInput | null>(null)
   const onMenuClick = (action: Action, plan: Plan) => {
     console.log(action, plan)
     setModalOpen(true)
@@ -50,23 +49,38 @@ export const useTimeline = (refetch: () => void) => {
     setData([...data, newData])
   }
 
+  const bottomFormProps = {
+    isOpen: bottomOpen,
+    onSubmit: setNewData,
+    onClose: () => setModalOpen(false),
+  }
+
   const modalProps = {
     isOpen: modalOpen,
+    data: selectedPlan,
+    onSubmit: setSelectedPlan,
     onClose: () => setModalOpen(false),
     action: {
       label: mode === 'edit' ? '編集' : '削除',
-      // TODO: updateRyotei
       onClick: () =>
-        mode === 'edit' ? updateRyotei() : deleteRyotei({ variables: { filter: { id: { eq: selectedPlan?.id } } } }),
+        mode === 'edit'
+          ? updateRyotei({
+              variables: {
+                set: { id: selectedPlan?.id, datetime: selectedPlan?.datetime, description: selectedPlan?.description },
+              },
+            })
+          : deleteRyotei({ variables: { filter: { id: { eq: selectedPlan?.id } } } }),
     },
   }
 
   useEffect(() => void (redirectReq && redirect('/login')), [redirectReq])
   return {
+    mode,
     bottomSheet,
     setNewData,
     handleClick,
     onMenuClick,
     modalProps,
+    bottomFormProps,
   }
 }

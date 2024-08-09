@@ -14,7 +14,15 @@ type Props = {
 export const Button = (props: Props) => {
   const { className, children, onClick, variant = 'outlined', color = 'primary', size = 'medium' } = props
   return (
-    <MUIButton className={className} onClick={onClick} variant={variant} color={color} size={size}>
+    <MUIButton
+      className={className}
+      onClick={onClick}
+      variant={variant}
+      color={color}
+      size={size}
+      disableElevation
+      sx={{ backgroundColor: 'primary' }}
+    >
       {children}
     </MUIButton>
   )

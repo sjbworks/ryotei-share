@@ -10,18 +10,25 @@ import { RyoteiInsertInput } from '@/feature/api/graphql'
 
 type Props = {
   className?: string
-  setData?: (data: RyoteiInsertInput) => void
+  onSubmit?: (data: RyoteiInsertInput) => void
+  data?: RyoteiInsertInput | null
+  onClose?: () => void
+  action?: {
+    label: string
+    onClick: () => void
+  }
 }
 
-export const Form = ({ className, setData }: Props) => {
+export const Form = ({ className, onSubmit, data, onClose, action }: Props) => {
   const {
     register,
     handleSubmit,
     control,
     formState: { errors },
   } = useForm<RyoteiInsertInput>({ reValidateMode: 'onBlur', defaultValues: undefined })
-  const onSubmit: SubmitHandler<RyoteiInsertInput> = (data) => {
-    setData && setData(data)
+  const handleClick: SubmitHandler<RyoteiInsertInput> = async (data) => {
+    onSubmit && (await onSubmit(data))
+    action?.onClick()
   }
   const classProps = clsx('flex flex-col justify-between p-10', className)
   return (
@@ -42,6 +49,7 @@ export const Form = ({ className, setData }: Props) => {
           render={({ field }) => (
             <DateTimePicker
               {...field}
+              value={data?.datetime}
               slotProps={{
                 textField: {
                   variant: 'outlined',
@@ -58,11 +66,17 @@ export const Form = ({ className, setData }: Props) => {
         {...register('description', { required: true })}
         error={!!errors.description}
         helperText={errors.description && '内容を入力してください。'}
+        value={data?.description}
         className="block w-full"
       />
-      <Button onClick={handleSubmit(onSubmit)} className="block w-full">
-        登録
-      </Button>
+      <div className="flex justify-between">
+        <Button onClick={() => onClose?.()} className="block w-full">
+          キャンセル
+        </Button>
+        <Button onClick={handleSubmit(handleClick)} className="block w-full" variant="contained">
+          {action?.label || '登録'}
+        </Button>
+      </div>
     </Box>
   )
 }
