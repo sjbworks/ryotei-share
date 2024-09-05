@@ -1,6 +1,6 @@
 'use client'
 
-import { Timeline, BottomSheet, Modal, Form, Button, AddIcon, Plan, NoData } from '@/component'
+import { Timeline, BottomSheet, Modal, Form, Button, AddIcon, NoData } from '@/component'
 import { useTimeline } from '@/feature/ryotei/hooks/useTimeline'
 import { useMemo } from 'react'
 import { useGetRyotei } from '../hooks/useGetRyotei'
@@ -8,9 +8,9 @@ import { useGetRyotei } from '../hooks/useGetRyotei'
 export const TimelineView = () => {
   const containerStyle = 'flex flex-col justify-between p-10 max-w-xl m-auto container'
   const { data, refetch } = useGetRyotei()
-  const { handleClick, bottomSheet, onMenuClick, modalProps, mode, bottomFormProps } = useTimeline(refetch)
+  const { handleClick, bottomSheet, onMenuClick, formProps, mode, bottomFormProps, isOpen } = useTimeline(refetch)
   const isExist = useMemo(() => data && Object.keys(data).length > 0, [data])
-  const modalChildren = mode === 'edit' ? <Form {...modalProps} /> : '削除しますか？'
+  const modalChildren = mode === 'edit' ? <Form {...formProps} /> : '削除しますか？'
 
   return (
     <>
@@ -25,7 +25,7 @@ export const TimelineView = () => {
         <AddIcon />
         旅程を登録
       </Button>
-      <Modal {...modalProps}>{modalChildren}</Modal>
+      <Modal isOpen={isOpen}>{modalChildren}</Modal>
       <BottomSheet {...bottomSheet}>
         <Form className={containerStyle} {...bottomFormProps} />
       </BottomSheet>
