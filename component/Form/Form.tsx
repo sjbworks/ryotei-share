@@ -15,7 +15,7 @@ type Props = {
   onClose?: () => void
   action?: {
     label: string
-    onClick: () => void
+    onClick: (data: RyoteiInsertInput) => void
   }
 }
 
@@ -28,7 +28,7 @@ export const Form = ({ className, onSubmit, data, onClose, action }: Props) => {
   } = useForm<RyoteiInsertInput>({ reValidateMode: 'onBlur', defaultValues: undefined })
   const handleClick: SubmitHandler<RyoteiInsertInput> = async (data) => {
     onSubmit && (await onSubmit(data))
-    action?.onClick()
+    await action?.onClick(data)
   }
   const classProps = clsx('flex flex-col justify-between p-10', className)
   return (
