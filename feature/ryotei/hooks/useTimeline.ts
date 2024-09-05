@@ -55,21 +55,29 @@ export const useTimeline = (refetch: () => void) => {
     onClose: () => setModalOpen(false),
   }
 
-  const modalProps = {
+  const formProps = {
     isOpen: modalOpen,
     data: selectedPlan,
     onSubmit: setSelectedPlan,
     onClose: () => setModalOpen(false),
     action: {
       label: mode === 'edit' ? '編集' : '削除',
-      onClick: () =>
+      onClick: async (data: RyoteiInsertInput) => {
+        await console.log(data)
+        await console.log(data.datetime)
         mode === 'edit'
           ? updateRyotei({
               variables: {
-                set: { id: selectedPlan?.id, datetime: selectedPlan?.datetime, description: selectedPlan?.description },
+                set: {
+                  id: selectedPlan?.id,
+                  datetime: selectedPlan?.datetime,
+                  description: selectedPlan?.description,
+                  user_id: selectedPlan?.user_id,
+                },
               },
             })
-          : deleteRyotei({ variables: { filter: { id: { eq: selectedPlan?.id } } } }),
+          : deleteRyotei({ variables: { filter: { id: { eq: selectedPlan?.id } } } })
+      },
     },
   }
 
@@ -80,7 +88,8 @@ export const useTimeline = (refetch: () => void) => {
     setNewData,
     handleClick,
     onMenuClick,
-    modalProps,
+    formProps,
+    isOpen: modalOpen,
     bottomFormProps,
   }
 }
