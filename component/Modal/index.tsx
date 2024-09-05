@@ -4,29 +4,14 @@ import { createPortal } from 'react-dom'
 interface ModalProps {
   children: ReactNode
   isOpen: boolean
-  onClose: () => void
-  action: {
-    label: string
-    onClick: () => void
-  }
 }
 
-export const Modal: FC<ModalProps> = ({ children, isOpen, onClose, action }) => {
+export const Modal: FC<ModalProps> = ({ children, isOpen }) => {
   if (!isOpen) return null
 
   return createPortal(
     <div style={overlayStyle}>
-      <div style={modalStyle}>
-        {children}
-        <div style={buttonContainer}>
-          <button onClick={onClose} style={closeButtonStyle}>
-            キャンセル
-          </button>
-          <button onClick={action.onClick} style={actionButtonStyle}>
-            {action.label}
-          </button>
-        </div>
-      </div>
+      <div style={modalStyle}>{children}</div>
     </div>,
     document.body
   )
