@@ -1,12 +1,13 @@
+'use client'
 import { Plan } from '@/component'
 import { QUERY_GET_RYOTEI } from '@/feature/ryotei/graphql'
-import { GetRyoteiQuery, GetRyoteiQueryVariables, RyoteiOrderBy, OrderByDirection } from '@/feature/api/graphql'
+import { GetRyoteiQuery, GetRyoteiQueryVariables, OrderByDirection } from '@/feature/api/graphql'
 import { useQuery } from '@apollo/client'
 import { format, parseISO } from 'date-fns'
 
 export const useGetRyotei = () => {
   const variables: GetRyoteiQueryVariables = {
-    orderBy: [{ datetime: OrderByDirection.DescNullsLast }],
+    orderBy: [{ datetime: OrderByDirection.AscNullsLast }],
   }
   const { data, refetch } = useQuery<GetRyoteiQuery, GetRyoteiQueryVariables>(QUERY_GET_RYOTEI, {
     variables,

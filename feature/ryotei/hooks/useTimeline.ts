@@ -1,6 +1,6 @@
 'use client'
 import { Plan } from '@/component/Timeline/TimelineItem'
-import { Action } from '@/component/Timeline/MenuControl'
+import { ActionType } from '@/feature/ryotei/types'
 import { useEffect, useState } from 'react'
 import { redirect } from 'next/navigation'
 import { MUTATION_ADD_RYOTEI, MUTATION_DELETE_RYOTEI, MUTATION_UPDATE_RYOTEI } from '@/feature/ryotei/graphql'
@@ -26,10 +26,9 @@ export const useTimeline = (refetch: () => void) => {
   const bottomSheet = { open: bottomOpen, onOpen: onBottomOpen, onClose: onBottomClose }
   const [data, setData] = useState<Ryotei>([])
   const [redirectReq, setRedirecReq] = useState(false)
-  const [mode, setMode] = useState<Action | null>(null)
+  const [mode, setMode] = useState<ActionType | null>(null)
   const [selectedPlan, setSelectedPlan] = useState<RyoteiInsertInput | null>(null)
-  const onMenuClick = (action: Action, plan: Plan) => {
-    console.log(action, plan)
+  const onMenuClick = (action: ActionType, plan: Plan) => {
     setModalOpen(true)
     setMode(action)
     setSelectedPlan(plan)
@@ -79,6 +78,7 @@ export const useTimeline = (refetch: () => void) => {
         setModalOpen(false)
       },
     },
+    mode: 'delete' as ActionType,
   }
 
   useEffect(() => void (redirectReq && redirect('/login')), [redirectReq])
