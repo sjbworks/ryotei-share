@@ -1,5 +1,5 @@
-mutation updateryoteiCollection($set: ryoteiUpdateInput!) {
-  updateryoteiCollection(set: $set) {
+mutation updateryoteiCollection($set: ryoteiUpdateInput!, $filter: ryoteiFilter) {
+  updateryoteiCollection(set: $set, filter: $filter, atMost: 1) {
     affectedCount
   }
 }

@@ -325,11 +325,13 @@ export type UuidListFilter = {
 
 export type Ryotei = Node & {
   __typename?: 'ryotei'
+  created_at?: Maybe<Scalars['Datetime']['output']>
   datetime: Scalars['Datetime']['output']
   description: Scalars['String']['output']
   id: Scalars['UUID']['output']
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output']
+  update_at?: Maybe<Scalars['Datetime']['output']>
   user_id?: Maybe<Scalars['UUID']['output']>
 }
 
@@ -356,6 +358,7 @@ export type RyoteiEdge = {
 export type RyoteiFilter = {
   /** Returns true only if all its inner filters are true, otherwise returns false */
   and?: InputMaybe<Array<RyoteiFilter>>
+  created_at?: InputMaybe<DatetimeFilter>
   datetime?: InputMaybe<DatetimeFilter>
   description?: InputMaybe<StringFilter>
   id?: InputMaybe<UuidFilter>
@@ -364,13 +367,16 @@ export type RyoteiFilter = {
   not?: InputMaybe<RyoteiFilter>
   /** Returns true if at least one of its inner filters is true, otherwise returns false */
   or?: InputMaybe<Array<RyoteiFilter>>
+  update_at?: InputMaybe<DatetimeFilter>
   user_id?: InputMaybe<UuidFilter>
 }
 
 export type RyoteiInsertInput = {
+  created_at?: InputMaybe<Scalars['Datetime']['input']>
   datetime?: InputMaybe<Scalars['Datetime']['input']>
   description?: InputMaybe<Scalars['String']['input']>
   id?: InputMaybe<Scalars['UUID']['input']>
+  update_at?: InputMaybe<Scalars['Datetime']['input']>
   user_id?: InputMaybe<Scalars['UUID']['input']>
 }
 
@@ -383,16 +389,20 @@ export type RyoteiInsertResponse = {
 }
 
 export type RyoteiOrderBy = {
+  created_at?: InputMaybe<OrderByDirection>
   datetime?: InputMaybe<OrderByDirection>
   description?: InputMaybe<OrderByDirection>
   id?: InputMaybe<OrderByDirection>
+  update_at?: InputMaybe<OrderByDirection>
   user_id?: InputMaybe<OrderByDirection>
 }
 
 export type RyoteiUpdateInput = {
+  created_at?: InputMaybe<Scalars['Datetime']['input']>
   datetime?: InputMaybe<Scalars['Datetime']['input']>
   description?: InputMaybe<Scalars['String']['input']>
   id?: InputMaybe<Scalars['UUID']['input']>
+  update_at?: InputMaybe<Scalars['Datetime']['input']>
   user_id?: InputMaybe<Scalars['UUID']['input']>
 }
 

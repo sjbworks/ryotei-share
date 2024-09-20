@@ -35,6 +35,7 @@ export type GetRyoteiQuery = {
 
 export type UpdateryoteiCollectionMutationVariables = Types.Exact<{
   set: Types.RyoteiUpdateInput
+  filter?: Types.InputMaybe<Types.RyoteiFilter>
 }>
 
 export type UpdateryoteiCollectionMutation = {
