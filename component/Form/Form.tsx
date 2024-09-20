@@ -18,7 +18,7 @@ type Props = {
     label: string
     onClick: (data: RyoteiInsertInput) => void
   }
-  mode?: ActionType
+  mode?: ActionType | null
 }
 
 export const Form = ({ className, onSubmit, data, onClose, action, mode }: Props) => {
@@ -32,21 +32,22 @@ export const Form = ({ className, onSubmit, data, onClose, action, mode }: Props
     onSubmit && (await onSubmit(data))
     await action?.onClick(data)
   }
-  const classProps = clsx('flex flex-col justify-between p-10', className)
+  const classProps = clsx('flex flex-col justify-between p-5', className)
   return (
-    <Box
-      component="form"
-      sx={{
-        '& > :not(style)': { m: 1 },
-      }}
-      noValidate
-      autoComplete="off"
-      className={classProps}
-    >
+    <div className={classProps}>
       {mode === 'delete' ? (
         '削除しますか？'
       ) : (
-        <div>
+        <Box
+          component="form"
+          sx={{
+            '& > :not(style)': { mb: 2 },
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+          noValidate
+          autoComplete="off"
+        >
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <Controller
               control={control}
@@ -75,7 +76,7 @@ export const Form = ({ className, onSubmit, data, onClose, action, mode }: Props
             value={data?.description}
             className="block w-full"
           />
-        </div>
+        </Box>
       )}
       <div className="flex justify-between">
         <Button onClick={() => onClose?.()} className="block w-full">
@@ -85,6 +86,6 @@ export const Form = ({ className, onSubmit, data, onClose, action, mode }: Props
           {action?.label || '登録'}
         </Button>
       </div>
-    </Box>
+    </div>
   )
 }
