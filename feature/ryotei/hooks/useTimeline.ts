@@ -51,7 +51,7 @@ export const useTimeline = (refetch: () => void) => {
   const bottomFormProps = {
     isOpen: bottomOpen,
     onSubmit: setNewData,
-    onClose: () => setModalOpen(false),
+    onClose: () => onBottomClose(),
   }
 
   const formProps = {
@@ -78,7 +78,7 @@ export const useTimeline = (refetch: () => void) => {
         setModalOpen(false)
       },
     },
-    mode: 'delete' as ActionType,
+    mode: mode,
   }
 
   useEffect(() => void (redirectReq && redirect('/login')), [redirectReq])
