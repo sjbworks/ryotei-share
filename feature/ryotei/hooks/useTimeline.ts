@@ -64,7 +64,7 @@ export const useTimeline = (refetch: () => void) => {
       label: mode === 'edit' ? '編集' : '削除',
       onClick: async (data: RyoteiInsertInput) => {
         mode === 'edit'
-          ? updateRyotei({
+          ? await updateRyotei({
               variables: {
                 set: {
                   datetime: data?.datetime.toISOString(),
@@ -73,7 +73,7 @@ export const useTimeline = (refetch: () => void) => {
                 filter: { id: { eq: selectedPlan?.id } },
               },
             })
-          : deleteRyotei({ variables: { filter: { id: { eq: selectedPlan?.id } } } })
+          : await deleteRyotei({ variables: { filter: { id: { eq: selectedPlan?.id } } } })
 
         await refetch()
         setModalOpen(false)
