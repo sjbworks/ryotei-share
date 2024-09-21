@@ -1,5 +1,6 @@
 import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
+import { isTokenExpired } from '@/utils'
 
 export const updateSession = async (request: NextRequest) => {
   let response = NextResponse.next({
@@ -55,7 +56,17 @@ export const updateSession = async (request: NextRequest) => {
   )
 
   // refreshing the auth token
-  await supabase.auth.getUser()
+  const {
+    data: { session },
+    error,
+  } = await supabase.auth.getSession()
+
+  if ((!session && !request.nextUrl.pathname.startsWith('/login')) || error || isTokenExpired(session?.expires_at)) {
+    // no user, potentially respond by redirecting the user to the login page
+    const url = request.nextUrl.clone()
+    url.pathname = '/login'
+    return NextResponse.redirect(url)
+  }
 
   return response
 }

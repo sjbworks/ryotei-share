@@ -1,11 +1,11 @@
-import { createClient } from '@/utils/supabase/server'
+import { createClientForServer } from '@/utils/supabase/server'
 import { NextResponse, NextRequest } from 'next/server'
 
 const ERROR_CODE_UNAUTHORIZED = '401'
 
 export async function GET(_req: NextRequest, _res: NextResponse) {
   try {
-    const supabase = createClient()
+    const supabase = createClientForServer()
     const {
       data: { session },
     } = await supabase.auth.getSession()
@@ -25,7 +25,7 @@ export async function GET(_req: NextRequest, _res: NextResponse) {
 
 export async function POST(req: NextRequest, _res: NextResponse) {
   try {
-    const supabase = createClient()
+    const supabase = createClientForServer()
     const {
       data: { session },
     } = await supabase.auth.getSession()
