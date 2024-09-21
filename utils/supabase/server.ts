@@ -10,8 +10,6 @@ export function createClient() {
         return cookieStore.get(name)?.value
       },
       set(name: string, value: string, options: CookieOptions) {
-        console.log(name)
-        console.log(value)
         try {
           cookieStore.set({ name, value, ...options })
         } catch (error) {

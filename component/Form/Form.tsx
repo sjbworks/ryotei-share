@@ -63,12 +63,9 @@ export const Form = ({ className, onSubmit, data, onClose, action, mode }: Props
               rules={{ required: true }}
               {...register('datetime', { required: true })}
               render={({ field }) => {
-                console.log('field', field)
                 return (
                   <DateTimePicker
                     {...field}
-                    // value={format(field.value, 'yyyy-MM-dd HH:mm')}
-                    // value={value}
                     slotProps={{
                       textField: {
                         variant: 'outlined',
