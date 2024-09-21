@@ -20,7 +20,7 @@ export const useGetRyotei = () => {
       if (!acc[date]) {
         acc[date] = []
       }
-      acc[date].push({ datetime: format(parseISO(datetime), 'HH:mm'), description, id })
+      acc[date].push({ datetime, description, id })
       acc[date].sort((a, b) => a.datetime.localeCompare(b.datetime))
       return acc
     },

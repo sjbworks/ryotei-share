@@ -57,26 +57,26 @@ export const useTimeline = (refetch: () => void) => {
   const formProps = {
     isOpen: modalOpen,
     data: selectedPlan,
-    onSubmit: setSelectedPlan,
+    onSubmit: async (data: RyoteiInsertInput) => {
+      await setSelectedPlan(data)
+      mode === 'edit'
+        ? await updateRyotei({
+            variables: {
+              set: {
+                datetime: data?.datetime.toISOString(),
+                description: data?.description,
+              },
+              filter: { id: { eq: selectedPlan?.id } },
+            },
+          })
+        : await deleteRyotei({ variables: { filter: { id: { eq: selectedPlan?.id } } } })
+
+      await refetch()
+      setModalOpen(false)
+    },
     onClose: () => setModalOpen(false),
     action: {
       label: mode === 'edit' ? '編集' : '削除',
-      onClick: async (data: RyoteiInsertInput) => {
-        mode === 'edit'
-          ? await updateRyotei({
-              variables: {
-                set: {
-                  datetime: data?.datetime.toISOString(),
-                  description: selectedPlan?.description,
-                },
-                filter: { id: { eq: selectedPlan?.id } },
-              },
-            })
-          : await deleteRyotei({ variables: { filter: { id: { eq: selectedPlan?.id } } } })
-
-        await refetch()
-        setModalOpen(false)
-      },
     },
     mode: mode,
   }

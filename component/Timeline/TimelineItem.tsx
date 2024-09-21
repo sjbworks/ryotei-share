@@ -11,6 +11,7 @@ import { Typography } from '@mui/material'
 import { FC } from 'react'
 import { AccessTimeIcon } from '../Icon'
 import { MenuControl, Action } from './MenuControl'
+import { format, parseISO } from 'date-fns'
 
 export type Plan = { datetime: string; description: string; id: string }
 export type TimelineItemProps = Plan & {
@@ -24,6 +25,7 @@ export const TimelineItem: FC<TimelineItemProps> = (props) => {
     display: 'flex',
     alignItems: 'center',
   }
+  const time = format(parseISO(datetime), 'HH:mm')
   return (
     <MUITimelineItem>
       <TimelineSeparator>
@@ -34,7 +36,7 @@ export const TimelineItem: FC<TimelineItemProps> = (props) => {
         <div className="flex justify-between">
           <Typography variant="subtitle2" component="span" color="grey.500" sx={timeSx}>
             <AccessTimeIcon fontSize="small" sx={{ marginRight: '2px' }} />
-            {datetime}
+            {time}
           </Typography>
           <MenuControl onClick={onClick} id={id} datetime={datetime} description={description} />
         </div>

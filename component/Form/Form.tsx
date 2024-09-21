@@ -1,13 +1,15 @@
 'use client'
 import { useForm, Controller, SubmitHandler, set } from 'react-hook-form'
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers'
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import TextField from '@mui/material/TextField'
 import Box from '@mui/material/Box'
 import { Button } from '@/component/Button'
 import clsx from 'clsx'
 import { RyoteiInsertInput } from '@/feature/api/graphql'
 import { ActionType } from '@/feature/ryotei/types'
+import ja from 'date-fns/locale/ja'
+import { format, parseISO } from 'date-fns'
 
 type Props = {
   className?: string
@@ -16,21 +18,28 @@ type Props = {
   onClose?: () => void
   action?: {
     label: string
-    onClick: (data: RyoteiInsertInput) => void
   }
   mode?: ActionType | null
 }
 
 export const Form = ({ className, onSubmit, data, onClose, action, mode }: Props) => {
+  const datetime = new Date(data?.datetime)
   const {
     register,
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm<RyoteiInsertInput>({ reValidateMode: 'onBlur', defaultValues: undefined })
+  } = useForm<RyoteiInsertInput>({
+    reValidateMode: 'onBlur',
+    defaultValues: {
+      datetime,
+      description: data?.description,
+      id: data?.id,
+      user_id: data?.user_id,
+    },
+  })
   const handleClick: SubmitHandler<RyoteiInsertInput> = async (data) => {
     onSubmit && (await onSubmit(data))
-    await action?.onClick(data)
   }
   const classProps = clsx('flex flex-col justify-between p-5', className)
   return (
@@ -48,32 +57,35 @@ export const Form = ({ className, onSubmit, data, onClose, action, mode }: Props
           noValidate
           autoComplete="off"
         >
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ja}>
             <Controller
               control={control}
               rules={{ required: true }}
               {...register('datetime', { required: true })}
-              render={({ field }) => (
-                <DateTimePicker
-                  {...field}
-                  value={data?.datetime}
-                  slotProps={{
-                    textField: {
-                      variant: 'outlined',
-                      error: !!errors.datetime,
-                      helperText: errors.datetime && '日時を入力してください。',
-                    },
-                  }}
-                  className="block w-full"
-                />
-              )}
+              render={({ field }) => {
+                console.log('field', field)
+                return (
+                  <DateTimePicker
+                    {...field}
+                    // value={format(field.value, 'yyyy-MM-dd HH:mm')}
+                    // value={value}
+                    slotProps={{
+                      textField: {
+                        variant: 'outlined',
+                        error: !!errors.datetime,
+                        helperText: errors.datetime && '日時を入力してください。',
+                      },
+                    }}
+                    className="block w-full"
+                  />
+                )
+              }}
             />
           </LocalizationProvider>
           <TextField
             {...register('description', { required: true })}
             error={!!errors.description}
             helperText={errors.description && '内容を入力してください。'}
-            value={data?.description}
             className="block w-full"
           />
         </Box>
