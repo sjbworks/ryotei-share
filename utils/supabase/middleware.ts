@@ -58,14 +58,16 @@ export const updateSession = async (request: NextRequest) => {
   // refreshing the auth token
   const {
     data: { session },
-    error,
   } = await supabase.auth.getSession()
 
-  if ((!session && !request.nextUrl.pathname.startsWith('/login')) || error || isTokenExpired(session?.expires_at)) {
+  if (!request.nextUrl.pathname.startsWith('/login') && !session) {
     // no user, potentially respond by redirecting the user to the login page
     const url = request.nextUrl.clone()
     url.pathname = '/login'
-    return NextResponse.redirect(url)
+  }
+
+  if (session && request.nextUrl.pathname.includes('/login')) {
+    return NextResponse.redirect('/')
   }
 
   return response
