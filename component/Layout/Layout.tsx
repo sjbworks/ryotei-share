@@ -2,18 +2,24 @@
 import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
 import { ReactNode } from 'react'
+import { useRouter } from 'next/navigation'
+import { logout } from '@/feature/auth/api'
 
 type Props = {
   children: ReactNode
-  logout: () => void
   onClick?: () => void
 }
-export const Layout = ({ children, onClick, logout }: Props) => {
+export const Layout = ({ children, onClick }: Props) => {
+  const router = useRouter()
+  const handleLogout = async () => {
+    await logout()
+    router.push('/login')
+  }
   return (
     <Box>
       <header>
         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <Button onClick={() => logout()}>ログアウト</Button>
+          <Button onClick={() => handleLogout()}>ログアウト</Button>
         </Box>
       </header>
       {children}

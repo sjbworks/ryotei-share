@@ -25,6 +25,18 @@ const authLink = setContext((_, { headers }) => {
   }
 })
 
+// const resetToken = onError(({ response, graphQLErrors, networkError }) => {
+//   console.log('response', response)
+//   console.log('graphQLErrors', graphQLErrors)
+//   console.log('networkError', networkError)
+//   // if (networkError && graphQLErrors?.[0].extensions?.code === 401) {
+//   // logout()
+//   // remove cached token on 401 from the server
+//   // store.dispatch(actions.signOut())
+//   // networkError = undefined
+//   // }
+// })
+
 // const errorLink = onError(({ graphQLErrors, networkError }) => {
 //   console.log('errorLink', graphQLErrors)
 //   if (graphQLErrors)
