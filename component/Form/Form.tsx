@@ -45,7 +45,7 @@ export const Form = ({ className, onSubmit, data, onClose, action, mode }: Props
   return (
     <div className={classProps}>
       {mode === 'delete' ? (
-        '削除しますか？'
+        <Box sx={{ paddingY: '16px' }}>この予定を削除しますか？</Box>
       ) : (
         <Box
           component="form"
