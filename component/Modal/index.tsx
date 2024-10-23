@@ -41,30 +41,3 @@ const modalStyle: CSSProperties = {
   textAlign: 'center',
   boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
 }
-
-const closeButtonStyle: CSSProperties = {
-  color: '#4169e1',
-  border: 'solid 1px #4169e1',
-  borderRadius: '8px',
-  borderColor: '#4169e1',
-  padding: '10px 20px',
-  fontSize: '13px',
-  cursor: 'pointer',
-  marginTop: '20px',
-}
-
-const actionButtonStyle: CSSProperties = {
-  backgroundColor: '#4169e1',
-  color: 'white',
-  borderRadius: '8px',
-  padding: '10px 20px',
-  fontSize: '13px',
-  cursor: 'pointer',
-  marginTop: '20px',
-}
-
-const buttonContainer: CSSProperties = {
-  display: 'flex',
-  justifyContent: 'space-between',
-  marginTop: '20px',
-}
