@@ -1,5 +1,5 @@
 'use client'
-import { useForm, Controller, SubmitHandler, set } from 'react-hook-form'
+import { Controller, SubmitHandler } from 'react-hook-form'
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import TextField from '@mui/material/TextField'
@@ -9,6 +9,7 @@ import clsx from 'clsx'
 import { RyoteiInsertInput } from '@/feature/api/graphql'
 import { ActionType } from '@/feature/ryotei/types'
 import ja from 'date-fns/locale/ja'
+import { useRyoteiForm } from './hooks'
 
 type Props = {
   className?: string
@@ -22,25 +23,19 @@ type Props = {
 }
 
 export const Form = ({ className, onSubmit, data, onClose, action, mode }: Props) => {
-  const datetime = new Date(data?.datetime)
   const {
     register,
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm<RyoteiInsertInput>({
-    reValidateMode: 'onBlur',
-    defaultValues: {
-      datetime,
-      description: data?.description,
-      id: data?.id,
-      user_id: data?.user_id,
-    },
-  })
+  } = useRyoteiForm(data)
+
   const handleClick: SubmitHandler<RyoteiInsertInput> = async (data) => {
     onSubmit && (await onSubmit(data))
   }
+
   const classProps = clsx('flex flex-col justify-between p-5', className)
+
   return (
     <div className={classProps}>
       {mode === 'delete' ? (
@@ -59,23 +54,21 @@ export const Form = ({ className, onSubmit, data, onClose, action, mode }: Props
           <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ja}>
             <Controller
               control={control}
+              name="datetime"
               rules={{ required: true }}
-              {...register('datetime', { required: true })}
-              render={({ field }) => {
-                return (
-                  <DateTimePicker
-                    {...field}
-                    slotProps={{
-                      textField: {
-                        variant: 'outlined',
-                        error: !!errors.datetime,
-                        helperText: errors.datetime && '日時を入力してください。',
-                      },
-                    }}
-                    className="block w-full"
-                  />
-                )
-              }}
+              render={({ field }) => (
+                <DateTimePicker
+                  {...field}
+                  slotProps={{
+                    textField: {
+                      variant: 'outlined',
+                      error: !!errors.datetime,
+                      helperText: errors.datetime && '日時を入力してください。',
+                    },
+                  }}
+                  className="block w-full"
+                />
+              )}
             />
           </LocalizationProvider>
           <TextField
