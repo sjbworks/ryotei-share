@@ -14,9 +14,10 @@ export type Action = keyof typeof action
 
 type Props = Plan & {
   onClick?: TimelineItemProps['onClick']
+  className?: string
 }
 
-export const MenuControl = ({ onClick, id, datetime, description }: Props) => {
+export const MenuControl = ({ onClick, id, datetime, description, className }: Props) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
   const onOpen = (e: MouseEvent<HTMLButtonElement>) => setAnchorEl(e.currentTarget)
   const onClose = () => setAnchorEl(null)
@@ -31,7 +32,7 @@ export const MenuControl = ({ onClick, id, datetime, description }: Props) => {
   }))
 
   return (
-    <div>
+    <div className={className}>
       <IconButton size="small" onClick={onOpen}>
         <MoreHorizIcon />
       </IconButton>

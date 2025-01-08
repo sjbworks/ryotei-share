@@ -33,7 +33,7 @@ export const TimelineItem: FC<TimelineItemProps> = (props) => {
         <TimelineConnector />
       </TimelineSeparator>
       <TimelineContent sx={{ paddingRight: 0 }}>
-        <div className="flex justify-between">
+        <div className="flex justify-between flex-start">
           <Typography variant="subtitle2" component="span" color="grey.500" sx={timeSx}>
             <AccessTimeIcon fontSize="small" sx={{ marginRight: '2px' }} />
             {time}
