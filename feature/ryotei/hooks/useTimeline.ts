@@ -61,14 +61,14 @@ export const useTimeline = (refetch: () => void) => {
       await setSelectedPlan(data)
       mode === 'edit'
         ? await updateRyotei({
-            variables: {
-              set: {
-                datetime: data?.datetime.toISOString(),
-                description: data?.description,
-              },
-              filter: { id: { eq: selectedPlan?.id } },
+          variables: {
+            set: {
+              datetime: data?.datetime.toISOString(),
+              description: data?.description,
             },
-          })
+            filter: { id: { eq: selectedPlan?.id } },
+          },
+        })
         : await deleteRyotei({ variables: { filter: { id: { eq: selectedPlan?.id } } } })
 
       await refetch()
@@ -76,7 +76,7 @@ export const useTimeline = (refetch: () => void) => {
     },
     onClose: () => setModalOpen(false),
     action: {
-      label: mode === 'edit' ? '編集' : '削除',
+      label: mode === 'edit' ? '更新' : '削除',
     },
     mode: mode,
   }
