@@ -6,7 +6,7 @@ import { useMemo } from 'react'
 import { useGetRyotei } from '../hooks/useGetRyotei'
 
 export const TimelineView = () => {
-  const containerStyle = 'flex flex-col justify-between p-10 max-w-xl m-auto container'
+  const containerStyle = 'flex flex-col justify-between p-10'
   const { data, refetch } = useGetRyotei()
   const { handleClick, bottomSheet, onMenuClick, formProps, bottomFormProps, isOpen } = useTimeline(refetch)
   const isExist = useMemo(() => data && Object.keys(data).length > 0, [data])

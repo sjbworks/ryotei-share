@@ -34,7 +34,7 @@ export const Form = ({ className, onSubmit, data, onClose, action, mode }: Props
     onSubmit && (await onSubmit(data))
   }
 
-  const classProps = clsx('flex flex-col justify-between p-5', className)
+  const classProps = clsx('flex flex-col justify-between p-5 box-border', className)
 
   return (
     <div className={classProps}>
@@ -76,6 +76,7 @@ export const Form = ({ className, onSubmit, data, onClose, action, mode }: Props
             error={!!errors.description}
             helperText={errors.description && '内容を入力してください。'}
             className="block w-full"
+            multiline
           />
         </Box>
       )}
