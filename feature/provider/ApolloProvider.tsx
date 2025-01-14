@@ -3,7 +3,8 @@
 import { HttpLink, from } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
 import { ApolloNextAppProvider, InMemoryCache, ApolloClient } from '@apollo/experimental-nextjs-app-support'
-import { getAccessTokenFromCookie } from '@/utils'
+import { getAccessTokenFromCookie, refreshAccessToken } from '@/utils'
+import { onError, ErrorResponse } from "@apollo/client/link/error";
 
 const httpLink = new HttpLink({
   // See more information about this GraphQL endpoint at https://studio.apollographql.com/public/spacex-l4uc6p/variant/main/home
@@ -15,7 +16,6 @@ const httpLink = new HttpLink({
 const authLink = setContext((_, { headers }) => {
   const key = `sb-${process.env.NEXT_PUBLIC_SUPABASE_PROJECT_ID!}-auth-token`
   const token = getAccessTokenFromCookie(key)
-  if (!token) window.location.replace('/login')
   return {
     headers: {
       ...headers,
@@ -25,30 +25,44 @@ const authLink = setContext((_, { headers }) => {
   }
 })
 
-// const resetToken = onError(({ response, graphQLErrors, networkError }) => {
-//   console.log('response', response)
-//   console.log('graphQLErrors', graphQLErrors)
-//   console.log('networkError', networkError)
-//   // if (networkError && graphQLErrors?.[0].extensions?.code === 401) {
-//   // logout()
-//   // remove cached token on 401 from the server
-//   // store.dispatch(actions.signOut())
-//   // networkError = undefined
-//   // }
-// })
+const refreshOrGoToLogin = (operation: ErrorResponse['operation'], forward: ErrorResponse['forward']) => {
+  refreshAccessToken()
+    .then((newToken) => {
+      if (newToken) {
+        operation.setContext(({ headers = {} }) => ({
+          headers: {
+            ...headers,
+            Authorization: `Bearer ${newToken}`,
+          },
+        }))
+        return forward(operation) // 再試行
+      }
+      window.location.replace('/login') // リフレッシュ失敗
+    })
+    .catch(() => {
+      window.location.replace('/login') // 他のエラーの場合もログイン画面へ
+    })
+}
 
-// const errorLink = onError(({ graphQLErrors, networkError }) => {
-//   console.log('errorLink', graphQLErrors)
-//   if (graphQLErrors)
-//     graphQLErrors.forEach(({ message, locations, path }) =>
-//       console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`)
-//     )
-//   if (networkError) console.log(`[Network error]: ${networkError}`)
-// })
+const errorLink = onError(({ graphQLErrors, networkError, operation, forward }) => {
+  console.log('neto', networkError)
+  console.log('graphQLErrors', graphQLErrors)
+  console.log('operation', graphQLErrors)
+  if (networkError?.statusCode === 401) {
+    return refreshOrGoToLogin(operation, forward)
+  }
+  if (graphQLErrors) {
+    for (const err of graphQLErrors) {
+      if (err.extensions?.code === 'UNAUTHENTICATED') {
+        return refreshOrGoToLogin(operation, forward)
+      }
+    }
+  }
+})
 
 const makeClient = () =>
   new ApolloClient({
-    link: from([authLink, httpLink]),
+    link: from([errorLink, authLink, httpLink,]),
     cache: new InMemoryCache(),
   })
 
