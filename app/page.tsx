@@ -1,4 +1,4 @@
-import { TimelineView } from '@/feature/ryotei/components/TimelineView'
+import { MainView } from '@/feature/ryotei/components/MainView'
 import { Layout } from '@/component'
 
 export default async function Home() {
@@ -7,7 +7,7 @@ export default async function Home() {
   return (
     <main className={containerStyle}>
       <Layout>
-        <TimelineView />
+        <MainView />
       </Layout>
     </main>
   )

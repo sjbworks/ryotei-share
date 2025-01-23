@@ -1,11 +1,11 @@
 'use client'
 
-import { Timeline, BottomSheet, Modal, Form, Button, AddIcon, NoData } from '@/component'
+import { Timeline, Drawer, Modal, Form, Button, AddIcon, NoData } from '@/component'
 import { useTimeline } from '@/feature/ryotei/hooks/useTimeline'
 import { useMemo } from 'react'
 import { useGetRyotei } from '../hooks/useGetRyotei'
 
-export const TimelineView = () => {
+export const MainView = () => {
   const containerStyle = 'flex flex-col justify-between p-10'
   const { data, refetch } = useGetRyotei()
   const { handleClick, bottomSheet, onMenuClick, formProps, bottomFormProps, isOpen } = useTimeline(refetch)
@@ -27,9 +27,10 @@ export const TimelineView = () => {
       <Modal isOpen={isOpen}>
         <Form {...formProps} />
       </Modal>
-      <BottomSheet {...bottomSheet}>
+      {/* <Drawer anchor='left'>aa</Drawer> */}
+      <Drawer {...bottomSheet} anchor={'bottom'}>
         <Form className={containerStyle} {...bottomFormProps} />
-      </BottomSheet>
+      </Drawer>
     </>
   )
 }

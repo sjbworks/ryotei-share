@@ -1,1 +1,1 @@
-export * from './TimelineView'
+export * from './MainView'
