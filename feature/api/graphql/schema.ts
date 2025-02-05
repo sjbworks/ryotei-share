@@ -179,10 +179,16 @@ export type Mutation = {
   __typename?: 'Mutation'
   /** Deletes zero or more records from the `ryotei` collection */
   deleteFromryoteiCollection: RyoteiDeleteResponse
+  /** Deletes zero or more records from the `trips` collection */
+  deleteFromtripsCollection: TripsDeleteResponse
   /** Adds one or more `ryotei` records to the collection */
   insertIntoryoteiCollection?: Maybe<RyoteiInsertResponse>
+  /** Adds one or more `trips` records to the collection */
+  insertIntotripsCollection?: Maybe<TripsInsertResponse>
   /** Updates zero or more records in the `ryotei` collection */
   updateryoteiCollection: RyoteiUpdateResponse
+  /** Updates zero or more records in the `trips` collection */
+  updatetripsCollection: TripsUpdateResponse
 }
 
 /** The root type for creating and mutating data */
@@ -192,8 +198,19 @@ export type MutationDeleteFromryoteiCollectionArgs = {
 }
 
 /** The root type for creating and mutating data */
+export type MutationDeleteFromtripsCollectionArgs = {
+  atMost?: Scalars['Int']['input']
+  filter?: InputMaybe<TripsFilter>
+}
+
+/** The root type for creating and mutating data */
 export type MutationInsertIntoryoteiCollectionArgs = {
   objects: Array<RyoteiInsertInput>
+}
+
+/** The root type for creating and mutating data */
+export type MutationInsertIntotripsCollectionArgs = {
+  objects: Array<TripsInsertInput>
 }
 
 /** The root type for creating and mutating data */
@@ -201,6 +218,13 @@ export type MutationUpdateryoteiCollectionArgs = {
   atMost?: Scalars['Int']['input']
   filter?: InputMaybe<RyoteiFilter>
   set: RyoteiUpdateInput
+}
+
+/** The root type for creating and mutating data */
+export type MutationUpdatetripsCollectionArgs = {
+  atMost?: Scalars['Int']['input']
+  filter?: InputMaybe<TripsFilter>
+  set: TripsUpdateInput
 }
 
 export type Node = {
@@ -241,6 +265,8 @@ export type Query = {
   node?: Maybe<Node>
   /** A pagable collection of type `ryotei` */
   ryoteiCollection?: Maybe<RyoteiConnection>
+  /** A pagable collection of type `trips` */
+  tripsCollection?: Maybe<TripsConnection>
 }
 
 /** The root type for querying data */
@@ -257,6 +283,17 @@ export type QueryRyoteiCollectionArgs = {
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
   orderBy?: InputMaybe<Array<RyoteiOrderBy>>
+}
+
+/** The root type for querying data */
+export type QueryTripsCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  before?: InputMaybe<Scalars['Cursor']['input']>
+  filter?: InputMaybe<TripsFilter>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
+  orderBy?: InputMaybe<Array<TripsOrderBy>>
 }
 
 /** Boolean expression comparing fields on type "String" */
@@ -331,6 +368,8 @@ export type Ryotei = Node & {
   id: Scalars['UUID']['output']
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output']
+  trip_id?: Maybe<Scalars['UUID']['output']>
+  trips?: Maybe<Trips>
   update_at?: Maybe<Scalars['Datetime']['output']>
   user_id?: Maybe<Scalars['UUID']['output']>
 }
@@ -367,6 +406,7 @@ export type RyoteiFilter = {
   not?: InputMaybe<RyoteiFilter>
   /** Returns true if at least one of its inner filters is true, otherwise returns false */
   or?: InputMaybe<Array<RyoteiFilter>>
+  trip_id?: InputMaybe<UuidFilter>
   update_at?: InputMaybe<DatetimeFilter>
   user_id?: InputMaybe<UuidFilter>
 }
@@ -376,6 +416,7 @@ export type RyoteiInsertInput = {
   datetime?: InputMaybe<Scalars['Datetime']['input']>
   description?: InputMaybe<Scalars['String']['input']>
   id?: InputMaybe<Scalars['UUID']['input']>
+  trip_id?: InputMaybe<Scalars['UUID']['input']>
   update_at?: InputMaybe<Scalars['Datetime']['input']>
   user_id?: InputMaybe<Scalars['UUID']['input']>
 }
@@ -393,6 +434,7 @@ export type RyoteiOrderBy = {
   datetime?: InputMaybe<OrderByDirection>
   description?: InputMaybe<OrderByDirection>
   id?: InputMaybe<OrderByDirection>
+  trip_id?: InputMaybe<OrderByDirection>
   update_at?: InputMaybe<OrderByDirection>
   user_id?: InputMaybe<OrderByDirection>
 }
@@ -402,6 +444,7 @@ export type RyoteiUpdateInput = {
   datetime?: InputMaybe<Scalars['Datetime']['input']>
   description?: InputMaybe<Scalars['String']['input']>
   id?: InputMaybe<Scalars['UUID']['input']>
+  trip_id?: InputMaybe<Scalars['UUID']['input']>
   update_at?: InputMaybe<Scalars['Datetime']['input']>
   user_id?: InputMaybe<Scalars['UUID']['input']>
 }
@@ -412,4 +455,96 @@ export type RyoteiUpdateResponse = {
   affectedCount: Scalars['Int']['output']
   /** Array of records impacted by the mutation */
   records: Array<Ryotei>
+}
+
+export type Trips = Node & {
+  __typename?: 'trips'
+  created_at: Scalars['Datetime']['output']
+  id: Scalars['UUID']['output']
+  name?: Maybe<Scalars['String']['output']>
+  /** Globally Unique Record Identifier */
+  nodeId: Scalars['ID']['output']
+  ryoteiCollection?: Maybe<RyoteiConnection>
+  user_id?: Maybe<Scalars['UUID']['output']>
+}
+
+export type TripsRyoteiCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  before?: InputMaybe<Scalars['Cursor']['input']>
+  filter?: InputMaybe<RyoteiFilter>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
+  orderBy?: InputMaybe<Array<RyoteiOrderBy>>
+}
+
+export type TripsConnection = {
+  __typename?: 'tripsConnection'
+  edges: Array<TripsEdge>
+  pageInfo: PageInfo
+}
+
+export type TripsDeleteResponse = {
+  __typename?: 'tripsDeleteResponse'
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output']
+  /** Array of records impacted by the mutation */
+  records: Array<Trips>
+}
+
+export type TripsEdge = {
+  __typename?: 'tripsEdge'
+  cursor: Scalars['String']['output']
+  node: Trips
+}
+
+export type TripsFilter = {
+  /** Returns true only if all its inner filters are true, otherwise returns false */
+  and?: InputMaybe<Array<TripsFilter>>
+  created_at?: InputMaybe<DatetimeFilter>
+  id?: InputMaybe<UuidFilter>
+  name?: InputMaybe<StringFilter>
+  nodeId?: InputMaybe<IdFilter>
+  /** Negates a filter */
+  not?: InputMaybe<TripsFilter>
+  /** Returns true if at least one of its inner filters is true, otherwise returns false */
+  or?: InputMaybe<Array<TripsFilter>>
+  user_id?: InputMaybe<UuidFilter>
+}
+
+export type TripsInsertInput = {
+  created_at?: InputMaybe<Scalars['Datetime']['input']>
+  id?: InputMaybe<Scalars['UUID']['input']>
+  name?: InputMaybe<Scalars['String']['input']>
+  user_id?: InputMaybe<Scalars['UUID']['input']>
+}
+
+export type TripsInsertResponse = {
+  __typename?: 'tripsInsertResponse'
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output']
+  /** Array of records impacted by the mutation */
+  records: Array<Trips>
+}
+
+export type TripsOrderBy = {
+  created_at?: InputMaybe<OrderByDirection>
+  id?: InputMaybe<OrderByDirection>
+  name?: InputMaybe<OrderByDirection>
+  user_id?: InputMaybe<OrderByDirection>
+}
+
+export type TripsUpdateInput = {
+  created_at?: InputMaybe<Scalars['Datetime']['input']>
+  id?: InputMaybe<Scalars['UUID']['input']>
+  name?: InputMaybe<Scalars['String']['input']>
+  user_id?: InputMaybe<Scalars['UUID']['input']>
+}
+
+export type TripsUpdateResponse = {
+  __typename?: 'tripsUpdateResponse'
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output']
+  /** Array of records impacted by the mutation */
+  records: Array<Trips>
 }

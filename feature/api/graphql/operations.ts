@@ -33,6 +33,21 @@ export type GetRyoteiQuery = {
   } | null
 }
 
+export type GetTripsQueryVariables = Types.Exact<{
+  orderBy?: Types.InputMaybe<Array<Types.TripsOrderBy> | Types.TripsOrderBy>
+}>
+
+export type GetTripsQuery = {
+  __typename?: 'Query'
+  tripsCollection?: {
+    __typename?: 'tripsConnection'
+    edges: Array<{
+      __typename?: 'tripsEdge'
+      node: { __typename?: 'trips'; created_at: any; id: any; name?: string | null }
+    }>
+  } | null
+}
+
 export type UpdateryoteiCollectionMutationVariables = Types.Exact<{
   set: Types.RyoteiUpdateInput
   filter?: Types.InputMaybe<Types.RyoteiFilter>

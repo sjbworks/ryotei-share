@@ -1,0 +1,11 @@
+query GetTrips($orderBy: [tripsOrderBy!]) {
+  tripsCollection(orderBy: $orderBy) {
+    edges {
+      node {
+        created_at
+        id
+        name
+      }
+    }
+  }
+}
