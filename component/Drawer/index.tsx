@@ -12,11 +12,11 @@ type Props = {
   styles?: GlobalProps['styles']
 }
 export const Drawer: FC<Props> = (props) => {
-  const { open, onClose, onOpen, children, className, styles } = props
+  const { open, onClose, onOpen, children, className, styles, anchor } = props
   return (
     <>
       {styles && <Global styles={styles} />}
-      <SwipeableDrawer open={open} onClose={onClose} onOpen={onOpen} anchor="bottom" className={className} >
+      <SwipeableDrawer open={open} onClose={onClose} onOpen={onOpen} anchor={anchor} className={className} >
         {children}
       </SwipeableDrawer>
     </>
