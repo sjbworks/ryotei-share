@@ -1,43 +1,27 @@
 'use client'
 
-import { Timeline, Drawer, Modal, Form, Button, AddIcon, MenuIcon, NoData } from '@/component'
+import { Drawer, Modal, Form, Button, AddIcon, MenuIcon } from '@/component'
 import { useTimeline } from '@/feature/ryotei/hooks/useTimeline'
 import { useMemo } from 'react'
 import { useGetRyotei } from '../hooks/useGetRyotei'
 import { useRyoteiList } from '../hooks/useRyoteiList'
 import { Typography } from '@mui/material'
-
-type MainViewProps = {
-  id: string
-  title: string
-}
+import { TimelineView } from './TimelineView'
 
 const drawerBleeding = 56;
 
-export const MainView = ({ id, title }: MainViewProps) => {
+export const MainView = () => {
   const containerStyle = 'flex flex-col justify-between p-10'
-  const { data, refetch } = useGetRyotei()
-  const { handleClick, bottomSheet, onMenuClick, formProps, bottomFormProps, isOpen } = useTimeline(refetch)
-  const { handleMenuClick, sideOpen, onSideClose, onSideOpen, trips } = useRyoteiList()
-  const isExist = useMemo(() => data && Object.keys(data).length > 0, [data])
-
+  const { refetch } = useGetRyotei()
+  const { handleClick, bottomSheet, formProps, bottomFormProps, isOpen } = useTimeline(refetch)
+  const { handleMenuClick, sideOpen, onSideClose, onSideOpen, trips, selectedTripId } = useRyoteiList()
 
   return (
     <>
       <Button variant="text" className="flex mt-4 items-center justify-items-center" onClick={handleMenuClick}>
         <MenuIcon />
       </Button>
-      {isExist ? (
-        <div>
-          <Typography>{title}</Typography>
-          {
-            Object.entries(data || {}).map(([key, item]) => (
-              <Timeline key={key} title={key} items={item} onClick={onMenuClick} className="mb-3" />
-            ))}
-        </div>
-      ) : (
-        <NoData />
-      )}
+      <TimelineView title={title} />
       <Button variant="text" className="flex mt-4 items-center justify-items-center" onClick={handleClick}>
         <AddIcon />
         旅程を登録

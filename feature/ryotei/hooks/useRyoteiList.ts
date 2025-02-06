@@ -17,5 +17,9 @@ export const useRyoteiList = () => {
     })
     const trips = data?.tripsCollection?.edges?.map(({ node: { id, name } }) => ({ id, name }))
 
-    return { sideOpen, handleMenuClick, onSideClose, onSideOpen, trips }
+    const [selectedTripId, setSelectedTripId] = useState(trips?.[0].id)
+    const onChangeTripId = (tripId: string) => setSelectedTripId(tripId)
+    const title = trips?.filter(({ id }) => id === selectedTripId)[0].name || ''
+
+    return { sideOpen, handleMenuClick, onSideClose, onSideOpen, trips, title, onChangeTripId }
 }
