@@ -60,10 +60,13 @@ export const updateSession = async (request: NextRequest) => {
     data: { session },
   } = await supabase.auth.getSession()
 
-  if (!request.nextUrl.pathname.startsWith('/login') && !session) {
+  const { expires_at } = session || {}
+
+  if ((!request.nextUrl.pathname.startsWith('/login') && session === null) || isTokenExpired(expires_at)) {
     // no user, potentially respond by redirecting the user to the login page
     const url = request.nextUrl.clone()
     url.pathname = '/login'
+    return NextResponse.rewrite(url)
   }
 
   if (session && request.nextUrl.pathname.includes('/login')) {
