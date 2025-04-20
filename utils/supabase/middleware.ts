@@ -14,63 +14,28 @@ export const updateSession = async (request: NextRequest) => {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
-        get(name: string) {
-          return request.cookies.get(name)?.value
+        getAll() {
+          return request.cookies.getAll()
         },
-        set(name: string, value: string, options: CookieOptions) {
-          request.cookies.set({
-            name,
-            value,
-            ...options,
-          })
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value, options }) => request.cookies.set(name, value))
           response = NextResponse.next({
-            request: {
-              headers: request.headers,
-            },
+            request,
           })
-          response.cookies.set({
-            name,
-            value,
-            ...options,
-          })
-        },
-        remove(name: string, options: CookieOptions) {
-          request.cookies.set({
-            name,
-            value: '',
-            ...options,
-          })
-          response = NextResponse.next({
-            request: {
-              headers: request.headers,
-            },
-          })
-          response.cookies.set({
-            name,
-            value: '',
-            ...options,
-          })
+          cookiesToSet.forEach(({ name, value, options }) => response.cookies.set(name, value, options))
         },
       },
     }
   )
 
-  // refreshing the auth token
   const {
-    data: { session },
-  } = await supabase.auth.getSession()
-
-  const { expires_at } = session || {}
-
-  if ((!request.nextUrl.pathname.startsWith('/login') && session === null) || isTokenExpired(expires_at)) {
+    data: { user },
+  } = await supabase.auth.getUser()
+  if (!user && !request.nextUrl.pathname.startsWith('/login') && !request.nextUrl.pathname.startsWith('/auth')) {
     // no user, potentially respond by redirecting the user to the login page
     const url = request.nextUrl.clone()
     url.pathname = '/login'
-    return NextResponse.rewrite(url)
-  }
-
-  if (session && request.nextUrl.pathname.includes('/login')) {
-    return NextResponse.redirect('/')
+    return NextResponse.redirect(url)
   }
 
   return response
