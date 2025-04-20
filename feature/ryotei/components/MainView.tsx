@@ -8,7 +8,7 @@ import { useRyoteiList } from '../hooks/useRyoteiList'
 import { Typography } from '@mui/material'
 import { TimelineView } from './TimelineView'
 
-const drawerBleeding = 56;
+const drawerBleeding = 56
 
 export const MainView = () => {
   const containerStyle = 'flex flex-col justify-between p-10'
@@ -29,9 +29,9 @@ export const MainView = () => {
       <Modal isOpen={isOpen}>
         <Form {...formProps} />
       </Modal>
-      <Drawer anchor='left' open={sideOpen} onClose={onSideClose} onOpen={onSideOpen}>{trips?.map((trip) => (
-        <Typography>{trip.name}</Typography>
-      ))}</Drawer>
+      <Drawer anchor="left" open={sideOpen} onClose={onSideClose} onOpen={onSideOpen}>
+        {trips?.map((trip) => <Typography>{trip.name}</Typography>)}
+      </Drawer>
       <Drawer {...bottomSheet} anchor="bottom">
         <Form className={containerStyle} {...bottomFormProps} />
       </Drawer>
