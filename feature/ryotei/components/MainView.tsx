@@ -14,7 +14,7 @@ export const MainView = () => {
   const containerStyle = 'flex flex-col justify-between p-10'
   const { refetch } = useGetRyotei()
   const { handleClick, bottomSheet, formProps, bottomFormProps, isOpen } = useTimeline(refetch)
-  const { handleMenuClick, sideOpen, onSideClose, onSideOpen, trips, selectedTripId } = useRyoteiList()
+  const { handleMenuClick, sideOpen, onSideClose, onSideOpen, trips, selectedTripId, title } = useRyoteiList()
 
   return (
     <>
