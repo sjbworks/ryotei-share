@@ -30,7 +30,7 @@ export const MainView = () => {
         <Form {...formProps} />
       </Modal>
       <Drawer anchor="left" open={sideOpen} onClose={onSideClose} onOpen={onSideOpen}>
-        {trips?.map((trip) => <Typography>{trip.name}</Typography>)}
+        {trips?.map((trip) => <Typography key={trip.id}>{trip.name}</Typography>)}
       </Drawer>
       <Drawer {...bottomSheet} anchor="bottom">
         <Form className={containerStyle} {...bottomFormProps} />
