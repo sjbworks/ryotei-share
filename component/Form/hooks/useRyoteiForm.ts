@@ -11,6 +11,7 @@ export const useRyoteiForm = (data?: RyoteiInsertInput | null) => {
       description: data?.description,
       id: data?.id,
       user_id: data?.user_id,
+      trip_id: data?.trip_id,
     },
   })
 }
