@@ -23,6 +23,7 @@ type Props = {
 }
 
 export const Form = ({ className, onSubmit, data, onClose, action, mode }: Props) => {
+  console.log('Form mode', mode)
   const {
     register,
     handleSubmit,
@@ -31,6 +32,7 @@ export const Form = ({ className, onSubmit, data, onClose, action, mode }: Props
   } = useRyoteiForm(data)
 
   const handleClick: SubmitHandler<RyoteiInsertInput> = async (data) => {
+    console.log('Form data', data)
     onSubmit && (await onSubmit(data))
   }
 
