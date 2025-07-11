@@ -32,6 +32,9 @@ export const useTimeline = (refetch: () => void) => {
     setModalOpen(true)
     setMode(action)
     setSelectedPlan(plan)
+    console.log('action', action)
+    console.log('modalOpen', modalOpen)
+    console.log('selectedPlan', selectedPlan)
   }
   const [addRyotei] = useMutation<AddRyoteiMutation, AddRyoteiMutationVariables>(MUTATION_ADD_RYOTEI)
   const [deleteRyotei] = useMutation<DeleteRyoteiMutation, DeleteRyoteiMutationVariables>(MUTATION_DELETE_RYOTEI)
@@ -58,17 +61,18 @@ export const useTimeline = (refetch: () => void) => {
     isOpen: modalOpen,
     data: selectedPlan,
     onSubmit: async (data: RyoteiInsertInput) => {
+      console.log('onSubmit', data, mode, selectedPlan)
       await setSelectedPlan(data)
       mode === 'edit'
         ? await updateRyotei({
-          variables: {
-            set: {
-              datetime: data?.datetime.toISOString(),
-              description: data?.description,
+            variables: {
+              set: {
+                datetime: data?.datetime.toISOString(),
+                description: data?.description,
+              },
+              filter: { id: { eq: selectedPlan?.id } },
             },
-            filter: { id: { eq: selectedPlan?.id } },
-          },
-        })
+          })
         : await deleteRyotei({ variables: { filter: { id: { eq: selectedPlan?.id } } } })
 
       await refetch()
@@ -89,7 +93,7 @@ export const useTimeline = (refetch: () => void) => {
     handleClick,
     onMenuClick,
     formProps,
-    isOpen: modalOpen,
+    modalOpen,
     bottomFormProps,
   }
 }

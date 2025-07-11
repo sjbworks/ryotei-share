@@ -17,14 +17,14 @@ export const useGetRyotei = () => {
 
   const res = data?.ryoteiCollection?.edges?.map((edge) => edge.node)
   const grouped: Record<string, Plan[]> | undefined = res?.reduce(
-    (acc: Record<string, Plan[]>, { id, datetime, description }: Plan) => {
+    (acc: Record<string, Plan[]>, { id, datetime, description, trip_id }: Plan) => {
       const rowTZDate = new TZDate(datetime + 'Z')
       const formatDate = format(rowTZDate, 'yyyy-MM-dd', { locale: ja })
       const formatRowDate = format(rowTZDate, "yyyy-MM-dd'T'HH:mm:ss.SS", { locale: ja })
       if (!acc[formatDate]) {
         acc[formatDate] = []
       }
-      acc[formatDate].push({ datetime: formatRowDate, description, id })
+      acc[formatDate].push({ datetime: formatRowDate, description, id, trip_id })
       acc[formatDate].sort((a, b) => a.datetime.localeCompare(b.datetime))
       return acc
     },

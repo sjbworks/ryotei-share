@@ -5,6 +5,7 @@ query GetRyotei($orderBy: [ryoteiOrderBy!]) {
         id
         description
         datetime
+        trip_id
       }
     }
   }

@@ -17,17 +17,18 @@ type Props = Plan & {
   className?: string
 }
 
-export const MenuControl = ({ onClick, id, datetime, description, className }: Props) => {
+export const MenuControl = ({ onClick, id, datetime, description, className, trip_id }: Props) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
   const onOpen = (e: MouseEvent<HTMLButtonElement>) => setAnchorEl(e.currentTarget)
   const onClose = () => setAnchorEl(null)
   const onItemClick = (action: Action, value: Plan) => {
+    console.log('MenuControl onItemClick', action, value)
     onClose()
     onClick?.(action, value)
   }
   const items = Object.entries(action).map(([key, Icon]) => ({
     label: key as Action,
-    action: () => onItemClick(key as Action, { id, datetime, description }),
+    action: () => onItemClick(key as Action, { id, datetime, description, trip_id }),
     icon: <Icon />,
   }))
 

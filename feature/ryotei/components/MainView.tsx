@@ -2,7 +2,7 @@
 
 import { Drawer, Modal, Form, Button, AddIcon, MenuIcon } from '@/component'
 import { useTimeline } from '@/feature/ryotei/hooks/useTimeline'
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useGetRyotei } from '../hooks/useGetRyotei'
 import { useRyoteiList } from '../hooks/useRyoteiList'
 import { Typography } from '@mui/material'
@@ -13,9 +13,12 @@ const drawerBleeding = 56
 export const MainView = () => {
   const containerStyle = 'flex flex-col justify-between p-10'
   const { refetch } = useGetRyotei()
-  const { handleClick, bottomSheet, formProps, bottomFormProps, isOpen } = useTimeline(refetch)
+  const { handleClick, bottomSheet, formProps, bottomFormProps, modalOpen } = useTimeline(refetch)
   const { handleMenuClick, sideOpen, onSideClose, onSideOpen, trips, selectedTripId, title } = useRyoteiList()
 
+  useEffect(() => {
+    console.log('isOpen', modalOpen)
+  }, [modalOpen])
   return (
     <>
       <Button variant="text" className="flex mt-4 items-center justify-items-center" onClick={handleMenuClick}>
@@ -26,7 +29,7 @@ export const MainView = () => {
         <AddIcon />
         旅程を登録
       </Button>
-      <Modal isOpen={isOpen}>
+      <Modal isOpen={modalOpen}>
         <Form {...formProps} />
       </Modal>
       <Drawer anchor="left" open={sideOpen} onClose={onSideClose} onOpen={onSideOpen}>

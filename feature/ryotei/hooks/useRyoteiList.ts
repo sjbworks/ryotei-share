@@ -5,7 +5,9 @@ import { useQuery } from '@apollo/client'
 
 export const useRyoteiList = () => {
   const [sideOpen, setSideOpen] = useState(false)
-  const handleMenuClick = () => setSideOpen(!sideOpen)
+  const handleMenuClick = () => {
+    setSideOpen(!sideOpen)
+  }
   const onSideClose = () => setSideOpen(false)
   const onSideOpen = () => setSideOpen(true)
 
@@ -21,5 +23,5 @@ export const useRyoteiList = () => {
   const onChangeTripId = (tripId: string) => setSelectedTripId(tripId)
   const title = trips?.filter(({ id }) => id === selectedTripId)[0]?.name || ''
 
-  return { sideOpen, handleMenuClick, onSideClose, onSideOpen, trips, title, onChangeTripId }
+  return { sideOpen, handleMenuClick, onSideClose, onSideOpen, trips, title, onChangeTripId, selectedTripId }
 }
