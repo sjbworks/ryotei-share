@@ -7,9 +7,10 @@ import { format } from 'date-fns'
 import { TZDate } from '@date-fns/tz'
 import { ja } from 'date-fns/locale/ja'
 
-export const useGetRyotei = () => {
+export const useGetRyotei = (selectedTripId?: string) => {
   const variables: GetRyoteiQueryVariables = {
     orderBy: [{ datetime: OrderByDirection.AscNullsLast }],
+    filter: selectedTripId ? { trip_id: { eq: selectedTripId } } : undefined,
   }
   const { data, refetch } = useQuery<GetRyoteiQuery, GetRyoteiQueryVariables>(QUERY_GET_RYOTEI, {
     variables,
@@ -17,7 +18,8 @@ export const useGetRyotei = () => {
 
   const res = data?.ryoteiCollection?.edges?.map((edge) => edge.node)
   const grouped: Record<string, Plan[]> | undefined = res?.reduce(
-    (acc: Record<string, Plan[]>, { id, datetime, description, trip_id }: Plan) => {
+    (acc: Record<string, Plan[]>, node) => {
+      const { id, datetime, description, trip_id } = node
       const rowTZDate = new TZDate(datetime + 'Z')
       const formatDate = format(rowTZDate, 'yyyy-MM-dd', { locale: ja })
       const formatRowDate = format(rowTZDate, "yyyy-MM-dd'T'HH:mm:ss.SS", { locale: ja })

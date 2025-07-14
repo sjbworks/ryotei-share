@@ -1,5 +1,5 @@
-query GetRyotei($orderBy: [ryoteiOrderBy!]) {
-  ryoteiCollection(orderBy: $orderBy) {
+query GetRyotei($orderBy: [ryoteiOrderBy!], $filter: ryoteiFilter) {
+  ryoteiCollection(orderBy: $orderBy, filter: $filter) {
     edges {
       node {
         id

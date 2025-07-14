@@ -20,6 +20,7 @@ export type DeleteFromryoteiCollectionMutation = {
 
 export type GetRyoteiQueryVariables = Types.Exact<{
   orderBy?: Types.InputMaybe<Array<Types.RyoteiOrderBy> | Types.RyoteiOrderBy>
+  filter?: Types.InputMaybe<Types.RyoteiFilter>
 }>
 
 export type GetRyoteiQuery = {

@@ -17,7 +17,7 @@ import {
 
 type Ryotei = Array<RyoteiInsertInput>
 
-export const useTimeline = (refetch: () => void) => {
+export const useTimeline = (refetch: () => void, selectedTripId?: string) => {
   const [modalOpen, setModalOpen] = useState(false)
   const [bottomOpen, setBottomOpen] = useState(false)
   const handleClick = () => setBottomOpen(!bottomOpen)
@@ -32,9 +32,6 @@ export const useTimeline = (refetch: () => void) => {
     setModalOpen(true)
     setMode(action)
     setSelectedPlan(plan)
-    console.log('action', action)
-    console.log('modalOpen', modalOpen)
-    console.log('selectedPlan', selectedPlan)
   }
   const [addRyotei] = useMutation<AddRyoteiMutation, AddRyoteiMutationVariables>(MUTATION_ADD_RYOTEI)
   const [deleteRyotei] = useMutation<DeleteRyoteiMutation, DeleteRyoteiMutationVariables>(MUTATION_DELETE_RYOTEI)
@@ -42,7 +39,11 @@ export const useTimeline = (refetch: () => void) => {
 
   const setNewData = async (newData: RyoteiInsertInput) => {
     try {
-      await addRyotei({ variables: { objects: newData } })
+      const dataWithTripId: RyoteiInsertInput = {
+        ...newData,
+        trip_id: newData.trip_id || selectedTripId,
+      }
+      await addRyotei({ variables: { objects: dataWithTripId } })
       await refetch()
       onBottomClose()
     } catch (e) {
@@ -61,7 +62,6 @@ export const useTimeline = (refetch: () => void) => {
     isOpen: modalOpen,
     data: selectedPlan,
     onSubmit: async (data: RyoteiInsertInput) => {
-      console.log('onSubmit', data, mode, selectedPlan)
       await setSelectedPlan(data)
       mode === 'edit'
         ? await updateRyotei({

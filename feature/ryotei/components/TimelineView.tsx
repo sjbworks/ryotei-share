@@ -1,16 +1,18 @@
 import { useGetRyotei } from '../hooks/useGetRyotei'
-import { useTimeline } from '../hooks/useTimeline'
 import { useMemo } from 'react'
 import { Timeline, NoData } from '@/component'
 import { Typography } from '@mui/material'
+import { ActionType } from '@/feature/ryotei/types'
+import { Plan } from '@/component/Timeline/TimelineItem'
 
 type Props = {
   title: string
+  selectedTripId?: string
+  onMenuClick?: (action: ActionType, plan: Plan) => void
 }
 
-export const TimelineView = ({ title }: Props) => {
-  const { data, refetch } = useGetRyotei()
-  const { onMenuClick } = useTimeline(refetch)
+export const TimelineView = ({ title, selectedTripId, onMenuClick }: Props) => {
+  const { data } = useGetRyotei(selectedTripId)
   const isExist = useMemo(() => data && Object.keys(data).length > 0, [data])
   if (!isExist) return <NoData />
 

@@ -31,9 +31,9 @@ export const Form = ({ className, onSubmit, data, onClose, action, mode }: Props
     formState: { errors },
   } = useRyoteiForm(data)
 
-  const handleClick: SubmitHandler<RyoteiInsertInput> = async (data) => {
-    console.log('Form data', data)
-    onSubmit && (await onSubmit(data))
+  const handleClick: SubmitHandler<RyoteiInsertInput> = async (formData) => {
+    const submitData = mode === 'delete' ? data : formData
+    onSubmit && (await onSubmit(submitData as RyoteiInsertInput))
   }
 
   const classProps = clsx('flex flex-col justify-between p-5 box-border', className)
@@ -86,7 +86,11 @@ export const Form = ({ className, onSubmit, data, onClose, action, mode }: Props
         <Button onClick={() => onClose?.()} className="block w-full">
           キャンセル
         </Button>
-        <Button onClick={handleSubmit(handleClick)} className="block w-full" variant="contained">
+        <Button 
+          onClick={mode === 'delete' ? () => handleClick(data as RyoteiInsertInput) : handleSubmit(handleClick)} 
+          className="block w-full" 
+          variant="contained"
+        >
           {action?.label || '登録'}
         </Button>
       </div>
