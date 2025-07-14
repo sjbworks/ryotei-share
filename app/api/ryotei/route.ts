@@ -3,6 +3,10 @@ import { NextResponse, NextRequest } from 'next/server'
 
 const ERROR_CODE_UNAUTHORIZED = '401'
 
+/**
+ * Retrieves all ryotei records for the authenticated user
+ * Validates user session and returns user-specific ryotei data including id, description, and datetime
+ */
 export async function GET(_req: NextRequest, _res: NextResponse) {
   try {
     const supabase = createClientForServer()
@@ -23,6 +27,10 @@ export async function GET(_req: NextRequest, _res: NextResponse) {
   }
 }
 
+/**
+ * Creates a new ryotei record for the authenticated user
+ * Validates user session, associates the record with the current user_id, and inserts the data into the database
+ */
 export async function POST(req: NextRequest, _res: NextResponse) {
   try {
     const supabase = createClientForServer()
