@@ -1,5 +1,5 @@
 import { Timeline as TimelineComponent } from '../index'
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/nextjs'
 import { ComponentProps } from 'react'
 
 type Props = ComponentProps<typeof TimelineComponent>

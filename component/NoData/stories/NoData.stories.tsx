@@ -1,5 +1,5 @@
 import { NoData as NoDataComponent } from '../NoData'
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/nextjs'
 
 const meta: Meta<typeof NoDataComponent> = {
   component: NoDataComponent,
