@@ -4,6 +4,7 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
 import HikingIcon from '@mui/icons-material/Hiking'
-import MenuIcon from '@mui/icons-material/Menu';
+import MenuIcon from '@mui/icons-material/Menu'
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 
-export { AccessTimeIcon, AddIcon, MoreHorizIcon, EditIcon, DeleteIcon, HikingIcon, MenuIcon }
+export { AccessTimeIcon, AddIcon, MoreHorizIcon, EditIcon, DeleteIcon, HikingIcon, MenuIcon, ArrowForwardIosIcon }
