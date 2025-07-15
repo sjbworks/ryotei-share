@@ -6,7 +6,7 @@ import { ApolloProvider } from '@/feature/provider/ApolloProvider'
 const inter = Inter({ subsets: ['latin'] })
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const className = clsx(inter.className)
+  const className = clsx(inter.className,'p-5 gap-2.5 flex flex-col')
   return (
     <html lang="en">
       <body className={className}>
