@@ -1,4 +1,4 @@
-import { Drawer as DrawerComponent } from '../index'
+import { BottomDrawer as DrawerComponent } from '../BottomDrawer'
 import type { Meta, StoryObj } from '@storybook/nextjs'
 import { useState } from 'react'
 
