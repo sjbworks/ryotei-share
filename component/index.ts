@@ -1,4 +1,4 @@
-export * from './Drawer'
+export * from './Drawer/BottomDrawer'
 export * from './Timeline'
 export * from './Icon'
 export * from './Layout'
