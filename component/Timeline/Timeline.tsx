@@ -15,7 +15,7 @@ export const Timeline: FC<TimeLineProps> = (props) => {
   const { title, items, className, onClick } = props
   return (
     <Box className={className}>
-      <Typography variant="h5" color="grey.700">
+      <Typography variant="h6" color="grey.700">
         {title}
       </Typography>
       <MUITimeline
@@ -24,6 +24,7 @@ export const Timeline: FC<TimeLineProps> = (props) => {
             flex: 0,
             padding: 0,
           },
+          marginTop: 0,
         }}
       >
         {items.map((props, i) => {
