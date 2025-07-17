@@ -9,6 +9,15 @@ export type InsertIntoryoteiCollectionMutation = {
   insertIntoryoteiCollection?: { __typename?: 'ryoteiInsertResponse'; affectedCount: number } | null
 }
 
+export type InsertIntotripsCollectionMutationVariables = Types.Exact<{
+  objects: Array<Types.TripsInsertInput> | Types.TripsInsertInput
+}>
+
+export type InsertIntotripsCollectionMutation = {
+  __typename?: 'Mutation'
+  insertIntotripsCollection?: { __typename?: 'tripsInsertResponse'; affectedCount: number } | null
+}
+
 export type DeleteFromryoteiCollectionMutationVariables = Types.Exact<{
   filter: Types.RyoteiFilter
 }>

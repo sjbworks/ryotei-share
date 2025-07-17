@@ -1,0 +1,5 @@
+mutation InsertIntotripsCollection($objects: [tripsInsertInput!]!) {
+  insertIntotripsCollection(objects: $objects) {
+    affectedCount
+  }
+}
