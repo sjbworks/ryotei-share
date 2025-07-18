@@ -14,13 +14,20 @@ import Fab from '@mui/material/Fab'
 
 export const MainView = () => {
   const formStyle = 'flex flex-col justify-between p-10'
-  const { handleMenuClick, sideOpen, onSideClose, onSideOpen, trips, selectedTripId, onChangeTripId, title } =
-    useRyoteiList()
+  const {
+    handleMenuClick,
+    sideOpen,
+    onSideClose,
+    onSideOpen,
+    trips,
+    selectedTripId,
+    onChangeTripId,
+    title,
+    refetchTrip,
+  } = useRyoteiList()
   const { refetch } = useGetRyotei(selectedTripId)
-  const { handleClick, bottomSheet, formProps, bottomFormProps, modalOpen, onMenuClick } = useTimeline(
-    refetch,
-    selectedTripId
-  )
+  const { handleClick, bottomSheet, formProps, bottomFormProps, modalOpen, onMenuClick, onClickAddRyotei } =
+    useTimeline(refetch, refetchTrip, selectedTripId, onSideClose)
   const router = useRouter()
   const handleLogout = async () => {
     await logout()
@@ -59,6 +66,9 @@ export const MainView = () => {
                 {trip.name}
               </Button>
             ))}
+            <Button key={'new'} variant="text" className="justify-start mb-2" onClick={onClickAddRyotei}>
+              旅程を追加
+            </Button>
           </div>
         </LeftSideDrawer>
         <BottomDrawer {...bottomSheet}>
