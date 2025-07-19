@@ -58,6 +58,7 @@ export const MainView = () => {
                 key={trip.id}
                 variant="text"
                 className="justify-start mb-2"
+                sx={{ justifyContent: 'flex-start' }}
                 onClick={() => {
                   onChangeTripId(trip.id)
                   onSideClose()
@@ -66,7 +67,13 @@ export const MainView = () => {
                 {trip.name}
               </Button>
             ))}
-            <Button key={'new'} variant="text" className="justify-start mb-2" onClick={onClickAddRyotei}>
+            <Button
+              key={'new'}
+              variant="text"
+              className="justify-start mb-2"
+              sx={{ justifyContent: 'flex-start' }}
+              onClick={onClickAddRyotei}
+            >
               旅程を追加
             </Button>
           </div>
