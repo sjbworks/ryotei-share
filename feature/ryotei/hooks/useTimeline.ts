@@ -31,7 +31,8 @@ export const useTimeline = (
   refetch: () => void,
   refetchTrip: () => void,
   selectedTripId?: string,
-  onSideClose?: () => void
+  onSideClose?: () => void,
+  onChangeTripId?: (id: string) => void
 ) => {
   const [modalOpen, setModalOpen] = useState(false)
   const [bottomOpen, setBottomOpen] = useState(false)
@@ -52,7 +53,9 @@ export const useTimeline = (
   const [addRyotei] = useMutation<AddRyoteiMutation, AddRyoteiMutationVariables>(MUTATION_ADD_RYOTEI)
   const [deleteRyotei] = useMutation<DeleteRyoteiMutation, DeleteRyoteiMutationVariables>(MUTATION_DELETE_RYOTEI)
   const [updateRyotei] = useMutation<UpdateRyoteiMutation, UpdateRyoteiMutationVariables>(MUTATION_UPDATE_RYOTEI)
-  const [addTrip] = useMutation<AddTripMutation, AddTripMutationVariables>(MUTATION_ADD_TRIP)
+  const [addTrip] = useMutation<AddTripMutation, AddTripMutationVariables>(MUTATION_ADD_TRIP, {
+    onCompleted: (data) => onChangeTripId?.(data.insertIntotripsCollection?.records[0].id),
+  })
 
   const setNewData = async (newData: RyoteiInsertInput) => {
     try {
@@ -77,7 +80,7 @@ export const useTimeline = (
     onClose: () => onBottomClose(),
   }
 
-  const onClickAddRyotei = () => {
+  const onClickAddTrip = () => {
     setMode('addTrip')
     onSideClose?.()
     setModalOpen(true)
@@ -127,6 +130,6 @@ export const useTimeline = (
     formProps,
     modalOpen,
     bottomFormProps,
-    onClickAddRyotei,
+    onClickAddTrip,
   }
 }

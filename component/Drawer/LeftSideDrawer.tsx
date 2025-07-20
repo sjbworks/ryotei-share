@@ -74,14 +74,16 @@ export const LeftSideDrawer: FC<Props> = (props) => {
             width: '50vw',
             height: '100vh',
             borderRadius: '0 12px 12px 0',
-            padding: '24px 0 16px 16px',
+            padding: '24px 16px 16px 16px',
             display: 'flex',
             flexDirection: 'row',
             justifyContent: 'space-between',
           },
         }}
       >
-        <Box>{children}</Box>
+        <Box sx={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', minWidth: 0 }}>
+          {children}
+        </Box>
 
         <Box
           sx={{

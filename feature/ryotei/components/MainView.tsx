@@ -26,8 +26,13 @@ export const MainView = () => {
     refetchTrip,
   } = useRyoteiList()
   const { refetch } = useGetRyotei(selectedTripId)
-  const { handleClick, bottomSheet, formProps, bottomFormProps, modalOpen, onMenuClick, onClickAddRyotei } =
-    useTimeline(refetch, refetchTrip, selectedTripId, onSideClose)
+  const { handleClick, bottomSheet, formProps, bottomFormProps, modalOpen, onMenuClick, onClickAddTrip } = useTimeline(
+    refetch,
+    refetchTrip,
+    selectedTripId,
+    onSideClose,
+    onChangeTripId
+  )
   const router = useRouter()
   const handleLogout = async () => {
     await logout()
@@ -52,29 +57,62 @@ export const MainView = () => {
           <Form {...formProps} />
         </Modal>
         <LeftSideDrawer anchor="left" open={sideOpen} onClose={onSideClose} onOpen={onSideOpen}>
-          <div className="flex flex-col p-4">
+          <div className="flex flex-col p-4 truncate w-100">
             {trips?.map((trip) => (
               <Button
                 key={trip.id}
                 variant="text"
                 className="justify-start mb-2"
-                sx={{ justifyContent: 'flex-start' }}
+                sx={{
+                  width: '100%',
+                  justifyContent: 'flex-start',
+                  padding: '8px 16px',
+                  minWidth: 0,
+                }}
                 onClick={() => {
                   onChangeTripId(trip.id)
                   onSideClose()
                 }}
               >
-                {trip.name}
+                <span
+                  style={{
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                    width: '100%',
+                    textAlign: 'left',
+                  }}
+                >
+                  {trip.name}
+                </span>
               </Button>
             ))}
             <Button
               key={'new'}
-              variant="text"
+              variant="contained"
               className="justify-start mb-2"
-              sx={{ justifyContent: 'flex-start' }}
-              onClick={onClickAddRyotei}
+              sx={{
+                width: '100%',
+                justifyContent: 'flex-start',
+                padding: '8px 16px',
+                minWidth: 0,
+              }}
+              onClick={onClickAddTrip}
             >
-              旅程を追加
+              <span
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                  width: '100%',
+                  textAlign: 'left',
+                }}
+              >
+                <AddIcon sx={{ marginRight: '2px' }} />
+                旅程を追加
+              </span>
             </Button>
           </div>
         </LeftSideDrawer>
