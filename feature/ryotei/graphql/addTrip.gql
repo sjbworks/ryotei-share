@@ -1,5 +1,9 @@
 mutation InsertIntotripsCollection($objects: [tripsInsertInput!]!) {
   insertIntotripsCollection(objects: $objects) {
     affectedCount
+    records {
+      id
+      name
+    }
   }
 }

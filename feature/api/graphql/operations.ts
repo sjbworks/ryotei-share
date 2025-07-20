@@ -15,7 +15,11 @@ export type InsertIntotripsCollectionMutationVariables = Types.Exact<{
 
 export type InsertIntotripsCollectionMutation = {
   __typename?: 'Mutation'
-  insertIntotripsCollection?: { __typename?: 'tripsInsertResponse'; affectedCount: number } | null
+  insertIntotripsCollection?: {
+    __typename?: 'tripsInsertResponse'
+    affectedCount: number
+    records: Array<{ __typename?: 'trips'; id: any; name?: string | null }>
+  } | null
 }
 
 export type DeleteFromryoteiCollectionMutationVariables = Types.Exact<{
