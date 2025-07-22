@@ -41,11 +41,38 @@ export const MainView = () => {
   return (
     <div className="flex flex-col gap-4 relative">
       <header className="flex items-center justify-between">
-        <IconButton className="p-0" onClick={handleMenuClick} color="primary" sx={{ padding: 0, fontSize: '12px' }}>
-          <ArrowForwardIosIcon sx={{ marginRight: '4px' }} />
-          {title}
+        <IconButton
+          className="p-0"
+          onClick={handleMenuClick}
+          color="primary"
+          sx={{
+            display: '-webkit-flex',
+            padding: 0,
+            fontSize: '12px',
+            flex: 3,
+            lineClamp: 2,
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: 'vertical',
+            textOverflow: 'ellipsis',
+          }}
+        >
+          <ArrowForwardIosIcon sx={{ marginRight: '4px', flex: 1 }} />
+          <span
+            style={{
+              display: '-webkit-box',
+              lineClamp: 2,
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: 'vertical',
+              flex: 12,
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              textAlign: 'left',
+            }}
+          >
+            {title}
+          </span>
         </IconButton>
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', flex: 1 }}>
           <Button onClick={() => handleLogout()} variant="text" size="small">
             ログアウト
           </Button>
