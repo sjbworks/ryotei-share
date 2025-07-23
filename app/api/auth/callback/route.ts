@@ -11,17 +11,37 @@ export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url)
   const code = searchParams.get('code')
   const next = searchParams.get('next') ?? '/'
-  const response = NextResponse.redirect(`${origin}${next}`)
+  
+  // Validate redirect URL to prevent open redirect attacks
+  const isValidRedirectUrl = (url: string): boolean => {
+    try {
+      const redirectUrl = new URL(url, origin)
+      return redirectUrl.origin === origin && !url.includes('..')
+    } catch {
+      return false
+    }
+  }
+  
+  const safeNext = isValidRedirectUrl(next) ? next : '/'
+  const response = NextResponse.redirect(`${origin}${safeNext}`)
 
   if (!code) {
     console.error('No code provided in the URL')
     return NextResponse.redirect(`${origin}/auth/auth-code-error`)
   }
 
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+  if (!supabaseUrl || !supabaseAnonKey) {
+    console.error('Missing Supabase environment variables')
+    return NextResponse.redirect(`${origin}/auth/auth-code-error`)
+  }
+
   const cookieStore = await cookies()
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    supabaseUrl,
+    supabaseAnonKey,
     {
       cookies: {
         getAll() {
@@ -37,15 +57,19 @@ export async function GET(request: Request) {
   )
   const { error } = await supabase.auth.exchangeCodeForSession(code)
   if (!error) {
-    const forwardedHost = request.headers.get('x-forwarded-host') // original origin before load balancer
     const isLocalEnv = process.env.NODE_ENV === 'development'
     if (isLocalEnv) {
-      // we can be sure that there is no load balancer in between, so no need to watch for X-Forwarded-Host
-      return NextResponse.redirect(`${origin}`)
-    } else if (forwardedHost) {
-      return NextResponse.redirect(`https://${forwardedHost}`)
+      return NextResponse.redirect(`${origin}${safeNext}`)
     } else {
-      return NextResponse.redirect(`${origin}`)
+      // Validate x-forwarded-host to prevent host header injection
+      const forwardedHost = request.headers.get('x-forwarded-host')
+      const allowedHosts = process.env.ALLOWED_HOSTS?.split(',') || []
+      
+      if (forwardedHost && allowedHosts.includes(forwardedHost)) {
+        return NextResponse.redirect(`https://${forwardedHost}${safeNext}`)
+      } else {
+        return NextResponse.redirect(`${origin}${safeNext}`)
+      }
     }
   }
 

@@ -9,7 +9,7 @@ const ERROR_CODE_UNAUTHORIZED = '401'
  */
 export async function GET(_req: NextRequest, _res: NextResponse) {
   try {
-    const supabase = createClientForServer()
+    const supabase = await createClientForServer()
     const {
       data: { session },
     } = await supabase.auth.getSession()
@@ -33,7 +33,7 @@ export async function GET(_req: NextRequest, _res: NextResponse) {
  */
 export async function POST(req: NextRequest, _res: NextResponse) {
   try {
-    const supabase = createClientForServer()
+    const supabase = await createClientForServer()
     const {
       data: { session },
     } = await supabase.auth.getSession()
