@@ -1,4 +1,4 @@
-import { Provider } from '@supabase/gotrue-js'
+import { Provider } from '@supabase/auth-js'
 import { createClient } from '@/utils/supabase/client'
 
 export async function login(provider: Provider) {

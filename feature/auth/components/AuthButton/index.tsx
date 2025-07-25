@@ -1,7 +1,7 @@
 'use client'
 import { Button } from '@/component'
 import { PROVIDERS } from '@/feature/auth'
-import { Provider } from '@supabase/gotrue-js'
+import { Provider } from '@supabase/auth-js'
 
 export const AuthButton = ({ login }: { login: (provider: Provider) => void }) => {
   return (
