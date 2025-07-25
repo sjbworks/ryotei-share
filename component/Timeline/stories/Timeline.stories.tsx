@@ -14,40 +14,40 @@ type Story = StoryObj<typeof TimelineComponent>
 
 const items: Props['items'] = [
   {
-    plan: {
-      time: '9:00',
-      label: '大宮駅 豆の木',
-    },
+    datetime: '2025-07-25T07:54:07.869',
+    description: 'あああああ',
+    id: '1',
+    trip_id: '1',
   },
   {
-    plan: {
-      time: '10:00',
-      label: '新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟',
-    },
+    datetime: '2025-07-25T08:54:07.869',
+    description: '新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟新潟',
+    id: '2',
+    trip_id: '1',
   },
   {
-    plan: {
-      time: '12:00',
-      label: 'スキー場',
-    },
+    datetime: '2025-07-25T09:54:07.869',
+    description: 'スキー場',
+    id: '3',
+    trip_id: '1',
   },
   {
-    plan: {
-      time: '13:00',
-      label: 'スキー場',
-    },
+    datetime: '2025-07-25T10:54:07.869',
+    description: 'スキー場',
+    id: '4',
+    trip_id: '1',
   },
   {
-    plan: {
-      time: '13:00',
-      label: 'スキー場',
-    },
+    datetime: '2025-07-25T11:54:07.869',
+    description: 'スキー場',
+    id: '5',
+    trip_id: '1',
   },
   {
-    plan: {
-      time: '13:00',
-      label: 'スキー場',
-    },
+    datetime: '2025-07-25T12:54:07.869',
+    description: 'スキー場',
+    id: '6',
+    trip_id: '1',
   },
 ]
 
