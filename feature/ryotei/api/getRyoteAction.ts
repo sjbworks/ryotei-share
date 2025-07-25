@@ -22,7 +22,7 @@ export const getRyotei = async (cookies: string) => {
         if (!acc[date]) {
           acc[date] = []
         }
-        acc[date].push({ datetime: format(parseISO(datetime), 'HH:mm'), description, id })
+        acc[date].push({ datetime: format(parseISO(datetime), 'HH:mm'), description, id, trip_id: '' })
         return acc
       },
       {}
