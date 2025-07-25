@@ -78,7 +78,7 @@ export const MainView = () => {
           </Button>
         </Box>
       </header>
-      <main>
+      <main style={{ marginTop: '16px' }}>
         <TimelineView selectedTripId={selectedTripId} onMenuClick={onMenuClick} />
         <Modal isOpen={modalOpen}>
           <Form {...formProps} />
