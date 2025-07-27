@@ -2,7 +2,11 @@
 const nextConfig = {
   experimental: {
     serverActions: {
-      allowedOrigins: ['localhost:3000'],
+      allowedOrigins: [
+        'localhost:3000',
+        'ryotei-share.tskyn33ftprnt.workers.dev',
+        '*-ryotei-share.tskyn33ftprnt.workers.dev',
+      ],
     },
   },
   images: {
