@@ -1,6 +1,8 @@
 import { createClientForServer } from '@/utils/supabase/server'
 import { NextResponse, NextRequest } from 'next/server'
 
+export const runtime = 'edge'
+
 const ERROR_CODE_UNAUTHORIZED = '401'
 
 /**

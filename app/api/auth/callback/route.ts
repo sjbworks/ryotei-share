@@ -2,6 +2,8 @@ import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 import { createServerClient } from '@supabase/ssr'
 
+export const runtime = 'edge'
+
 /**
  * Handles OAuth callback from Supabase authentication
  * Exchanges the authorization code for a user session and redirects to the appropriate page
