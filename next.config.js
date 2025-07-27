@@ -5,6 +5,9 @@ const nextConfig = {
       allowedOrigins: ['localhost:3000'],
     },
   },
+  images: {
+    unoptimized: true,
+  },
   webpack: (config) => {
     config.module.rules.push({
       test: /\.gql$/,
