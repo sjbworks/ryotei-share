@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    runtime: 'edge',
     serverActions: {
       allowedOrigins: [
         'localhost:3000',
@@ -13,6 +12,7 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  // Edge runtime compatibility
   webpack: (config) => {
     config.module.rules.push({
       test: /\.gql$/,
@@ -23,6 +23,21 @@ const nextConfig = {
         },
       ],
     })
+    
+    // Edge runtime polyfills for Supabase
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      'process/browser': require.resolve('process/browser'),
+    }
+    
+    const webpack = require('webpack')
+    config.plugins.push(
+      new webpack.DefinePlugin({
+        'process.version': JSON.stringify('v18.0.0'),
+        'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production'),
+      })
+    )
+    
     return config
   },
 }
