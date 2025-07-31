@@ -1,12 +1,10 @@
 name = "ryotei-share"
 compatibility_date = "2025-07-27"
 main = ".vercel/output/static/_worker.js"
+compatibility_flags = "nodejs_compat"
 
 [env.production.vars]
 NODE_ENV = "production"
-
-[compatibility_flags]
-nodejs_compat = true
 
 [assets]
 directory = ".vercel/output/static"
