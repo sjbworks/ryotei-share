@@ -12,6 +12,7 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  trailingSlash: true,
   // Edge runtime compatibility
   webpack: (config) => {
     config.module.rules.push({
@@ -23,13 +24,13 @@ const nextConfig = {
         },
       ],
     })
-    
+
     // Edge runtime polyfills for Supabase
     config.resolve.alias = {
       ...config.resolve.alias,
       'process/browser': require.resolve('process/browser'),
     }
-    
+
     const webpack = require('webpack')
     config.plugins.push(
       new webpack.DefinePlugin({
@@ -37,7 +38,7 @@ const nextConfig = {
         'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production'),
       })
     )
-    
+
     return config
   },
 }
