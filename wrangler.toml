@@ -1,7 +1,7 @@
 name = "ryotei-share"
 compatibility_date = "2025-07-27"
 main = ".vercel/output/static/_worker.js"
-compatibility_flags = ["nodejs_compat",  "streams_enable_constructors"]
+compatibility_flags = ["nodejs_compat"]
 
 [build]
 command = "npm run pages:build"
