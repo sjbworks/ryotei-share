@@ -1,72 +1,61 @@
 'use client'
 
-import { HttpLink, from } from '@apollo/client'
+import { ApolloClient, InMemoryCache, createHttpLink, from } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
-import { ApolloNextAppProvider, InMemoryCache, ApolloClient } from '@apollo/experimental-nextjs-app-support'
-import { getAccessTokenFromCookie, refreshAccessToken } from '@/utils'
-import { onError, ErrorResponse } from "@apollo/client/link/error";
+import { ApolloProvider as Provider } from '@apollo/client'
 
-const httpLink = new HttpLink({
-  // See more information about this GraphQL endpoint at https://studio.apollographql.com/public/spacex-l4uc6p/variant/main/home
+const httpLink = createHttpLink({
   uri: process.env.NEXT_PUBLIC_SCHEMA_URL!,
-  // you can configure the Next.js fetch cache here if you want to
-  fetchOptions: { cache: 'force-cache' },
+  // Edge Runtime対応のため、シンプルな設定に変更
+  fetch: typeof window !== 'undefined' ? window.fetch : undefined,
 })
 
 const authLink = setContext((_, { headers }) => {
-  const key = `sb-${process.env.NEXT_PUBLIC_SUPABASE_PROJECT_ID!}-auth-token`
-  const token = getAccessTokenFromCookie(key)
-  return {
-    headers: {
-      ...headers,
-      Authorization: token ? `Bearer ${token}` : '',
-      apiKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    },
+  if (typeof window === 'undefined') {
+    return { headers }
   }
-})
 
-const refreshOrGoToLogin = (operation: ErrorResponse['operation'], forward: ErrorResponse['forward']) => {
-  refreshAccessToken()
-    .then((newToken) => {
-      if (newToken) {
-        operation.setContext(({ headers = {} }) => ({
-          headers: {
-            ...headers,
-            Authorization: `Bearer ${newToken}`,
-          },
-        }))
-        return forward(operation) // 再試行
-      }
-      window.location.replace('/login') // リフレッシュ失敗
-    })
-    .catch(() => {
-      window.location.replace('/login') // 他のエラーの場合もログイン画面へ
-    })
-}
+  try {
+    const key = `sb-${process.env.NEXT_PUBLIC_SUPABASE_PROJECT_ID!}-auth-token`
+    // document.cookieを直接使用（Edge Runtime対応）
+    const cookies = document.cookie.split(';')
+    const tokenCookie = cookies.find((cookie) => cookie.trim().startsWith(key))
+    const token = tokenCookie ? tokenCookie.split('=')[1] : null
 
-const errorLink = onError(({ graphQLErrors, networkError, operation, forward }) => {
-  console.log('neto', networkError)
-  console.log('graphQLErrors', graphQLErrors)
-  console.log('operation', graphQLErrors)
-  if (networkError && 'statusCode' in networkError && networkError.statusCode === 401) {
-    return refreshOrGoToLogin(operation, forward)
-  }
-  if (graphQLErrors) {
-    for (const err of graphQLErrors) {
-      if (err.extensions?.code === 'UNAUTHENTICATED') {
-        return refreshOrGoToLogin(operation, forward)
-      }
+    return {
+      headers: {
+        ...headers,
+        Authorization: token ? `Bearer ${token}` : '',
+        apiKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      },
+    }
+  } catch (error) {
+    console.warn('Auth link error:', error)
+    return {
+      headers: {
+        ...headers,
+        apiKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      },
     }
   }
 })
 
-const makeClient = () =>
-  new ApolloClient({
-    link: from([errorLink, authLink, httpLink,]),
-    cache: new InMemoryCache(),
-  })
+// Apollo Clientの作成（シンプル化）
+const client = new ApolloClient({
+  link: from([authLink, httpLink]),
+  cache: new InMemoryCache(),
+  ssrMode: false, // SSRを無効化
+  defaultOptions: {
+    watchQuery: {
+      errorPolicy: 'all',
+    },
+    query: {
+      errorPolicy: 'all',
+    },
+  },
+})
 
-// you need to create a component to wrap your app in
+// シンプルなプロバイダー
 export function ApolloProvider({ children }: React.PropsWithChildren) {
-  return <ApolloNextAppProvider makeClient={makeClient}>{children}</ApolloNextAppProvider>
+  return <Provider client={client}>{children}</Provider>
 }
