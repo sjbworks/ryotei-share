@@ -1,7 +1,7 @@
 import './globals.css'
 import { Inter } from 'next/font/google'
 import clsx from 'clsx'
-import { ApolloProvider } from '@/feature/provider/ApolloProvider'
+// import { ApolloProvider } from '@/feature/provider/ApolloProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -12,7 +12,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className={className}>
-        <ApolloProvider>{children}</ApolloProvider>
+        {/* <ApolloProvider>{children}</ApolloProvider> */}
+        {children}
       </body>
     </html>
   )
