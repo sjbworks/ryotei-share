@@ -13,6 +13,19 @@ const nextConfig = {
     unoptimized: true,
   },
   trailingSlash: true,
+  webpack: (config) => {
+    config.module.rules.push({
+      test: /\.gql$/,
+      exclude: /node_modules/,
+      use: [
+        {
+          loader: 'graphql-tag/loader',
+        },
+      ],
+    })
+
+    return config
+  },
   // Edge runtime compatibility
   // webpack: (config) => {
   //   config.module.rules.push({
