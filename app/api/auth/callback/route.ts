@@ -108,10 +108,11 @@ export async function GET(request: Request) {
 
       if (forwardedHost && allowedHosts.includes(forwardedHost)) {
         const finalResponse = NextResponse.redirect(`https://${forwardedHost}${safeNext}`)
-        // Set-Cookieヘッダーをコピー
-        response.headers.getSetCookie().forEach((cookie) => {
-          finalResponse.headers.append('Set-Cookie', cookie)
-        })
+        // Set-Cookieヘッダーをコピー（Edge Runtime対応）
+        const setCookieHeaders = response.headers.get('set-cookie')
+        if (setCookieHeaders) {
+          finalResponse.headers.set('Set-Cookie', setCookieHeaders)
+        }
         return finalResponse
       } else {
         return response
