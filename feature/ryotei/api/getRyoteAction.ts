@@ -2,10 +2,15 @@
 import { Plan } from '@/component/Timeline/TimelineItem'
 import { format, parseISO } from 'date-fns'
 import { redirect } from 'next/navigation'
+import { headers } from 'next/headers'
 
 export const getRyotei = async (cookies: string) => {
+  const headersList = headers()
+  const host = (await headersList).get('host')
+  const protocol = (await headersList).get('x-forwarded-proto') || 'http'
+  const baseUrl = `${protocol}://${host}`
   try {
-    const res = await fetch(`${process.env.BASE_URL}/api/ryotei`, {
+    const res = await fetch(`${baseUrl}/api/ryotei`, {
       method: 'GET',
       headers: { Cookie: cookies },
     })
