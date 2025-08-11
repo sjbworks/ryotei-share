@@ -2,8 +2,6 @@
 import { AuthButton } from '@/feature/auth/components/AuthButton'
 import { login } from '@/feature/auth/api'
 
-// export const runtime = 'edge'
-
 export default function Login() {
   const containerStyle = 'flex flex-col justify-center items-center h-screen gap-2'
 
