@@ -6,5 +6,16 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import HikingIcon from '@mui/icons-material/Hiking'
 import MenuIcon from '@mui/icons-material/Menu'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 
-export { AccessTimeIcon, AddIcon, MoreHorizIcon, EditIcon, DeleteIcon, HikingIcon, MenuIcon, ArrowForwardIosIcon }
+export {
+  AccessTimeIcon,
+  AddIcon,
+  MoreHorizIcon,
+  EditIcon,
+  DeleteIcon,
+  HikingIcon,
+  MenuIcon,
+  ArrowForwardIosIcon,
+  AccountCircleIcon,
+}

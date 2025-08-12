@@ -11,6 +11,9 @@ import { logout } from '@/feature/auth/api'
 import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
 import Fab from '@mui/material/Fab'
+import { AccountCircleIcon } from '@/component/Icon'
+import { Menu } from '@/component/Menu/Menu'
+import { useState } from 'react'
 
 export const MainView = () => {
   const formStyle = 'flex flex-col justify-between p-10'
@@ -34,10 +37,31 @@ export const MainView = () => {
     onChangeTripId
   )
   const router = useRouter()
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const menuOpen = Boolean(anchorEl)
+
   const handleLogout = async () => {
     await logout()
     router.push('/login')
   }
+
+  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget)
+  }
+
+  const handleMenuClose = () => {
+    setAnchorEl(null)
+  }
+
+  const menuItems = [
+    {
+      label: 'ログアウト',
+      action: () => {
+        handleMenuClose()
+        handleLogout()
+      },
+    },
+  ]
   return (
     <div className="flex flex-col gap-4 relative">
       <header className="flex items-center justify-between">
@@ -73,9 +97,10 @@ export const MainView = () => {
           </span>
         </IconButton>
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', flex: 1 }}>
-          <Button onClick={() => handleLogout()} variant="text" size="small">
-            ログアウト
-          </Button>
+          <IconButton onClick={handleMenuOpen} size="small">
+            <AccountCircleIcon />
+          </IconButton>
+          <Menu open={menuOpen} anchorEl={anchorEl} onClose={handleMenuClose} items={menuItems} />
         </Box>
       </header>
       <main style={{ marginTop: '16px' }}>
