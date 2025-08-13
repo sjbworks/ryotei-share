@@ -17,7 +17,7 @@ export const useRyoteiList = () => {
   const { data, refetch: refetchTrip } = useQuery<GetTripsQuery, GetTripsQueryVariables>(QUERY_GET_TRIPS, {
     variables,
   })
-  const trips = data?.tripsCollection?.edges?.map(({ node: { id, name } }) => ({ id, name }))
+  const trips = data?.tripsCollection?.edges?.map(({ node: { id, name } }) => ({ id, name })) || [{ id: '', name: '' }]
 
   const [selectedTripId, setSelectedTripId] = useState<string | undefined>(undefined)
   const onChangeTripId = (tripId: string) => setSelectedTripId(tripId)

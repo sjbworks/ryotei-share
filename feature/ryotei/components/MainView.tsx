@@ -1,7 +1,6 @@
 'use client'
 
-import { BottomDrawer, Modal, Form, Button, AddIcon, ArrowForwardIosIcon } from '@/component'
-import { LeftSideDrawer } from '@/component/Drawer/LeftSideDrawer'
+import { BottomDrawer, Modal, Form, Button, AddIcon, ArrowForwardIosIcon, MoreVertIcon } from '@/component'
 import { useTimeline } from '@/feature/ryotei/hooks/useTimeline'
 import { useGetRyotei } from '../hooks/useGetRyotei'
 import { useRyoteiList } from '../hooks/useRyoteiList'
@@ -14,6 +13,7 @@ import Fab from '@mui/material/Fab'
 import { AccountCircleIcon } from '@/component/Icon'
 import { Menu } from '@/component/Menu/Menu'
 import { useState } from 'react'
+import { TripListDrawer } from './TripListDrawer'
 
 export const MainView = () => {
   const formStyle = 'flex flex-col justify-between p-10'
@@ -108,66 +108,14 @@ export const MainView = () => {
         <Modal isOpen={modalOpen}>
           <Form {...formProps} />
         </Modal>
-        <LeftSideDrawer anchor="left" open={sideOpen} onClose={onSideClose} onOpen={onSideOpen}>
-          <div className="flex flex-col p-4 truncate w-100">
-            {trips?.map((trip) => (
-              <Button
-                key={trip.id}
-                variant="text"
-                className="justify-start mb-2"
-                sx={{
-                  width: '100%',
-                  justifyContent: 'flex-start',
-                  padding: '8px 16px',
-                  minWidth: 0,
-                }}
-                onClick={() => {
-                  onChangeTripId(trip.id)
-                  onSideClose()
-                }}
-              >
-                <span
-                  style={{
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap',
-                    width: '100%',
-                    textAlign: 'left',
-                  }}
-                >
-                  {trip.name}
-                </span>
-              </Button>
-            ))}
-            <Button
-              key={'new'}
-              variant="contained"
-              className="justify-start mb-2"
-              sx={{
-                width: '100%',
-                justifyContent: 'flex-start',
-                padding: '8px 16px',
-                minWidth: 0,
-              }}
-              onClick={onClickAddTrip}
-            >
-              <span
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  whiteSpace: 'nowrap',
-                  width: '100%',
-                  textAlign: 'left',
-                }}
-              >
-                <AddIcon sx={{ marginRight: '2px' }} />
-                旅程を追加
-              </span>
-            </Button>
-          </div>
-        </LeftSideDrawer>
+        <TripListDrawer
+          open={sideOpen}
+          onClose={onSideClose}
+          onOpen={onSideOpen}
+          trips={trips}
+          onChangeTripId={onChangeTripId}
+          onClickAddTrip={onClickAddTrip}
+        />
         <BottomDrawer {...bottomSheet}>
           <Form className={formStyle} {...bottomFormProps} />
         </BottomDrawer>
