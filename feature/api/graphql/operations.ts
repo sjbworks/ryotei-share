@@ -31,6 +31,19 @@ export type DeleteFromryoteiCollectionMutation = {
   deleteFromryoteiCollection: { __typename?: 'ryoteiDeleteResponse'; affectedCount: number }
 }
 
+export type DeleteFromtripsCollectionMutationVariables = Types.Exact<{
+  filter: Types.TripsFilter
+}>
+
+export type DeleteFromtripsCollectionMutation = {
+  __typename?: 'Mutation'
+  deleteFromtripsCollection: {
+    __typename?: 'tripsDeleteResponse'
+    affectedCount: number
+    records: Array<{ __typename?: 'trips'; id: any; name?: string | null }>
+  }
+}
+
 export type GetRyoteiQueryVariables = Types.Exact<{
   orderBy?: Types.InputMaybe<Array<Types.RyoteiOrderBy> | Types.RyoteiOrderBy>
   filter?: Types.InputMaybe<Types.RyoteiFilter>
@@ -70,4 +83,18 @@ export type UpdateryoteiCollectionMutationVariables = Types.Exact<{
 export type UpdateryoteiCollectionMutation = {
   __typename?: 'Mutation'
   updateryoteiCollection: { __typename?: 'ryoteiUpdateResponse'; affectedCount: number }
+}
+
+export type UpdatetripsCollectionMutationVariables = Types.Exact<{
+  set: Types.TripsUpdateInput
+  filter: Types.TripsFilter
+}>
+
+export type UpdatetripsCollectionMutation = {
+  __typename?: 'Mutation'
+  updatetripsCollection: {
+    __typename?: 'tripsUpdateResponse'
+    affectedCount: number
+    records: Array<{ __typename?: 'trips'; id: any; name?: string | null }>
+  }
 }

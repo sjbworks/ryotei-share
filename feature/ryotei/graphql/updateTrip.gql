@@ -1,0 +1,9 @@
+mutation updatetripsCollection($set: tripsUpdateInput!, $filter: tripsFilter!) {
+  updatetripsCollection(set: $set, filter: $filter, atMost: 1) {
+    affectedCount
+    records {
+      id
+      name
+    }
+  }
+}
