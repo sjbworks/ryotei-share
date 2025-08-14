@@ -19,7 +19,7 @@ export const useFormState = () => {
   }
 
   const setAddTripMode = () => {
-    setMode('addTrip')
+    setMode('addEditTrip')
     setTrip(null)
   }
 

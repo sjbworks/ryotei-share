@@ -5,10 +5,12 @@ import { useRyoteiCRUD } from './useRyoteiCRUD'
 import { useTripCRUD } from './useTripCRUD'
 import { useFormState } from './useFormState'
 import { RyoteiInsertInput, TripsInsertInput } from '@/feature/api/graphql'
+import { ActionType } from '@/feature/ryotei/types'
+import { Plan } from '@/component/Timeline/TimelineItem'
 
 type FormSubmitData = RyoteiInsertInput | TripsInsertInput
 
-export const useTimelineNew = (
+export const useTimeline = (
   refetch: () => void,
   refetchTrip: () => void,
   selectedTripId?: string,
@@ -21,7 +23,10 @@ export const useTimelineNew = (
   const { createTrip } = useTripCRUD(refetchTrip, onChangeTripId)
   const formState = useFormState()
 
-  const onMenuClick = formState.onMenuClick
+  const onMenuClick = (action: ActionType, plan: Plan) => {
+    formState.onMenuClick(action, plan)
+    modal.open()
+  }
 
   const onClickAddTrip = () => {
     formState.setAddTripMode()
@@ -36,13 +41,13 @@ export const useTimelineNew = (
 
   const handleModalSubmit = async (data: FormSubmitData) => {
     await formState.setSelectedPlan(data)
-    
+
     if (formState.mode === 'edit') {
       const ryoteiData = data as RyoteiInsertInput
       await updateRyoteiById(formState.selectedPlan?.id, ryoteiData)
     } else if (formState.mode === 'delete') {
       await deleteRyoteiById(formState.selectedPlan?.id)
-    } else if (formState.mode === 'addTrip') {
+    } else if (formState.mode === 'addEditTrip') {
       const tripData = data as TripsInsertInput
       await createTrip(tripData)
     }
@@ -60,7 +65,7 @@ export const useTimelineNew = (
 
   const formProps = {
     isOpen: modal.isOpen,
-    data: formState.mode === 'addTrip' ? formState.trip : formState.selectedPlan,
+    data: formState.mode === 'addEditTrip' ? formState.trip : formState.selectedPlan,
     onSubmit: handleModalSubmit,
     onClose: modal.close,
     action: {

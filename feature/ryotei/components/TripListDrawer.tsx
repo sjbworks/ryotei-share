@@ -1,7 +1,11 @@
 import { LeftSideDrawer } from '@/component/Drawer/LeftSideDrawer'
-import { Button, AddIcon, MoreVertIcon } from '@/component'
+import { Button, AddIcon, MoreVertIcon, EditIcon, DeleteIcon } from '@/component'
 import IconButton from '@mui/material/IconButton'
 import { Menu } from '@/component/Menu/Menu'
+import { Modal } from '@/component/Modal'
+import { Form } from '@/component/Form/Form'
+import { useModal } from '@/feature/ryotei/hooks/useModal'
+import { useTripCRUD } from '@/feature/ryotei/hooks/useTripCRUD'
 import { useState } from 'react'
 
 type Trip = {
@@ -16,26 +20,70 @@ type Props = {
   trips: Trip[]
   onChangeTripId: (id: string) => void
   onClickAddTrip: () => void
+  refetchTrip?: () => void
 }
 
-export const TripListDrawer = ({ open, onClose, onOpen, trips, onChangeTripId, onClickAddTrip }: Props) => {
+export const TripListDrawer = ({
+  open,
+  onClose,
+  onOpen,
+  trips,
+  onChangeTripId,
+  onClickAddTrip,
+  refetchTrip,
+}: Props) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const [selectedTrip, setSelectedTrip] = useState<Trip | null>(null)
   const menuOpen = Boolean(anchorEl)
 
-  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+  const editModal = useModal()
+  const deleteModal = useModal()
+  const { updateTrip, deleteTrip } = useTripCRUD(refetchTrip, onChangeTripId)
+
+  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>, trip: Trip) => {
     setAnchorEl(event.currentTarget)
+    setSelectedTrip(trip)
   }
 
   const handleMenuClose = () => {
     setAnchorEl(null)
+    setSelectedTrip(null)
+  }
+
+  const handleEdit = () => {
+    editModal.open()
+    handleMenuClose()
+  }
+
+  const handleDelete = () => {
+    deleteModal.open()
+    handleMenuClose()
+  }
+
+  const handleEditSubmit = async (data: any) => {
+    if (selectedTrip) {
+      await updateTrip({ id: selectedTrip.id, name: data.name })
+      editModal.close()
+    }
+  }
+
+  const handleDeleteSubmit = async () => {
+    if (selectedTrip) {
+      await deleteTrip({ id: selectedTrip.id })
+      deleteModal.close()
+    }
   }
 
   const menuItems = [
     {
+      label: '編集',
+      action: handleEdit,
+      icon: <EditIcon />,
+    },
+    {
       label: '削除',
-      action: () => {
-        // 旅程の削除
-      },
+      action: handleDelete,
+      icon: <DeleteIcon />,
     },
   ]
   return (
@@ -69,7 +117,7 @@ export const TripListDrawer = ({ open, onClose, onOpen, trips, onChangeTripId, o
                 {trip.name || '無題'}
               </span>
             </Button>
-            <IconButton onClick={() => void 0} size="small">
+            <IconButton onClick={(e) => handleMenuOpen(e, trip)} size="small">
               <MoreVertIcon />
             </IconButton>
             <Menu open={menuOpen} anchorEl={anchorEl} onClose={handleMenuClose} items={menuItems} />
@@ -103,6 +151,26 @@ export const TripListDrawer = ({ open, onClose, onOpen, trips, onChangeTripId, o
           </span>
         </Button>
       </div>
+
+      <Modal isOpen={editModal.isOpen} style={{ zIndex: '' }}>
+        <Form
+          mode="addEditTrip"
+          data={selectedTrip}
+          onSubmit={handleEditSubmit}
+          onClose={editModal.close}
+          action={{ label: '更新' }}
+        />
+      </Modal>
+
+      <Modal isOpen={deleteModal.isOpen}>
+        <Form
+          mode="delete"
+          data={selectedTrip}
+          onSubmit={handleDeleteSubmit}
+          onClose={deleteModal.close}
+          action={{ label: '削除' }}
+        />
+      </Modal>
     </LeftSideDrawer>
   )
 }

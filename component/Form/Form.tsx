@@ -132,8 +132,10 @@ export const Form = ({ className, onSubmit, data, onClose, action, mode }: Props
       <DeleteContent />
     ) : mode === 'edit' ? (
       <CreateUpdateContent register={register} control={control} errors={errors} />
-    ) : mode === 'addTrip' ? (
-      <AddTripContent register={tripRegister} errors={tripErrors} />
+    ) : mode === 'addEditTrip' ? (
+      <AddTripContent register={tripRegister} errors={tripErrors} control={tripControl} />
+    ) : mode === 'addRyotei' ? (
+      <CreateUpdateContent register={register} control={control} errors={errors} />
     ) : (
       <CreateUpdateContent register={register} control={control} errors={errors} />
     )
@@ -143,8 +145,10 @@ export const Form = ({ className, onSubmit, data, onClose, action, mode }: Props
       ? () => handleClick(data as RyoteiInsertInput)
       : mode === 'edit'
       ? handleSubmit(handleClick)
-      : mode === 'addTrip'
+      : mode === 'addEditTrip'
       ? tripHandleSubmit(handleClick)
+      : mode === 'addRyotei'
+      ? handleSubmit(handleClick)
       : handleSubmit(handleClick)
 
   return (

@@ -1,7 +1,7 @@
 'use client'
 
 import { BottomDrawer, Modal, Form, Button, AddIcon, ArrowForwardIosIcon, MoreVertIcon } from '@/component'
-import { useTimelineNew } from '@/feature/ryotei/hooks/useTimeline'
+import { useTimeline } from '@/feature/ryotei/hooks/useTimeline'
 import { useGetRyotei } from '../hooks/useGetRyotei'
 import { useRyoteiList } from '../hooks/useRyoteiList'
 import { TimelineView } from './TimelineView'
@@ -29,8 +29,13 @@ export const MainView = () => {
     refetchTrip,
   } = useRyoteiList()
   const { refetch } = useGetRyotei(selectedTripId)
-  const { handleClick, bottomSheet, formProps, bottomFormProps, modalOpen, onMenuClick, onClickAddTrip } =
-    useTimelineNew(refetch, refetchTrip, selectedTripId, onSideClose, onChangeTripId)
+  const { handleClick, bottomSheet, formProps, bottomFormProps, modalOpen, onMenuClick, onClickAddTrip } = useTimeline(
+    refetch,
+    refetchTrip,
+    selectedTripId,
+    onSideClose,
+    onChangeTripId
+  )
   const router = useRouter()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const menuOpen = Boolean(anchorEl)
@@ -110,6 +115,7 @@ export const MainView = () => {
           trips={trips}
           onChangeTripId={onChangeTripId}
           onClickAddTrip={onClickAddTrip}
+          refetchTrip={refetchTrip}
         />
         <BottomDrawer {...bottomSheet}>
           <Form className={formStyle} {...bottomFormProps} />
