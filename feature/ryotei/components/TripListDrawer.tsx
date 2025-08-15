@@ -152,7 +152,7 @@ export const TripListDrawer = ({
         </Button>
       </div>
 
-      <Modal isOpen={editModal.isOpen} style={{ zIndex: '' }}>
+      <Modal isOpen={editModal.isOpen}>
         <Form
           mode="addEditTrip"
           data={selectedTrip}
