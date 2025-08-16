@@ -20,7 +20,7 @@ export const useTimeline = (
   const modal = useModal()
   const bottomSheet = useBottomSheet()
   const { createRyotei, updateRyoteiById, deleteRyoteiById } = useRyoteiCRUD(selectedTripId, refetch)
-  const { createTrip } = useTripCRUD(refetchTrip, onChangeTripId)
+  const { createTrip, updateTrip, deleteTrip } = useTripCRUD(refetchTrip, onChangeTripId)
   const formState = useFormState()
 
   const onMenuClick = (action: ActionType, plan: Plan) => {
@@ -40,16 +40,34 @@ export const useTimeline = (
   }
 
   const handleModalSubmit = async (data: FormSubmitData) => {
-    await formState.setSelectedPlan(data)
+    if (formState.mode !== 'delete' && formState.mode !== 'deleteTrip') {
+      await formState.setSelectedPlan(data)
+    }
 
     if (formState.mode === 'edit') {
       const ryoteiData = data as RyoteiInsertInput
       await updateRyoteiById(formState.selectedPlan?.id, ryoteiData)
     } else if (formState.mode === 'delete') {
-      await deleteRyoteiById(formState.selectedPlan?.id)
+      if (formState.selectedPlan?.id) {
+        await deleteRyoteiById(formState.selectedPlan?.id)
+      }
+    } else if (formState.mode === 'deleteTrip') {
+      if (!formState.trip?.id) return
+      await deleteTrip({ id: formState.trip.id })
     } else if (formState.mode === 'addEditTrip') {
       const tripData = data as TripsInsertInput
-      await createTrip(tripData)
+
+      // dataからidを取得するか、formState.tripからidを取得する
+      const tripId = tripData.id || formState.trip?.id
+
+      if (tripId) {
+        await updateTrip({ id: tripId, name: tripData.name })
+      } else {
+        await createTrip(tripData)
+      }
+    } else {
+      console.log('UNKNOWN MODE - formState.mode:', formState.mode)
+      console.log('UNKNOWN MODE - data:', data)
     }
 
     await refetch()
@@ -82,5 +100,7 @@ export const useTimeline = (
     modalOpen: modal.isOpen,
     onMenuClick,
     onClickAddTrip,
+    handleModalSubmit,
+    formState,
   }
 }

@@ -23,6 +23,16 @@ export const useFormState = () => {
     setTrip(null)
   }
 
+  const setEditTripMode = (tripData: TripsInsertInput) => {
+    setMode('addEditTrip')
+    setTrip(tripData)
+  }
+
+  const setDeleteTripMode = (tripData: TripsInsertInput) => {
+    setMode('deleteTrip')
+    setTrip(tripData)
+  }
+
   const resetMode = () => {
     setMode(null)
     setSelectedPlan(null)
@@ -44,6 +54,8 @@ export const useFormState = () => {
     setEditMode,
     setDeleteMode,
     setAddTripMode,
+    setEditTripMode,
+    setDeleteTripMode,
     resetMode,
     onMenuClick,
     setSelectedPlan,

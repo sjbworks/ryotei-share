@@ -29,13 +29,17 @@ export const MainView = () => {
     refetchTrip,
   } = useRyoteiList()
   const { refetch } = useGetRyotei(selectedTripId)
-  const { handleClick, bottomSheet, formProps, bottomFormProps, modalOpen, onMenuClick, onClickAddTrip } = useTimeline(
-    refetch,
-    refetchTrip,
-    selectedTripId,
-    onSideClose,
-    onChangeTripId
-  )
+  const {
+    handleClick,
+    bottomSheet,
+    formProps,
+    bottomFormProps,
+    modalOpen,
+    onMenuClick,
+    onClickAddTrip,
+    handleModalSubmit,
+    formState,
+  } = useTimeline(refetch, refetchTrip, selectedTripId, onSideClose, onChangeTripId)
   const router = useRouter()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const menuOpen = Boolean(anchorEl)
@@ -116,6 +120,8 @@ export const MainView = () => {
           onChangeTripId={onChangeTripId}
           onClickAddTrip={onClickAddTrip}
           refetchTrip={refetchTrip}
+          onModalSubmit={handleModalSubmit}
+          formState={formState}
         />
         <BottomDrawer {...bottomSheet}>
           <Form className={formStyle} {...bottomFormProps} />

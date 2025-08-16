@@ -21,6 +21,9 @@ type Props = {
   onChangeTripId: (id: string) => void
   onClickAddTrip: () => void
   refetchTrip?: () => void
+  onModalSubmit?: (data: any) => void
+  formState?: any
+  onModalClose?: () => void
 }
 
 export const TripListDrawer = ({
@@ -31,6 +34,9 @@ export const TripListDrawer = ({
   onChangeTripId,
   onClickAddTrip,
   refetchTrip,
+  onModalSubmit,
+  formState: externalFormState,
+  onModalClose,
 }: Props) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const [selectedTrip, setSelectedTrip] = useState<Trip | null>(null)
@@ -39,6 +45,13 @@ export const TripListDrawer = ({
   const editModal = useModal()
   const deleteModal = useModal()
   const { updateTrip, deleteTrip } = useTripCRUD(refetchTrip, onChangeTripId)
+
+  const formState = externalFormState || {
+    setEditTripMode: () => {},
+    setDeleteTripMode: () => {},
+    trip: null,
+    mode: null,
+  }
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>, trip: Trip) => {
     setAnchorEl(event.currentTarget)
@@ -51,11 +64,19 @@ export const TripListDrawer = ({
   }
 
   const handleEdit = () => {
+    if (selectedTrip) {
+      formState.setEditTripMode(selectedTrip)
+    }
     editModal.open()
     handleMenuClose()
   }
 
   const handleDelete = () => {
+    if (selectedTrip) {
+      if (formState.setDeleteTripMode) {
+        formState.setDeleteTripMode(selectedTrip)
+      }
+    }
     deleteModal.open()
     handleMenuClose()
   }
@@ -67,9 +88,24 @@ export const TripListDrawer = ({
     }
   }
 
+  const handleModalSubmitWithClose = async (data: any) => {
+    if (onModalSubmit) {
+      await onModalSubmit(data)
+      editModal.close()
+      deleteModal.close()
+    }
+  }
+
   const handleDeleteSubmit = async () => {
     if (selectedTrip) {
       await deleteTrip({ id: selectedTrip.id })
+      deleteModal.close()
+    }
+  }
+
+  const handleDeleteModalSubmitWithClose = async (data: any) => {
+    if (onModalSubmit) {
+      await onModalSubmit(data)
       deleteModal.close()
     }
   }
@@ -155,8 +191,8 @@ export const TripListDrawer = ({
       <Modal isOpen={editModal.isOpen}>
         <Form
           mode="addEditTrip"
-          data={selectedTrip}
-          onSubmit={handleEditSubmit}
+          data={formState.trip}
+          onSubmit={onModalSubmit ? handleModalSubmitWithClose : handleEditSubmit}
           onClose={editModal.close}
           action={{ label: '更新' }}
         />
@@ -165,8 +201,8 @@ export const TripListDrawer = ({
       <Modal isOpen={deleteModal.isOpen}>
         <Form
           mode="delete"
-          data={selectedTrip}
-          onSubmit={handleDeleteSubmit}
+          data={formState.trip || selectedTrip}
+          onSubmit={onModalSubmit ? handleDeleteModalSubmitWithClose : handleDeleteSubmit}
           onClose={deleteModal.close}
           action={{ label: '削除' }}
         />
