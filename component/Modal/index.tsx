@@ -28,7 +28,7 @@ const overlayStyle: CSSProperties = {
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  zIndex: '1100',
+  zIndex: 1400,
 }
 
 const modalStyle: CSSProperties = {
@@ -42,5 +42,5 @@ const modalStyle: CSSProperties = {
   position: 'relative',
   textAlign: 'center',
   boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-  zIndex: '1300',
+  zIndex: 1500,
 }
