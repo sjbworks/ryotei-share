@@ -1,5 +1,5 @@
-mutation deleteFromtripsCollection($filter: tripsFilter!) {
-  deleteFromtripsCollection(filter: $filter, atMost: 1) {
+mutation deleteFromtripsCollection($filter: tripsFilter!, $atMost: Int!) {
+  deleteFromtripsCollection(filter: $filter, atMost: $atMost) {
     affectedCount
     records {
       id
