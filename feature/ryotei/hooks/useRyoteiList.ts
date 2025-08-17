@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { QUERY_GET_TRIPS } from '@/feature/ryotei/graphql'
 import { GetTripsQuery, GetTripsQueryVariables, OrderByDirection } from '@/feature/api/graphql'
 import { useQuery } from '@apollo/client'
@@ -21,7 +21,7 @@ export const useRyoteiList = () => {
 
   const [selectedTripId, setSelectedTripId] = useState<string | undefined>(undefined)
   const onChangeTripId = (tripId: string) => setSelectedTripId(tripId)
-  const title = trips?.filter(({ id }) => id === selectedTripId)[0]?.name || ''
+  const title = useMemo(() => trips?.filter(({ id }) => id === selectedTripId)[0]?.name || '', [selectedTripId])
 
   useEffect(() => {
     if (trips && trips.length > 0 && !selectedTripId) {
