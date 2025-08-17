@@ -65,9 +65,6 @@ export const useTimeline = (
       } else {
         await createTrip(tripData)
       }
-    } else {
-      console.log('UNKNOWN MODE - formState.mode:', formState.mode)
-      console.log('UNKNOWN MODE - data:', data)
     }
 
     await refetch()
