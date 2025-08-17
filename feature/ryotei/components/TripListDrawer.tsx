@@ -36,7 +36,6 @@ export const TripListDrawer = ({
   refetchTrip,
   onModalSubmit,
   formState: externalFormState,
-  onModalClose,
 }: Props) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const [selectedTrip, setSelectedTrip] = useState<Trip | null>(null)
