@@ -17,15 +17,21 @@ export const useRyoteiList = () => {
   const { data, refetch: refetchTrip } = useQuery<GetTripsQuery, GetTripsQueryVariables>(QUERY_GET_TRIPS, {
     variables,
   })
-  const trips = data?.tripsCollection?.edges?.map(({ node: { id, name } }) => ({ id, name })) || [{ id: '', name: '' }]
+  const trips =
+    data?.tripsCollection?.edges?.map(({ node: { id, name } }) => ({ id, name })).filter((trip) => trip.id) || []
 
   const [selectedTripId, setSelectedTripId] = useState<string | undefined>(undefined)
   const onChangeTripId = (tripId: string) => setSelectedTripId(tripId)
-  const title = useMemo(() => trips?.filter(({ id }) => id === selectedTripId)[0]?.name || '', [selectedTripId])
+  const title = useMemo(() => trips?.find((trip) => trip.id === selectedTripId)?.name || '', [selectedTripId, trips])
 
   useEffect(() => {
-    if (trips && trips.length > 0 && !selectedTripId) {
-      setSelectedTripId(trips[0].id)
+    if (trips && trips.length > 0) {
+      const selectedTripExists = trips.some((trip) => trip.id === selectedTripId)
+      if (!selectedTripId || !selectedTripExists) {
+        setSelectedTripId(trips[0].id)
+      }
+    } else {
+      setSelectedTripId(undefined)
     }
   }, [trips, selectedTripId])
 
