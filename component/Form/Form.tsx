@@ -133,7 +133,7 @@ export const Form = ({ className, onSubmit, data, onClose, action, mode }: Props
     ) : mode === 'edit' ? (
       <CreateUpdateContent register={register} control={control} errors={errors} />
     ) : mode === 'addEditTrip' ? (
-      <AddTripContent register={tripRegister} errors={tripErrors} control={tripControl} />
+      <AddTripContent register={tripRegister} errors={tripErrors} />
     ) : mode === 'addRyotei' ? (
       <CreateUpdateContent register={register} control={control} errors={errors} />
     ) : (
