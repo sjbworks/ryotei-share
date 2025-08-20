@@ -2,8 +2,6 @@ import { updateSession } from '@/utils/supabase/middleware'
 
 import type { NextRequest } from 'next/server'
 
-export const runtime = 'experimental-edge'
-
 export async function middleware(req: NextRequest) {
   // update user's auth session
   return await updateSession(req)
