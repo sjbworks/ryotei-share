@@ -23,7 +23,7 @@ export async function GET(request: Request) {
   }
 
   const safeNext = isValidRedirectUrl(next) ? next : '/'
-  const response = NextResponse.redirect(`${origin}${safeNext}`)
+  // const response = NextResponse.redirect(`${origin}${safeNext}`)
 
   if (!code) {
     console.error('No code provided in the URL')
@@ -53,23 +53,28 @@ export async function GET(request: Request) {
   })
   const { error } = await supabase.auth.exchangeCodeForSession(code)
   if (!error) {
-    const isLocalEnv = process.env.NODE_ENV === 'development'
-    if (isLocalEnv) {
-      return NextResponse.redirect(`${origin}${safeNext}`)
-    } else {
-      // Validate x-forwarded-host to prevent host header injection
-      const forwardedHost = request.headers.get('x-forwarded-host')
-      const allowedHosts = process.env.ALLOWED_HOSTS?.split(',') || []
-
-      if (forwardedHost && allowedHosts.includes(forwardedHost)) {
-        return NextResponse.redirect(`https://${forwardedHost}${safeNext}`)
-      } else {
-        return NextResponse.redirect(`${origin}${safeNext}`)
-      }
-    }
+    console.log('Code exchange successful, redirecting to:', safeNext)
+    return NextResponse.redirect(`${origin}${safeNext}`)
   }
+  // if (!error) {
+  //   const isLocalEnv = process.env.NODE_ENV === 'development'
+  //   if (isLocalEnv) {
+  //     return NextResponse.redirect(`${origin}${safeNext}`)
+  //   } else {
+  //     // Validate x-forwarded-host to prevent host header injection
+  //     const forwardedHost = request.headers.get('x-forwarded-host')
+  //     const allowedHosts = process.env.ALLOWED_HOSTS?.split(',') || []
+
+  //     if (forwardedHost && allowedHosts.includes(forwardedHost)) {
+  //       return NextResponse.redirect(`https://${forwardedHost}${safeNext}`)
+  //     } else {
+  //       return NextResponse.redirect(`${origin}${safeNext}`)
+  //     }
+  //   }
+  // }
 
   console.error('exchangeCodeForSession error:', error)
 
-  return response
+  // return response
+  return NextResponse.redirect(`${origin}/auth/auth-code-error`)
 }
