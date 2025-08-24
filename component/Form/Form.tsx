@@ -26,6 +26,10 @@ const DeleteContent = () => {
   return <Box sx={{ paddingY: '16px' }}>この予定を削除しますか？</Box>
 }
 
+const DeleteTripContent = () => {
+  return <Box sx={{ paddingY: '16px' }}>この旅程を削除しますか？</Box>
+}
+
 const CreateUpdateContent = ({
   control,
   errors,
@@ -126,10 +130,19 @@ export const Form = ({ className, onSubmit, data, onClose, action, mode }: Props
     onSubmit && (await onSubmit(submitData as RyoteiInsertInput))
   }
 
+  //   export const ACTION = {
+  //   // edit: 'edit',
+  //   // delete: 'delete',
+  //   // addRyotei: 'addRyotei',
+  //   // addEditTrip: 'addEditTrip',
+  //   deleteTrip: 'deleteTrip',
+  // } as const
   const classProps = clsx('flex flex-col justify-between p-5 box-border', className)
   const content =
     mode === 'delete' ? (
       <DeleteContent />
+    ) : mode === 'deleteTrip' ? (
+      <DeleteTripContent />
     ) : mode === 'edit' ? (
       <CreateUpdateContent register={register} control={control} errors={errors} />
     ) : mode === 'addEditTrip' ? (

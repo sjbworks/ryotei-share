@@ -84,7 +84,7 @@ export const useTimeline = (
     onSubmit: handleModalSubmit,
     onClose: modal.close,
     action: {
-      label: formState.mode === 'edit' ? '更新' : formState.mode === 'delete' ? '削除' : '追加',
+      label: formState.mode === 'edit' ? '更新' : formState.mode === 'delete' || formState.mode === 'deleteTrip' ? '削除' : '追加',
     },
     mode: formState.mode,
   }

@@ -95,7 +95,7 @@ export const TripListDrawer = ({
     }
   }
 
-  const handleDeleteSubmit = async () => {
+  const handleDeleteTrip = async () => {
     if (selectedTrip) {
       await deleteTrip({ id: selectedTrip.id })
       deleteModal.close()
@@ -199,9 +199,9 @@ export const TripListDrawer = ({
 
       <Modal isOpen={deleteModal.isOpen}>
         <Form
-          mode="delete"
+          mode="deleteTrip"
           data={formState.trip || selectedTrip}
-          onSubmit={onModalSubmit ? handleDeleteModalSubmitWithClose : handleDeleteSubmit}
+          onSubmit={onModalSubmit ? handleDeleteModalSubmitWithClose : handleDeleteTrip}
           onClose={deleteModal.close}
           action={{ label: '削除' }}
         />
