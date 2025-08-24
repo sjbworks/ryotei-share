@@ -11,7 +11,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className={className}>
         <ApolloProvider>{children}</ApolloProvider>
-        {/* {children} */}
       </body>
     </html>
   )
