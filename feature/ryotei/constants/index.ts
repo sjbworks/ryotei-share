@@ -4,4 +4,5 @@ export const ACTION = {
   addRyotei: 'addRyotei',
   addEditTrip: 'addEditTrip',
   deleteTrip: 'deleteTrip',
+  withdrawAccount: 'withdrawAccount',
 } as const

@@ -30,6 +30,10 @@ const DeleteTripContent = () => {
   return <Box sx={{ paddingY: '16px' }}>この旅程を削除しますか？</Box>
 }
 
+const WithdrawAccountContent = () => {
+  return <Box sx={{ paddingY: '16px' }}>退会しますか？</Box>
+}
+
 const CreateUpdateContent = ({
   control,
   errors,
@@ -143,6 +147,8 @@ export const Form = ({ className, onSubmit, data, onClose, action, mode }: Props
       <DeleteContent />
     ) : mode === 'deleteTrip' ? (
       <DeleteTripContent />
+    ) : mode === 'withdrawAccount' ? (
+      <WithdrawAccountContent />
     ) : mode === 'edit' ? (
       <CreateUpdateContent register={register} control={control} errors={errors} />
     ) : mode === 'addEditTrip' ? (
@@ -155,6 +161,10 @@ export const Form = ({ className, onSubmit, data, onClose, action, mode }: Props
 
   const submit =
     mode === 'delete'
+      ? () => handleClick(data as RyoteiInsertInput)
+      : mode === 'deleteTrip'
+      ? () => handleClick(data as RyoteiInsertInput)
+      : mode === 'withdrawAccount'
       ? () => handleClick(data as RyoteiInsertInput)
       : mode === 'edit'
       ? handleSubmit(handleClick)
@@ -171,7 +181,12 @@ export const Form = ({ className, onSubmit, data, onClose, action, mode }: Props
         <Button onClick={() => onClose?.()} className="block w-full">
           キャンセル
         </Button>
-        <Button onClick={submit} className="block w-full" variant="contained">
+        <Button 
+          onClick={submit} 
+          className="block w-full" 
+          variant="contained"
+          color={mode === 'withdrawAccount' ? 'error' : 'primary'}
+        >
           {action?.label || '登録'}
         </Button>
       </div>

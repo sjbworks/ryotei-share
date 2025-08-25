@@ -14,6 +14,7 @@ import { AccountCircleIcon } from '@/component/Icon'
 import { Menu } from '@/component/Menu/Menu'
 import { useState } from 'react'
 import { TripListDrawer } from './TripListDrawer'
+import { useModal } from '../hooks/useModal'
 
 export const MainView = () => {
   const formStyle = 'flex flex-col justify-between p-10'
@@ -43,6 +44,7 @@ export const MainView = () => {
   const router = useRouter()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const menuOpen = Boolean(anchorEl)
+  const withdrawModal = useModal()
 
   const handleLogout = async () => {
     await logout()
@@ -57,6 +59,27 @@ export const MainView = () => {
     setAnchorEl(null)
   }
 
+  const handleWithdrawAccount = async () => {
+    try {
+      const response = await fetch('/api/user/delete', {
+        method: 'DELETE',
+      })
+      
+      if (response.ok) {
+        router.push('/login')
+      } else {
+        console.error('Failed to delete account')
+      }
+    } catch (error) {
+      console.error('Error deleting account:', error)
+    }
+  }
+
+  const handleWithdraw = () => {
+    handleMenuClose()
+    withdrawModal.open()
+  }
+
   const menuItems = [
     {
       label: 'ログアウト',
@@ -64,6 +87,10 @@ export const MainView = () => {
         handleMenuClose()
         handleLogout()
       },
+    },
+    {
+      label: '退会',
+      action: handleWithdraw,
     },
   ]
   return (
@@ -126,6 +153,14 @@ export const MainView = () => {
         <BottomDrawer {...bottomSheet}>
           <Form className={formStyle} {...bottomFormProps} />
         </BottomDrawer>
+        <Modal isOpen={withdrawModal.isOpen}>
+          <Form
+            mode="withdrawAccount"
+            onSubmit={handleWithdrawAccount}
+            onClose={withdrawModal.close}
+            action={{ label: '退会' }}
+          />
+        </Modal>
       </main>
       <Fab
         color="primary"
