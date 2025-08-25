@@ -1,4 +1,5 @@
 import { createClientForServer } from '@/utils/supabase/server'
+import { createClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
 
 export async function DELETE() {
@@ -33,8 +34,20 @@ export async function DELETE() {
       return NextResponse.json({ error: 'Failed to delete ryotei data' }, { status: 500 })
     }
 
+    // Create admin client with Service Role key
+    const supabaseAdmin = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SERVICE_ROLE_KEY!,
+      {
+        auth: {
+          autoRefreshToken: false,
+          persistSession: false,
+        },
+      }
+    )
+
     // Delete the user account from Supabase Auth
-    const { error: deleteUserError } = await supabase.auth.admin.deleteUser(userId)
+    const { error: deleteUserError } = await supabaseAdmin.auth.admin.deleteUser(userId)
 
     if (deleteUserError) {
       console.error('Error deleting user account:', deleteUserError)
