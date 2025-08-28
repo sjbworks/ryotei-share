@@ -92,6 +92,13 @@ export const MainView = () => {
       label: '退会',
       action: handleWithdraw,
     },
+    {
+      label: '利用規約・プライバシーポリシー',
+      action: () => {
+        handleMenuClose()
+        router.push('/legal')
+      },
+    },
   ]
   return (
     <div className="flex flex-col gap-4 relative max-w-2xl mx-auto w-full p-4">
