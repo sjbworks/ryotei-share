@@ -1,7 +1,7 @@
 <svg width="120" height="170" viewBox="165 55 120 170" xmlns="http://www.w3.org/2000/svg">
   <!-- 棒人間のグループ -->
   <g id="stickFigure">
-    <!-- 頭（手書き風の円・大きくしました） -->
+    <!-- 頭 -->
     <path d="M 175 85 Q 180 60 200 65 Q 225 70 220 90 Q 215 110 200 105 Q 175 110 175 85 Z" 
           fill="none" stroke="#2C2C2C" stroke-width="3" stroke-linecap="round">
       <animateTransform
@@ -12,7 +12,7 @@
         repeatCount="indefinite"/>
     </path>
     
-    <!-- 体（手書き風の線・短くしました） -->
+    <!-- 体-->
     <path d="M 200 105 Q 198 125 202 140 Q 199 155 200 165" 
           stroke="#2C2C2C" stroke-width="3" stroke-linecap="round" fill="none">
       <animateTransform
@@ -23,7 +23,7 @@
         repeatCount="indefinite"/>
     </path>
     
-    <!-- 左腕（自然に振る腕・手書き風・短くしました） -->
+    <!-- 左腕 -->
     <path d="M 200 125 Q 185 128 175 135 Q 170 138 172 140" 
           stroke="#2C2C2C" stroke-width="3" stroke-linecap="round" fill="none">
       <animateTransform
@@ -34,7 +34,7 @@
         repeatCount="indefinite"/>
     </path>
     
-    <!-- 右腕（キャリーケースを引く腕・手書き風・短くしました） -->
+    <!-- 右腕（キャリーケースを引く腕） -->
     <path d="M 200 125 Q 220 128 228 135 Q 232 138 230 140" 
           stroke="#2C2C2C" stroke-width="3" stroke-linecap="round" fill="none">
       <animateTransform
@@ -45,7 +45,7 @@
         repeatCount="indefinite"/>
     </path>
     
-    <!-- 左足（手書き風・足がクロスする歩行） -->
+    <!-- 左足-->
     <path d="M 200 165 Q 195 180 188 195 Q 185 205 182 215" 
           stroke="#2C2C2C" stroke-width="3" stroke-linecap="round" fill="none">
       <animateTransform
@@ -56,7 +56,7 @@
         repeatCount="indefinite"/>
     </path>
     
-    <!-- 右足（手書き風・足がクロスする歩行） -->
+    <!-- 右足 -->
     <path d="M 200 165 Q 205 180 212 195 Q 215 205 218 215" 
           stroke="#2C2C2C" stroke-width="3" stroke-linecap="round" fill="none">
       <animateTransform
@@ -67,7 +67,7 @@
         repeatCount="indefinite"/>
     </path>
     
-    <!-- キャリーケースの本体（大きな四角いケース・少し斜めに・左に移動） -->
+    <!-- キャリーケースの本体 -->
     <rect x="235" y="160" width="35" height="45" rx="3" ry="3" 
           fill="#2E4A87" stroke="#1C3A77" stroke-width="2"
           transform="rotate(-8 252.5 182.5)">
@@ -80,7 +80,7 @@
         additive="sum"/>
     </rect>
     
-    <!-- キャリーケースの伸縮ハンドル（ケースの上から出る・左に移動） -->
+    <!-- キャリーケースの伸縮ハンドル -->
     <line x1="240" y1="160" x2="240" y2="135" 
           stroke="#000" stroke-width="2"
           transform="rotate(-8 240 147.5)">
@@ -93,7 +93,7 @@
         additive="sum"/>
     </line>
     
-    <!-- キャリーケースの車輪（左）斜めに合わせて配置・左に移動 -->
+    <!-- キャリーケースの車輪（左） -->
     <circle cx="245" cy="210" r="4" 
             fill="#333" stroke="#222" stroke-width="1"
             transform="rotate(-8 245 210)">
@@ -113,7 +113,7 @@
         additive="sum"/>
     </circle>
     
-    <!-- キャリーケースの車輪（右）斜めに合わせて配置・左に移動 -->
+    <!-- キャリーケースの車輪（右） -->
     <circle cx="270" cy="207" r="4" 
             fill="#333" stroke="#222" stroke-width="1"
             transform="rotate(-8 270 207)">
@@ -133,7 +133,7 @@
         additive="sum"/>
     </circle>
     
-    <!-- キャリーケースの装飾ライン（斜めのケースに合わせて・左に移動） -->
+    <!-- キャリーケースの装飾ライン -->
     <line x1="238" y1="175" x2="268" y2="170" 
           stroke="#1C3A77" stroke-width="1"
           transform="rotate(-8 253 172.5)">
@@ -146,7 +146,7 @@
         additive="sum"/>
     </line>
     
-    <!-- キャリーケースの装飾ライン（斜めのケースに合わせて・左に移動） -->
+    <!-- キャリーケースの装飾ライン -->
     <line x1="236" y1="185" x2="266" y2="180" 
           stroke="#1C3A77" stroke-width="1"
           transform="rotate(-8 251 182.5)">
