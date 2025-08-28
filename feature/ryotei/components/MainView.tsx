@@ -64,7 +64,7 @@ export const MainView = () => {
       const response = await fetch('/api/user/delete', {
         method: 'DELETE',
       })
-      
+
       if (response.ok) {
         router.push('/login')
       } else {
@@ -94,7 +94,7 @@ export const MainView = () => {
     },
   ]
   return (
-    <div className="flex flex-col gap-4 relative">
+    <div className="flex flex-col gap-4 relative max-w-2xl mx-auto w-full p-4">
       <header className="flex items-center justify-between">
         <IconButton
           className="p-0"
