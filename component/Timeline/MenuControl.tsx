@@ -10,6 +10,11 @@ const action = {
   delete: DeleteIcon,
 } as const
 
+const actionLabel = {
+  edit: '編集',
+  delete: '削除',
+} as const
+
 export type Action = keyof typeof action
 
 type Props = Plan & {
@@ -22,12 +27,11 @@ export const MenuControl = ({ onClick, id, datetime, description, className, tri
   const onOpen = (e: MouseEvent<HTMLButtonElement>) => setAnchorEl(e.currentTarget)
   const onClose = () => setAnchorEl(null)
   const onItemClick = (action: Action, value: Plan) => {
-    console.log('MenuControl onItemClick', action, value)
     onClose()
     onClick?.(action, value)
   }
   const items = Object.entries(action).map(([key, Icon]) => ({
-    label: key as Action,
+    label: actionLabel[key as Action],
     action: () => onItemClick(key as Action, { id, datetime, description, trip_id }),
     icon: <Icon />,
   }))

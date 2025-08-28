@@ -134,13 +134,6 @@ export const Form = ({ className, onSubmit, data, onClose, action, mode }: Props
     onSubmit && (await onSubmit(submitData as RyoteiInsertInput))
   }
 
-  //   export const ACTION = {
-  //   // edit: 'edit',
-  //   // delete: 'delete',
-  //   // addRyotei: 'addRyotei',
-  //   // addEditTrip: 'addEditTrip',
-  //   deleteTrip: 'deleteTrip',
-  // } as const
   const classProps = clsx('flex flex-col justify-between p-5 box-border', className)
   const content =
     mode === 'delete' ? (
@@ -181,9 +174,9 @@ export const Form = ({ className, onSubmit, data, onClose, action, mode }: Props
         <Button onClick={() => onClose?.()} className="block w-full">
           キャンセル
         </Button>
-        <Button 
-          onClick={submit} 
-          className="block w-full" 
+        <Button
+          onClick={submit}
+          className="block w-full"
           variant="contained"
           color={mode === 'withdrawAccount' ? 'error' : 'primary'}
         >
