@@ -170,7 +170,7 @@ export const Form = ({ className, onSubmit, data, onClose, action, mode }: Props
   return (
     <div className={classProps}>
       {content}
-      <div className="flex justify-between">
+      <div className="flex justify-between gap-2">
         <Button onClick={() => onClose?.()} className="block w-full">
           キャンセル
         </Button>
@@ -178,7 +178,7 @@ export const Form = ({ className, onSubmit, data, onClose, action, mode }: Props
           onClick={submit}
           className="block w-full"
           variant="contained"
-          color={mode === 'withdrawAccount' ? 'error' : 'primary'}
+          color={mode === 'withdrawAccount' || mode === 'delete' || mode === 'deleteTrip' ? 'error' : 'primary'}
         >
           {action?.label || '登録'}
         </Button>
