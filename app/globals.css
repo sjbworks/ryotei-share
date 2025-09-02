@@ -38,6 +38,19 @@ html {
   height: -webkit-fill-available;
 }
 
+/* Mobile viewport units fix */
+.mobile-vh {
+  height: 100vh; /* Fallback for older browsers */
+  height: 100dvh; /* Dynamic viewport height */
+  height: -webkit-fill-available; /* WebKit browsers */
+}
+
+.mobile-min-vh {
+  min-height: 100vh; /* Fallback for older browsers */
+  min-height: 100dvh; /* Dynamic viewport height */
+  min-height: -webkit-fill-available; /* WebKit browsers */
+}
+
 /* 6. Improve media defaults */
 img,
 picture,
