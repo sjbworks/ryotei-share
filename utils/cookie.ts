@@ -36,6 +36,8 @@ export const getAccessTokenFromCookie = (cookieKeyPrefix: string): string | null
 
   try {
     const decodedToken = base64Decode(authTokenParts)
+    if (!decodedToken) return null
+
     const parsedToken = JSON.parse(decodedToken)
     return parsedToken.access_token || null
   } catch (error) {
