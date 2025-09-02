@@ -28,6 +28,14 @@ body {
   line-height: 1.5;
   /* 5. Improve text rendering */
   -webkit-font-smoothing: antialiased;
+  /* Mobile viewport fix */
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+}
+
+/* iOS Safari viewport fix */
+html {
+  height: -webkit-fill-available;
 }
 
 /* 6. Improve media defaults */

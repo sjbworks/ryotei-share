@@ -7,9 +7,11 @@ import WalkingManSvg from '@/assets/svg/WalkingMan.svg'
 
 export default function Login() {
   const containerStyle = 'flex flex-col justify-center items-center min-h-screen gap-2'
+  const containerStyle2 = 'min-h-screen flex flex-col'
+  const mobileStyle = { minHeight: '-webkit-fill-available' }
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className={containerStyle2} style={mobileStyle}>
       <main className={containerStyle}>
         <Image src={WalkingManSvg} alt="Walking Man" width={150} height={150} />
         <AuthButton login={login} />
