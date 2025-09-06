@@ -9,8 +9,7 @@
     "lint": "next lint",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "codegen": "graphql-codegen --require dotenv/config --config codegen.ts dotenv_config_path=.env.local",
-    "pages:build": "npx @cloudflare/next-on-pages && echo '_worker.js' > .vercel/output/static/.assetsignore"
+    "codegen": "graphql-codegen --require dotenv/config --config codegen.ts dotenv_config_path=.env.local"
   },
   "dependencies": {
     "@apollo/client": "^3.10.5",
@@ -49,7 +48,6 @@
     "typescript": "5.1.6"
   },
   "devDependencies": {
-    "@cloudflare/next-on-pages": "^1.13.13",
     "@graphql-codegen/cli": "5.0.2",
     "@storybook/addon-docs": "^9.0.16",
     "@storybook/addon-links": "9.0.16",
