@@ -1,30 +1,92 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Ryotei Share
 
-## Getting Started
+![Ryotei Share](assets/svg/WalkingMan.svg)
 
-First, run the development server:
+https://ryotei-share.vercel.app/
 
-```bash
-npm run dev
+## 📝 プロジェクト概要
+
+**Ryotei Share**は、旅行の行程表をシンプルに作成・管理できるWebアプリケーションです。
+
+### 主な機能
+
+- 📅 **タイムライン形式での旅程作成**: 時系列で旅行スケジュールを管理
+- 🗂️ **複数の旅行計画管理**: 複数のトリップを作成・切り替え可能
+- 🔐 **認証機能**: Supabase認証によるユーザー管理（Github, Google）
+- ⚡ **リアルタイム更新**: GraphQLによる効率的なデータ同期
+
+## 🛠️ 技術スタック
+
+### Frontend
+
+- **Framework**: [Next.js 15](https://nextjs.org/) (App Router)
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
+- **UI Library**: [Material-UI](https://mui.com/) v6
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **State Management**: [Apollo Client](https://www.apollographql.com/docs/react/)
+
+### Backend & Infrastructure
+
+- **BaaS**: [Supabase](https://supabase.com/) (認証・データベース)
+- **API**: [GraphQL](https://graphql.org/)
+- **Type Generation**: [GraphQL Code Generator](https://www.graphql-code-generator.com/)
+
+### Development Tools
+
+- **Component Development**: [Storybook](https://storybook.js.org/)
+- **Code Quality**: [ESLint](https://eslint.org/), [Prettier](https://prettier.io/)
+- **Package Manager**: npm
+
+### Deployment
+
+- **Hosting**: [Vercel](https://vercel.com/)
+
+## 🏗️ プロジェクト構成
+
+本プロジェクトは**Feature-based Architecture**を採用しています。
+
+```
+ryotei-share/
+├── app/                    # Next.js App Router
+│   ├── layout.tsx         # ルートレイアウト
+│   ├── page.tsx           # ホームページ
+│   ├── login/             # ログインページ
+│   └── legal/             # 利用規約ページ
+├── component/             # 再利用可能なUIコンポーネント
+│   ├── Button/
+│   ├── Form/
+│   ├── Modal/
+│   └── Timeline/
+├── feature/               # 機能別コンポーネント
+│   ├── auth/              # 認証機能
+│   ├── provider/          # Providerコンポーネント
+│   └── ryotei/            # 旅程管理機能
+│       ├── components/    # 機能専用コンポーネント
+│       └── hooks/         # カスタムフック
+├── utils/                 # ユーティリティ関数
+├── assets/                # 静的アセット
+└── stories/               # Storybookストーリー
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 設計思想
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **コンポーネント駆動開発**: Storybookを活用した独立したコンポーネント開発
+- **型安全性**: TypeScript + GraphQL Code Generatorによる型サポート
+- **関心の分離**: feature/component分離による保守性の向上
+- **カスタムフック活用**: ロジックとUIの分離による再利用性の向上
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## 開発
 
-## Learn More
+```bash
+# 開発サーバー起動
+npm run dev
 
-To learn more about Next.js, take a look at the following resources:
+# Storybook起動
+npm run storybook
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# GraphQL型生成
+npm run codegen
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+# ビルド
+npm run build
+```
