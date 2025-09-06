@@ -115,7 +115,6 @@ const AddTripContent = ({
 }
 
 export const Form = ({ className, onSubmit, data, onClose, action, mode }: Props) => {
-  console.log('Form mode', mode)
   const {
     register,
     handleSubmit,
