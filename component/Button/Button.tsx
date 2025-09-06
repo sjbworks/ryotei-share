@@ -11,10 +11,11 @@ type Props = {
   size?: ButtonTypeMap['props']['size']
   className?: string
   sx?: SxProps<Theme>
+  disabled?: boolean
 }
 
 export const Button = (props: Props) => {
-  const { className, children, onClick, variant = 'outlined', color = 'primary', size = 'medium', sx } = props
+  const { className, children, onClick, variant = 'outlined', color = 'primary', size = 'medium', sx, disabled } = props
   const sxProps = { backgroundColor: 'primary', ...sx }
   return (
     <MUIButton
@@ -25,6 +26,7 @@ export const Button = (props: Props) => {
       size={size}
       disableElevation
       sx={sxProps}
+      disabled={disabled}
     >
       {children}
     </MUIButton>
