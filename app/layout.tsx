@@ -10,19 +10,18 @@ export const metadata = {
   description: '旅程を作成するためのWebサービスです。',
   keywords: ['旅行', '旅のしおり', '行程表', '旅程', '旅程表'],
   authors: [{ name: 'Ryotei Share' }],
-  icons: {
-    icon: '/favicon.jpg?v=1',
-  },
   openGraph: {
     title: 'Ryotei Share',
     description: '旅程を作成するためのWebサービスです。',
     type: 'website',
     locale: 'ja_JP',
+    images: [{ url: '/opengraph-image.jpg' }],
   },
   twitter: {
     card: 'summary',
     title: 'Ryotei Share',
     description: '旅程を作成するためのWebサービスです。',
+    images: [{ url: '/twitter-image.jpg' }],
   },
   robots: {
     index: true,
