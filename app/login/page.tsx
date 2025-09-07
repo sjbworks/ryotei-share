@@ -4,7 +4,7 @@ import { login } from '@/feature/auth/api'
 import Image from 'next/image'
 import Link from 'next/link'
 import WalkingManSvg from '@/assets/svg/WalkingMan.svg'
-import { Typography } from '@mui/material'
+import { Text } from '@/component/Text'
 
 export default function Login() {
   const containerStyle = 'flex flex-col justify-center items-center gap-4'
@@ -17,12 +17,17 @@ export default function Login() {
       }}
     >
       <main className={containerStyle} style={{ flex: 1 }}>
-        <Typography variant="h5" color="grey.800">
+        <Text variant="h5" color="grey.800" fontWeight={'800'}>
           Ryotei Share
-        </Typography>
-        <Typography variant="body1" color="grey.600" style={{ whiteSpace: 'pre-line', textAlign: 'center' }}>
+        </Text>
+        <Text
+          variant="body1"
+          color="grey.600"
+          fontWeight={'800'}
+          style={{ whiteSpace: 'pre-line', textAlign: 'center' }}
+        >
           旅程を無料で簡単につくれる{'\n'}Webサービスです。
-        </Typography>
+        </Text>
         <Image src={WalkingManSvg} alt="Walking Man" width={150} height={150} />
         <AuthButton login={login} />
       </main>

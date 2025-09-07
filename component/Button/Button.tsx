@@ -16,7 +16,7 @@ type Props = {
 
 export const Button = (props: Props) => {
   const { className, children, onClick, variant = 'outlined', color = 'primary', size = 'medium', sx, disabled } = props
-  const sxProps = { backgroundColor: 'primary', ...sx }
+  const sxProps = { backgroundColor: 'primary', fontFamily: 'inherit', textTransform: 'none' as const, ...sx }
   return (
     <MUIButton
       className={className}

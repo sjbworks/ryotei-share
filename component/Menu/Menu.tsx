@@ -13,17 +13,9 @@ type Props = MenuProps & {
 
 export const Menu = ({ open, anchorEl, onClose, items }: Props) => {
   return (
-    <MUIMenu
-      id="basic-menu"
-      anchorEl={anchorEl}
-      open={open}
-      onClose={onClose}
-      MenuListProps={{
-        'aria-labelledby': 'basic-button',
-      }}
-    >
+    <MUIMenu id="basic-menu" anchorEl={anchorEl} open={open} onClose={onClose} sx={{ fontFamily: 'inherit' }}>
       {items?.map(({ label, action, icon }, index) => (
-        <MenuItem onClick={action} key={index}>
+        <MenuItem onClick={action} key={index} sx={{ fontFamily: 'inherit' }}>
           {icon}
           {label}
         </MenuItem>

@@ -7,11 +7,11 @@ import {
   TimelineDot,
   TimelineDotProps,
 } from '@mui/lab'
-import { Typography } from '@mui/material'
 import { FC } from 'react'
 import { AccessTimeIcon } from '../Icon'
 import { MenuControl, Action } from './MenuControl'
 import { format, parseISO } from 'date-fns'
+import { Text } from '@/component/Text'
 
 export type Plan = { datetime: string; description: string; id: string; trip_id: string }
 export type TimelineItemProps = Plan & {
@@ -34,15 +34,15 @@ export const TimelineItem: FC<TimelineItemProps> = (props) => {
       </TimelineSeparator>
       <TimelineContent sx={{ paddingRight: 0 }}>
         <div className="flex justify-between flex-start">
-          <Typography variant="subtitle2" component="span" color="grey.500" sx={timeSx}>
+          <Text variant="subtitle2" component="span" color="grey.500" sx={timeSx}>
             <AccessTimeIcon fontSize="small" sx={{ marginRight: '2px' }} />
             {time}
-          </Typography>
+          </Text>
           <MenuControl onClick={onClick} id={id} datetime={datetime} description={description} trip_id={trip_id} />
         </div>
-        <Typography variant="body1" color="grey.800">
+        <Text variant="body1" color="grey.800">
           {description}
-        </Typography>
+        </Text>
       </TimelineContent>
     </MUITimelineItem>
   )

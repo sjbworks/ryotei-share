@@ -1,9 +1,15 @@
 import './globals.css'
-import { Inter } from 'next/font/google'
+import { Zen_Maru_Gothic } from 'next/font/google'
 import clsx from 'clsx'
 import { ApolloProvider } from '@/feature/provider/ApolloProvider'
 
-const inter = Inter({ subsets: ['latin'] })
+const zenMaru = Zen_Maru_Gothic({
+  weight: ['400', '500', '700', '900'],
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-zen-maru-gothic',
+  adjustFontFallback: false,
+})
 
 export const metadata = {
   title: 'Ryotei Share',
@@ -30,10 +36,16 @@ export const metadata = {
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const className = clsx(inter.className, 'flex flex-col')
+  const className = clsx(zenMaru.className, 'flex flex-col')
   return (
     <html lang="ja">
-      <body className={className}>
+      <body
+        className={className}
+        style={{
+          fontVariantNumeric: 'tabular-nums',
+          fontFeatureSettings: '"tnum"',
+        }}
+      >
         <ApolloProvider>{children}</ApolloProvider>
       </body>
     </html>
