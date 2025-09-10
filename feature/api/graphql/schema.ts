@@ -179,14 +179,20 @@ export type Mutation = {
   __typename?: 'Mutation'
   /** Deletes zero or more records from the `ryotei` collection */
   deleteFromryoteiCollection: RyoteiDeleteResponse
+  /** Deletes zero or more records from the `share_setting` collection */
+  deleteFromshare_settingCollection: Share_SettingDeleteResponse
   /** Deletes zero or more records from the `trips` collection */
   deleteFromtripsCollection: TripsDeleteResponse
   /** Adds one or more `ryotei` records to the collection */
   insertIntoryoteiCollection?: Maybe<RyoteiInsertResponse>
+  /** Adds one or more `share_setting` records to the collection */
+  insertIntoshare_settingCollection?: Maybe<Share_SettingInsertResponse>
   /** Adds one or more `trips` records to the collection */
   insertIntotripsCollection?: Maybe<TripsInsertResponse>
   /** Updates zero or more records in the `ryotei` collection */
   updateryoteiCollection: RyoteiUpdateResponse
+  /** Updates zero or more records in the `share_setting` collection */
+  updateshare_settingCollection: Share_SettingUpdateResponse
   /** Updates zero or more records in the `trips` collection */
   updatetripsCollection: TripsUpdateResponse
 }
@@ -195,6 +201,12 @@ export type Mutation = {
 export type MutationDeleteFromryoteiCollectionArgs = {
   atMost?: Scalars['Int']['input']
   filter?: InputMaybe<RyoteiFilter>
+}
+
+/** The root type for creating and mutating data */
+export type MutationDeleteFromshare_SettingCollectionArgs = {
+  atMost?: Scalars['Int']['input']
+  filter?: InputMaybe<Share_SettingFilter>
 }
 
 /** The root type for creating and mutating data */
@@ -209,6 +221,11 @@ export type MutationInsertIntoryoteiCollectionArgs = {
 }
 
 /** The root type for creating and mutating data */
+export type MutationInsertIntoshare_SettingCollectionArgs = {
+  objects: Array<Share_SettingInsertInput>
+}
+
+/** The root type for creating and mutating data */
 export type MutationInsertIntotripsCollectionArgs = {
   objects: Array<TripsInsertInput>
 }
@@ -218,6 +235,13 @@ export type MutationUpdateryoteiCollectionArgs = {
   atMost?: Scalars['Int']['input']
   filter?: InputMaybe<RyoteiFilter>
   set: RyoteiUpdateInput
+}
+
+/** The root type for creating and mutating data */
+export type MutationUpdateshare_SettingCollectionArgs = {
+  atMost?: Scalars['Int']['input']
+  filter?: InputMaybe<Share_SettingFilter>
+  set: Share_SettingUpdateInput
 }
 
 /** The root type for creating and mutating data */
@@ -265,6 +289,8 @@ export type Query = {
   node?: Maybe<Node>
   /** A pagable collection of type `ryotei` */
   ryoteiCollection?: Maybe<RyoteiConnection>
+  /** A pagable collection of type `share_setting` */
+  share_settingCollection?: Maybe<Share_SettingConnection>
   /** A pagable collection of type `trips` */
   tripsCollection?: Maybe<TripsConnection>
 }
@@ -283,6 +309,17 @@ export type QueryRyoteiCollectionArgs = {
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
   orderBy?: InputMaybe<Array<RyoteiOrderBy>>
+}
+
+/** The root type for querying data */
+export type QueryShare_SettingCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  before?: InputMaybe<Scalars['Cursor']['input']>
+  filter?: InputMaybe<Share_SettingFilter>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
+  orderBy?: InputMaybe<Array<Share_SettingOrderBy>>
 }
 
 /** The root type for querying data */
@@ -457,6 +494,98 @@ export type RyoteiUpdateResponse = {
   records: Array<Ryotei>
 }
 
+export type Share_Setting = Node & {
+  __typename?: 'share_setting'
+  created_at: Scalars['Datetime']['output']
+  id: Scalars['UUID']['output']
+  is_public?: Maybe<Scalars['Boolean']['output']>
+  /** Globally Unique Record Identifier */
+  nodeId: Scalars['ID']['output']
+  share_id: Scalars['String']['output']
+  trip_id: Scalars['UUID']['output']
+  trips?: Maybe<Trips>
+  update_at?: Maybe<Scalars['Datetime']['output']>
+}
+
+export type Share_SettingConnection = {
+  __typename?: 'share_settingConnection'
+  edges: Array<Share_SettingEdge>
+  pageInfo: PageInfo
+}
+
+export type Share_SettingDeleteResponse = {
+  __typename?: 'share_settingDeleteResponse'
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output']
+  /** Array of records impacted by the mutation */
+  records: Array<Share_Setting>
+}
+
+export type Share_SettingEdge = {
+  __typename?: 'share_settingEdge'
+  cursor: Scalars['String']['output']
+  node: Share_Setting
+}
+
+export type Share_SettingFilter = {
+  /** Returns true only if all its inner filters are true, otherwise returns false */
+  and?: InputMaybe<Array<Share_SettingFilter>>
+  created_at?: InputMaybe<DatetimeFilter>
+  id?: InputMaybe<UuidFilter>
+  is_public?: InputMaybe<BooleanFilter>
+  nodeId?: InputMaybe<IdFilter>
+  /** Negates a filter */
+  not?: InputMaybe<Share_SettingFilter>
+  /** Returns true if at least one of its inner filters is true, otherwise returns false */
+  or?: InputMaybe<Array<Share_SettingFilter>>
+  share_id?: InputMaybe<StringFilter>
+  trip_id?: InputMaybe<UuidFilter>
+  update_at?: InputMaybe<DatetimeFilter>
+}
+
+export type Share_SettingInsertInput = {
+  created_at?: InputMaybe<Scalars['Datetime']['input']>
+  id?: InputMaybe<Scalars['UUID']['input']>
+  is_public?: InputMaybe<Scalars['Boolean']['input']>
+  share_id?: InputMaybe<Scalars['String']['input']>
+  trip_id?: InputMaybe<Scalars['UUID']['input']>
+  update_at?: InputMaybe<Scalars['Datetime']['input']>
+}
+
+export type Share_SettingInsertResponse = {
+  __typename?: 'share_settingInsertResponse'
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output']
+  /** Array of records impacted by the mutation */
+  records: Array<Share_Setting>
+}
+
+export type Share_SettingOrderBy = {
+  created_at?: InputMaybe<OrderByDirection>
+  id?: InputMaybe<OrderByDirection>
+  is_public?: InputMaybe<OrderByDirection>
+  share_id?: InputMaybe<OrderByDirection>
+  trip_id?: InputMaybe<OrderByDirection>
+  update_at?: InputMaybe<OrderByDirection>
+}
+
+export type Share_SettingUpdateInput = {
+  created_at?: InputMaybe<Scalars['Datetime']['input']>
+  id?: InputMaybe<Scalars['UUID']['input']>
+  is_public?: InputMaybe<Scalars['Boolean']['input']>
+  share_id?: InputMaybe<Scalars['String']['input']>
+  trip_id?: InputMaybe<Scalars['UUID']['input']>
+  update_at?: InputMaybe<Scalars['Datetime']['input']>
+}
+
+export type Share_SettingUpdateResponse = {
+  __typename?: 'share_settingUpdateResponse'
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output']
+  /** Array of records impacted by the mutation */
+  records: Array<Share_Setting>
+}
+
 export type Trips = Node & {
   __typename?: 'trips'
   created_at: Scalars['Datetime']['output']
@@ -465,6 +594,7 @@ export type Trips = Node & {
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output']
   ryoteiCollection?: Maybe<RyoteiConnection>
+  share_settingCollection?: Maybe<Share_SettingConnection>
   user_id?: Maybe<Scalars['UUID']['output']>
 }
 
@@ -476,6 +606,16 @@ export type TripsRyoteiCollectionArgs = {
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
   orderBy?: InputMaybe<Array<RyoteiOrderBy>>
+}
+
+export type TripsShare_SettingCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  before?: InputMaybe<Scalars['Cursor']['input']>
+  filter?: InputMaybe<Share_SettingFilter>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
+  orderBy?: InputMaybe<Array<Share_SettingOrderBy>>
 }
 
 export type TripsConnection = {
