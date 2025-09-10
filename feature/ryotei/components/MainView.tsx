@@ -15,6 +15,10 @@ import { Menu } from '@/component/Menu/Menu'
 import { useState } from 'react'
 import { TripListDrawer } from './TripListDrawer'
 import { useModal } from '../hooks/useModal'
+import SpeedDial from '@mui/material/SpeedDial'
+import SpeedDialIcon from '@mui/material/SpeedDialIcon'
+import SpeedDialAction from '@mui/material/SpeedDialAction'
+import ShareIcon from '@mui/icons-material/Share'
 
 export const MainView = () => {
   const formStyle = 'flex flex-col justify-between p-10'
@@ -100,6 +104,12 @@ export const MainView = () => {
       },
     },
   ]
+
+  const actions = [
+    { icon: <ShareIcon />, name: '旅程をシェア' },
+    { icon: <AddIcon onClick={handleClick} />, name: '予定を追加' },
+  ]
+
   return (
     <div className="flex flex-col gap-4 relative max-w-2xl mx-auto w-full p-4">
       <header className="flex items-center justify-between">
@@ -170,18 +180,23 @@ export const MainView = () => {
           />
         </Modal>
       </main>
-      <Fab
-        color="primary"
-        onClick={handleClick}
-        sx={{
-          position: 'fixed',
-          bottom: 16,
-          right: 16,
-          zIndex: 1000,
-        }}
+      <SpeedDial
+        ariaLabel="SpeedDial basic example"
+        sx={{ position: 'fixed', bottom: 16, right: 16, zIndex: 1000 }}
+        icon={<SpeedDialIcon />}
       >
-        <AddIcon />
-      </Fab>
+        {actions.map((action) => (
+          <SpeedDialAction
+            key={action.name}
+            icon={action.icon}
+            slotProps={{
+              tooltip: {
+                title: action.name,
+              },
+            }}
+          />
+        ))}
+      </SpeedDial>
     </div>
   )
 }
