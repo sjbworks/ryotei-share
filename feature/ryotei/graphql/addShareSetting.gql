@@ -1,0 +1,10 @@
+mutation InsertIntoshare_settingCollection($objects: [share_settingInsertInput!]!) {
+  insertIntoshare_settingCollection(objects: $objects) {
+    affectedCount
+    records {
+      id
+      share_id
+      trip_id
+    }
+  }
+}

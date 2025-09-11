@@ -9,6 +9,19 @@ export type InsertIntoryoteiCollectionMutation = {
   insertIntoryoteiCollection?: { __typename?: 'ryoteiInsertResponse'; affectedCount: number } | null
 }
 
+export type InsertIntoshare_SettingCollectionMutationVariables = Types.Exact<{
+  objects: Array<Types.Share_SettingInsertInput> | Types.Share_SettingInsertInput
+}>
+
+export type InsertIntoshare_SettingCollectionMutation = {
+  __typename?: 'Mutation'
+  insertIntoshare_settingCollection?: {
+    __typename?: 'share_settingInsertResponse'
+    affectedCount: number
+    records: Array<{ __typename?: 'share_setting'; id: any; share_id: string; trip_id: any }>
+  } | null
+}
+
 export type InsertIntotripsCollectionMutationVariables = Types.Exact<{
   objects: Array<Types.TripsInsertInput> | Types.TripsInsertInput
 }>
