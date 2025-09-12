@@ -505,6 +505,7 @@ export type Share_Setting = Node & {
   trip_id: Scalars['UUID']['output']
   trips?: Maybe<Trips>
   update_at?: Maybe<Scalars['Datetime']['output']>
+  user_id?: Maybe<Scalars['UUID']['output']>
 }
 
 export type Share_SettingConnection = {
@@ -541,6 +542,7 @@ export type Share_SettingFilter = {
   share_id?: InputMaybe<StringFilter>
   trip_id?: InputMaybe<UuidFilter>
   update_at?: InputMaybe<DatetimeFilter>
+  user_id?: InputMaybe<UuidFilter>
 }
 
 export type Share_SettingInsertInput = {
@@ -550,6 +552,7 @@ export type Share_SettingInsertInput = {
   share_id?: InputMaybe<Scalars['String']['input']>
   trip_id?: InputMaybe<Scalars['UUID']['input']>
   update_at?: InputMaybe<Scalars['Datetime']['input']>
+  user_id?: InputMaybe<Scalars['UUID']['input']>
 }
 
 export type Share_SettingInsertResponse = {
@@ -567,6 +570,7 @@ export type Share_SettingOrderBy = {
   share_id?: InputMaybe<OrderByDirection>
   trip_id?: InputMaybe<OrderByDirection>
   update_at?: InputMaybe<OrderByDirection>
+  user_id?: InputMaybe<OrderByDirection>
 }
 
 export type Share_SettingUpdateInput = {
@@ -576,6 +580,7 @@ export type Share_SettingUpdateInput = {
   share_id?: InputMaybe<Scalars['String']['input']>
   trip_id?: InputMaybe<Scalars['UUID']['input']>
   update_at?: InputMaybe<Scalars['Datetime']['input']>
+  user_id?: InputMaybe<Scalars['UUID']['input']>
 }
 
 export type Share_SettingUpdateResponse = {

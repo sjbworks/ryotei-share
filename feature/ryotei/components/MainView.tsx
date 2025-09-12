@@ -9,7 +9,6 @@ import { useRouter } from 'next/navigation'
 import { logout } from '@/feature/auth/api'
 import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
-import Fab from '@mui/material/Fab'
 import { AccountCircleIcon } from '@/component/Icon'
 import { Menu } from '@/component/Menu/Menu'
 import { useState } from 'react'
@@ -44,6 +43,8 @@ export const MainView = () => {
     onClickAddTrip,
     handleModalSubmit,
     formState,
+    shareTrip,
+    onClickShareTrip,
   } = useTimeline(refetch, refetchTrip, selectedTripId, onSideClose, onChangeTripId)
   const router = useRouter()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
@@ -105,8 +106,10 @@ export const MainView = () => {
     },
   ]
 
+  const handleClickShare = () => onClickShareTrip({ trip_id: selectedTripId })
+
   const actions = [
-    { icon: <ShareIcon />, name: '旅程をシェア' },
+    { icon: <ShareIcon onClick={handleClickShare} />, name: '旅程をシェア' },
     { icon: <AddIcon onClick={handleClick} />, name: '予定を追加' },
   ]
 

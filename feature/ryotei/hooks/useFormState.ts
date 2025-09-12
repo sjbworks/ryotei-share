@@ -1,12 +1,13 @@
 import { useState } from 'react'
 import { Plan } from '@/component/Timeline/TimelineItem'
 import { ActionType } from '@/feature/ryotei/types'
-import { RyoteiInsertInput, TripsInsertInput } from '@/feature/api/graphql'
+import { RyoteiInsertInput, TripsInsertInput, Share_SettingInsertInput } from '@/feature/api/graphql'
 
 export const useFormState = () => {
   const [mode, setMode] = useState<ActionType | null>(null)
   const [selectedPlan, setSelectedPlan] = useState<RyoteiInsertInput | null>(null)
   const [trip, setTrip] = useState<TripsInsertInput | null>(null)
+  const [shareSetting, setShareSetting] = useState<Share_SettingInsertInput | null>(null)
 
   const setEditMode = (plan: Plan) => {
     setMode('edit')
@@ -31,6 +32,11 @@ export const useFormState = () => {
   const setDeleteTripMode = (tripData: TripsInsertInput) => {
     setMode('deleteTrip')
     setTrip(tripData)
+  }
+
+  const setShareTripMode = (shareData: Share_SettingInsertInput) => {
+    setMode('shareTrip')
+    setTrip(shareData)
   }
 
   const resetMode = () => {
@@ -59,5 +65,6 @@ export const useFormState = () => {
     resetMode,
     onMenuClick,
     setSelectedPlan,
+    setShareTripMode,
   }
 }

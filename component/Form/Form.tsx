@@ -6,15 +6,15 @@ import TextField from '@mui/material/TextField'
 import Box from '@mui/material/Box'
 import { Button } from '@/component/Button'
 import clsx from 'clsx'
-import { RyoteiInsertInput, TripsInsertInput } from '@/feature/api/graphql'
+import { RyoteiInsertInput, TripsInsertInput, Share_SettingInsertInput } from '@/feature/api/graphql'
 import { ActionType } from '@/feature/ryotei/types'
 import { ja } from 'date-fns/locale/ja'
 import { useRyoteiForm, useTripForm } from './hooks'
 
 type Props = {
   className?: string
-  onSubmit?: (data: RyoteiInsertInput) => void
-  data?: RyoteiInsertInput | TripsInsertInput | null
+  onSubmit?: (data: RyoteiInsertInput | Share_SettingInsertInput) => void
+  data?: RyoteiInsertInput | TripsInsertInput | Share_SettingInsertInput | null
   onClose?: () => void
   action?: {
     label: string
@@ -32,6 +32,10 @@ const DeleteTripContent = () => {
 
 const WithdrawAccountContent = () => {
   return <Box sx={{ paddingY: '16px' }}>退会しますか？</Box>
+}
+
+const ShareTripContent = () => {
+  return <Box sx={{ paddingY: '16px' }}>この旅程をシェアしますか？</Box>
 }
 
 const CreateUpdateContent = ({
@@ -128,9 +132,9 @@ export const Form = ({ className, onSubmit, data, onClose, action, mode }: Props
     formState: { errors: tripErrors },
   } = useTripForm(data)
 
-  const handleClick: SubmitHandler<RyoteiInsertInput> = async (formData) => {
-    const submitData = mode === 'delete' ? data : formData
-    onSubmit && (await onSubmit(submitData as RyoteiInsertInput))
+  const handleClick: SubmitHandler<RyoteiInsertInput | Share_SettingInsertInput> = async (formData) => {
+    const submitData = mode === 'delete' || mode === 'shareTrip' ? data : formData
+    onSubmit && (await onSubmit(submitData as RyoteiInsertInput | Share_SettingInsertInput))
   }
 
   const classProps = clsx('flex flex-col justify-between p-5 box-border', className)
@@ -147,6 +151,8 @@ export const Form = ({ className, onSubmit, data, onClose, action, mode }: Props
       <AddTripContent register={tripRegister} errors={tripErrors} />
     ) : mode === 'addRyotei' ? (
       <CreateUpdateContent register={register} control={control} errors={errors} />
+    ) : mode === 'shareTrip' ? (
+      <ShareTripContent />
     ) : (
       <CreateUpdateContent register={register} control={control} errors={errors} />
     )

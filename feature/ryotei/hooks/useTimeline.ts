@@ -4,11 +4,12 @@ import { useBottomSheet } from './useBottomSheet'
 import { useRyoteiCRUD } from './useRyoteiCRUD'
 import { useTripCRUD } from './useTripCRUD'
 import { useFormState } from './useFormState'
-import { RyoteiInsertInput, TripsInsertInput } from '@/feature/api/graphql'
+import { RyoteiInsertInput, TripsInsertInput, Share_SettingInsertInput } from '@/feature/api/graphql'
 import { ActionType } from '@/feature/ryotei/types'
 import { Plan } from '@/component/Timeline/TimelineItem'
+import { useShareSettingCRUD } from './useShareSettingCRUD'
 
-type FormSubmitData = RyoteiInsertInput | TripsInsertInput
+type FormSubmitData = RyoteiInsertInput | TripsInsertInput | Share_SettingInsertInput
 
 export const useTimeline = (
   refetch: () => void,
@@ -22,6 +23,7 @@ export const useTimeline = (
   const { createRyotei, updateRyoteiById, deleteRyoteiById } = useRyoteiCRUD(selectedTripId, refetch)
   const { createTrip, updateTrip, deleteTrip } = useTripCRUD(refetchTrip, onChangeTripId)
   const formState = useFormState()
+  const { shareTrip } = useShareSettingCRUD()
 
   const onMenuClick = (action: ActionType, plan: Plan) => {
     formState.onMenuClick(action, plan)
@@ -65,6 +67,8 @@ export const useTimeline = (
       } else {
         await createTrip(tripData)
       }
+    } else if (formState.mode === 'shareTrip') {
+      await shareTrip(data)
     }
 
     await refetch()
@@ -80,13 +84,30 @@ export const useTimeline = (
 
   const formProps = {
     isOpen: modal.isOpen,
-    data: formState.mode === 'addEditTrip' ? formState.trip : formState.selectedPlan,
+    data:
+      formState.mode === 'addEditTrip'
+        ? formState.trip
+        : formState.mode === 'shareTrip'
+        ? { trip_id: selectedTripId }
+        : formState.selectedPlan,
     onSubmit: handleModalSubmit,
     onClose: modal.close,
     action: {
-      label: formState.mode === 'edit' ? '更新' : formState.mode === 'delete' || formState.mode === 'deleteTrip' ? '削除' : '追加',
+      label:
+        formState.mode === 'edit'
+          ? '更新'
+          : formState.mode === 'delete' || formState.mode === 'deleteTrip'
+          ? '削除'
+          : formState.mode === 'shareTrip'
+          ? 'シェア'
+          : '追加',
     },
     mode: formState.mode,
+  }
+
+  const onClickShareTrip = (data: FormSubmitData) => {
+    formState.setShareTripMode(data)
+    modal.open()
   }
 
   return {
@@ -99,5 +120,7 @@ export const useTimeline = (
     onClickAddTrip,
     handleModalSubmit,
     formState,
+    shareTrip,
+    onClickShareTrip,
   }
 }
