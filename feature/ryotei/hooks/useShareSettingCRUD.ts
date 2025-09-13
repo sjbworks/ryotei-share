@@ -19,9 +19,7 @@ export const useShareSettingCRUD = () => {
         trip_id: newData.trip_id,
       }
       await addShareSetting({ variables: { objects: insertData } })
-      const shareId = await data?.insertIntoshare_settingCollection?.records.find(
-        (data) => data.trip_id === newData.trip_id
-      )?.share_id
+      const shareId = await data?.insertIntoshare_settingCollection?.records[0].share_id
       window.open(`/${shareId}`, '_blank', 'noopener,noreferrer')
     } catch (e) {
       /* Error Handling */
