@@ -16,13 +16,11 @@ const httpLink = new HttpLink({
 const authLink = setContext((_, { headers }) => {
   const key = `sb-${process.env.NEXT_PUBLIC_SUPABASE_PROJECT_ID!}-auth-token`
   const token = getAccessTokenFromCookie(key)
-  console.log('Apollo authLink - token exists:', !!token)
-  console.log('Apollo authLink - token preview:', token?.substring(0, 20) + '...')
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : '',
-      apikey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      Authorization: token ? `Bearer ${token}` : '',
+      apiKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     },
   }
 })
