@@ -6,15 +6,15 @@ import TextField from '@mui/material/TextField'
 import Box from '@mui/material/Box'
 import { Button } from '@/component/Button'
 import clsx from 'clsx'
-import { RyoteiInsertInput, TripsInsertInput, Share_SettingInsertInput } from '@/feature/api/graphql'
+import { RyoteiInsertInput, TripsInsertInput, ShareInsertInput } from '@/feature/api/graphql'
 import { ActionType } from '@/feature/ryotei/types'
 import { ja } from 'date-fns/locale/ja'
 import { useRyoteiForm, useTripForm } from './hooks'
 
 type Props = {
   className?: string
-  onSubmit?: (data: RyoteiInsertInput | Share_SettingInsertInput) => void
-  data?: RyoteiInsertInput | TripsInsertInput | Share_SettingInsertInput | null
+  onSubmit?: (data: RyoteiInsertInput | ShareInsertInput) => void
+  data?: RyoteiInsertInput | TripsInsertInput | ShareInsertInput | null
   onClose?: () => void
   action?: {
     label: string
@@ -132,9 +132,9 @@ export const Form = ({ className, onSubmit, data, onClose, action, mode }: Props
     formState: { errors: tripErrors },
   } = useTripForm(data)
 
-  const handleClick: SubmitHandler<RyoteiInsertInput | Share_SettingInsertInput> = async (formData) => {
+  const handleClick: SubmitHandler<RyoteiInsertInput | ShareInsertInput> = async (formData) => {
     const submitData = mode === 'delete' || mode === 'shareTrip' ? data : formData
-    onSubmit && (await onSubmit(submitData as RyoteiInsertInput | Share_SettingInsertInput))
+    onSubmit && (await onSubmit(submitData as RyoteiInsertInput | ShareInsertInput))
   }
 
   const classProps = clsx('flex flex-col justify-between p-5 box-border', className)

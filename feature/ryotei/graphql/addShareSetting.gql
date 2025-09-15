@@ -1,5 +1,5 @@
-mutation InsertIntoshare_settingCollection($objects: [share_settingInsertInput!]!) {
-  insertIntoshare_settingCollection(objects: $objects) {
+mutation InsertIntoshareCollection($objects: [shareInsertInput!]!) {
+  insertIntoshareCollection(objects: $objects) {
     affectedCount
     records {
       id

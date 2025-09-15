@@ -4,12 +4,12 @@ import { useBottomSheet } from './useBottomSheet'
 import { useRyoteiCRUD } from './useRyoteiCRUD'
 import { useTripCRUD } from './useTripCRUD'
 import { useFormState } from './useFormState'
-import { RyoteiInsertInput, TripsInsertInput, Share_SettingInsertInput } from '@/feature/api/graphql'
+import { RyoteiInsertInput, TripsInsertInput, ShareInsertInput } from '@/feature/api/graphql'
 import { ActionType } from '@/feature/ryotei/types'
 import { Plan } from '@/component/Timeline/TimelineItem'
 import { useShareSettingCRUD } from './useShareSettingCRUD'
 
-type FormSubmitData = RyoteiInsertInput | TripsInsertInput | Share_SettingInsertInput
+type FormSubmitData = RyoteiInsertInput | TripsInsertInput | ShareInsertInput
 
 export const useTimeline = (
   refetch: () => void,
