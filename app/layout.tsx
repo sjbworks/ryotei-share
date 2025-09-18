@@ -2,6 +2,7 @@ import './globals.css'
 import { Zen_Maru_Gothic } from 'next/font/google'
 import clsx from 'clsx'
 import { ApolloProvider } from '@/feature/provider/ApolloProvider'
+import { SnackbarContextProvider } from '@/feature/provider/SnackbarContextProvider'
 
 const zenMaru = Zen_Maru_Gothic({
   weight: ['400', '500', '700', '900'],
@@ -46,7 +47,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           fontFeatureSettings: '"tnum"',
         }}
       >
-        <ApolloProvider>{children}</ApolloProvider>
+        <ApolloProvider>
+          <SnackbarContextProvider>{children}</SnackbarContextProvider>
+        </ApolloProvider>
       </body>
     </html>
   )

@@ -1,6 +1,6 @@
 'use client'
 
-import { BottomDrawer, Modal, Form, Button, AddIcon, ArrowForwardIosIcon, MoreVertIcon } from '@/component'
+import { BottomDrawer, Modal, Form, AddIcon, ArrowForwardIosIcon, Snackbar } from '@/component'
 import { useTimeline } from '@/feature/ryotei/hooks/useTimeline'
 import { useGetRyotei } from '../hooks/useGetRyotei'
 import { useRyoteiList } from '../hooks/useRyoteiList'
@@ -11,15 +11,17 @@ import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
 import { AccountCircleIcon } from '@/component/Icon'
 import { Menu } from '@/component/Menu/Menu'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { TripListDrawer } from './TripListDrawer'
 import { useModal } from '../hooks/useModal'
 import SpeedDial from '@mui/material/SpeedDial'
 import SpeedDialIcon from '@mui/material/SpeedDialIcon'
 import SpeedDialAction from '@mui/material/SpeedDialAction'
 import ShareIcon from '@mui/icons-material/Share'
+import { SnackbarContext } from '@/feature/provider/SnackbarContextProvider'
 
 export const MainView = () => {
+  const snackbarState = useContext(SnackbarContext)
   const formStyle = 'flex flex-col justify-between p-10'
   const {
     handleMenuClick,
@@ -200,6 +202,7 @@ export const MainView = () => {
           />
         ))}
       </SpeedDial>
+      <Snackbar {...snackbarState} />
     </div>
   )
 }

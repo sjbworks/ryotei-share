@@ -1,13 +1,15 @@
 import { useMutation } from '@apollo/client'
-import { useRouter } from 'next/navigation'
 import { MUTATION_ADD_SHARE_SETTING } from '@/feature/ryotei/graphql'
 import {
   InsertIntoshareCollectionMutation as AddShareMutation,
   InsertIntoshareCollectionMutationVariables as AddShareMutationVariables,
   ShareInsertInput,
 } from '@/feature/api/graphql'
+import { SnackbarDispatchContext } from '@/feature/provider/SnackbarContextProvider'
+import { useContext } from 'react'
 
 export const useShareSettingCRUD = () => {
+  const dispatch = useContext(SnackbarDispatchContext)
   const [addShareSetting] = useMutation<AddShareMutation, AddShareMutationVariables>(MUTATION_ADD_SHARE_SETTING)
 
   const shareTrip = async (newData: ShareInsertInput) => {
@@ -22,6 +24,7 @@ export const useShareSettingCRUD = () => {
     } catch (e) {
       /* Error Handling */
       console.error(e)
+      dispatch?.({ message: e?.message })
     }
   }
 

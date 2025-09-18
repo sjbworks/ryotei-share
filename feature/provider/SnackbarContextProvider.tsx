@@ -1,8 +1,8 @@
 import { createContext, useReducer, ReactNode } from 'react'
 import { SnackbarProps } from '@mui/material/Snackbar'
 
-const SnackbarContext = createContext<SnackbarProps | null>(null)
-const SnackbarDispatchContext = createContext<((newState: Partial<SnackbarProps>) => void) | null>(null)
+export const SnackbarContext = createContext<SnackbarProps | null>(null)
+export const SnackbarDispatchContext = createContext<((newState: Partial<SnackbarProps>) => void) | null>(null)
 
 const snackbarReducer = (snackbarState: SnackbarProps, newState: Partial<SnackbarProps>): SnackbarProps => {
   return { ...snackbarState, ...newState }
