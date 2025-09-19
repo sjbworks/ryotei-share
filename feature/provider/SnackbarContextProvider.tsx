@@ -1,3 +1,5 @@
+'use client'
+
 import { createContext, useReducer, ReactNode } from 'react'
 import { SnackbarProps } from '@mui/material/Snackbar'
 
