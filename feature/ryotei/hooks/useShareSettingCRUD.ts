@@ -22,9 +22,12 @@ export const useShareSettingCRUD = () => {
       const shareId = result.data?.insertIntoshareCollection?.records[0].share_id
       window.open(`/${shareId}`, '_blank', 'noopener,noreferrer')
     } catch (e) {
-      /* Error Handling */
-      console.error(e)
-      dispatch?.({ message: e?.message })
+      if (e instanceof Error)
+        dispatch?.({
+          message: e.message,
+          open: true,
+          ContentProps: { sx: { backgroundColor: 'tomato' } },
+        })
     }
   }
 

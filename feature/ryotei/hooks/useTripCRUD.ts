@@ -18,8 +18,12 @@ import {
   TripsUpdateInput,
   TripsFilter,
 } from '@/feature/api/graphql'
+import { SnackbarDispatchContext } from '@/feature/provider/SnackbarContextProvider'
+import { useContext } from 'react'
 
 export const useTripCRUD = (refetchTrip?: () => void, onChangeTripId?: (id: string) => void) => {
+  const dispatch = useContext(SnackbarDispatchContext)
+
   const [addTrip] = useMutation<AddTripMutation, AddTripMutationVariables>(MUTATION_ADD_TRIP)
   const [updateTrips] = useMutation<UpdateTripMutation, UpdateTripMutationVariables>(MUTATION_UPDATE_TRIP)
   const [deleteTrips] = useMutation<DeleteTripMutation, DeleteTripMutationVariables>(MUTATION_DELETE_TRIP)
@@ -28,14 +32,23 @@ export const useTripCRUD = (refetchTrip?: () => void, onChangeTripId?: (id: stri
   )
 
   const createTrip = async (tripData: TripsInsertInput) => {
-    const result = await addTrip({
-      variables: { objects: { name: tripData?.name } },
-    })
-    await refetchTrip?.()
-    // refetchTrip完了後にonChangeTripIdを呼び出して、新しいtripがtrips配列に含まれた状態でtitleを更新する
-    const newTripId = result.data?.insertIntotripsCollection?.records[0].id
-    if (newTripId) {
-      onChangeTripId?.(newTripId)
+    try {
+      const result = await addTrip({
+        variables: { objects: { name: tripData?.name } },
+      })
+      await refetchTrip?.()
+      // refetchTrip完了後にonChangeTripIdを呼び出して、新しいtripがtrips配列に含まれた状態でtitleを更新する
+      const newTripId = result.data?.insertIntotripsCollection?.records[0].id
+      if (newTripId) {
+        onChangeTripId?.(newTripId)
+      }
+    } catch (e) {
+      if (e instanceof Error)
+        dispatch?.({
+          message: e.message,
+          open: true,
+          ContentProps: { sx: { backgroundColor: 'tomato' } },
+        })
     }
   }
 
@@ -53,8 +66,14 @@ export const useTripCRUD = (refetchTrip?: () => void, onChangeTripId?: (id: stri
       if (updatedTripId) {
         onChangeTripId?.(updatedTripId)
       }
-    } catch (error) {
-      console.error('updateTrip error:', error)
+    } catch (e) {
+      console.error('updateTrip error:', e)
+      if (e instanceof Error)
+        dispatch?.({
+          message: e.message,
+          open: true,
+          ContentProps: { sx: { backgroundColor: 'tomato' } },
+        })
     }
   }
 
@@ -77,8 +96,14 @@ export const useTripCRUD = (refetchTrip?: () => void, onChangeTripId?: (id: stri
 
       // 削除後は最初の利用可能なtripを選択する（useRyoteiListのuseEffectで自動的に処理される）
       // ここでonChangeTripIdを呼び出すとまだ削除されたIDを参照してしまう可能性があるため呼び出さない
-    } catch (error) {
-      console.error('deleteTrip error:', error)
+    } catch (e) {
+      console.error('deleteTrip error:', e)
+      if (e instanceof Error)
+        dispatch?.({
+          message: e.message,
+          open: true,
+          ContentProps: { sx: { backgroundColor: 'tomato' } },
+        })
     }
   }
 
