@@ -1,0 +1,10 @@
+mutation updateshareCollection($objects: shareUpdateInput!) {
+  updateshareCollection(set: $objects) {
+    affectedCount
+    records {
+      id
+      share_id
+      trip_id
+    }
+  }
+}

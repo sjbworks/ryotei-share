@@ -113,6 +113,19 @@ export type UpdateryoteiCollectionMutation = {
   updateryoteiCollection: { __typename?: 'ryoteiUpdateResponse'; affectedCount: number }
 }
 
+export type UpdateshareCollectionMutationVariables = Types.Exact<{
+  objects: Types.ShareUpdateInput
+}>
+
+export type UpdateshareCollectionMutation = {
+  __typename?: 'Mutation'
+  updateshareCollection: {
+    __typename?: 'shareUpdateResponse'
+    affectedCount: number
+    records: Array<{ __typename?: 'share'; id: any; share_id?: any | null; trip_id?: any | null }>
+  }
+}
+
 export type UpdatetripsCollectionMutationVariables = Types.Exact<{
   set: Types.TripsUpdateInput
   filter: Types.TripsFilter
