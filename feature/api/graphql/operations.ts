@@ -88,6 +88,28 @@ export type GetRyoteiQuery = {
   } | null
 }
 
+export type GetShareByTripIdQueryVariables = Types.Exact<{
+  tripId: Types.Scalars['UUID']['input']
+}>
+
+export type GetShareByTripIdQuery = {
+  __typename?: 'Query'
+  shareCollection?: {
+    __typename?: 'shareConnection'
+    edges: Array<{
+      __typename?: 'shareEdge'
+      node: {
+        __typename?: 'share'
+        share_id?: any | null
+        trip_id?: any | null
+        is_public?: boolean | null
+        created_at: any
+        user_id?: any | null
+      }
+    }>
+  } | null
+}
+
 export type GetTripsQueryVariables = Types.Exact<{
   orderBy?: Types.InputMaybe<Array<Types.TripsOrderBy> | Types.TripsOrderBy>
 }>
