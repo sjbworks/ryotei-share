@@ -27,10 +27,21 @@ export const useShareSettingCRUD = () => {
     MUTATION_UPDATE_SHARE_SETTING
   )
 
-  // > すでにShareにデータが作られている場合
-  //   updatePublicSetting
-  // > Shareにデータがない場合
-  //   addShareSetting
+  const checkExistShareData = async (tripId: string) => {
+    try {
+      const existShareSetting = (await getShareSettingById({ variables: { tripId } })).data?.shareCollection?.edges[0]
+        .node.trip_id
+      return !!existShareSetting
+    } catch (e) {
+      if (e instanceof Error)
+        dispatch?.({
+          message: e.message,
+          open: true,
+          ContentProps: { sx: { backgroundColor: 'tomato' } },
+        })
+    }
+  }
+
   const shareTrip = async (newData: ShareInsertInput) => {
     try {
       const insertData: ShareInsertInput = {
@@ -38,8 +49,7 @@ export const useShareSettingCRUD = () => {
         is_public: true,
         trip_id: newData.trip_id,
       }
-      const existShareSetting = (await getShareSettingById({ variables: { tripId: newData.trip_id } })).data
-        ?.shareCollection?.edges[0].node.trip_id
+      const existShareSetting = await checkExistShareData(newData.trip_id)
       let shareId
       if (existShareSetting) {
         const result = await updatePublicSetting({ variables: { objects: insertData } })
@@ -76,12 +86,9 @@ export const useShareSettingCRUD = () => {
     }
   }
 
-  // shareのmodal開いた時
-  // is_publish = true のデータがある場合はchangePublishState
-  // is_publish = true のデータがない場合はshareTrip
-
   return {
     shareTrip,
     changePublishState,
+    checkExistShareData,
   }
 }

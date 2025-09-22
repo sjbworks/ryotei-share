@@ -39,6 +39,11 @@ export const useFormState = () => {
     setTrip(shareData)
   }
 
+  const setSwitchTripStatusMode = (shareData: ShareInsertInput) => {
+    setMode('switchTripStatus')
+    setTrip(shareData)
+  }
+
   const resetMode = () => {
     setMode(null)
     setSelectedPlan(null)
@@ -66,5 +71,6 @@ export const useFormState = () => {
     onMenuClick,
     setSelectedPlan,
     setShareTripMode,
+    setSwitchTripStatusMode,
   }
 }

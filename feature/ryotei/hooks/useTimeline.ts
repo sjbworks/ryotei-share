@@ -23,7 +23,7 @@ export const useTimeline = (
   const { createRyotei, updateRyoteiById, deleteRyoteiById } = useRyoteiCRUD(selectedTripId, refetch)
   const { createTrip, updateTrip, deleteTrip } = useTripCRUD(refetchTrip, onChangeTripId)
   const formState = useFormState()
-  const { shareTrip } = useShareSettingCRUD()
+  const { shareTrip, checkExistShareData } = useShareSettingCRUD()
 
   const onMenuClick = (action: ActionType, plan: Plan) => {
     formState.onMenuClick(action, plan)
@@ -105,8 +105,15 @@ export const useTimeline = (
     mode: formState.mode,
   }
 
-  const onClickShareTrip = (data: FormSubmitData) => {
-    formState.setShareTripMode(data)
+  const isShareInsertInput = (data: any): data is ShareInsertInput => {
+    return typeof data === 'object' && data !== null && 'trip_id' in data
+  }
+
+  const onClickShareTrip = async (data: FormSubmitData) => {
+    if (!isShareInsertInput(data)) return
+
+    const existShareData = await checkExistShareData(data.trip_id)
+    existShareData ? formState.setSwitchTripStatusMode(data) : formState.setShareTripMode(data)
     modal.open()
   }
 

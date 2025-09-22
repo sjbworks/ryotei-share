@@ -6,4 +6,5 @@ export const ACTION = {
   deleteTrip: 'deleteTrip',
   withdrawAccount: 'withdrawAccount',
   shareTrip: 'shareTrip',
+  switchTripStatus: 'switchTripStatus',
 } as const
