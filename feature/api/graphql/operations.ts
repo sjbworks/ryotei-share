@@ -137,6 +137,7 @@ export type UpdateryoteiCollectionMutation = {
 
 export type UpdateshareCollectionMutationVariables = Types.Exact<{
   objects: Types.ShareUpdateInput
+  filter: Types.ShareFilter
 }>
 
 export type UpdateshareCollectionMutation = {

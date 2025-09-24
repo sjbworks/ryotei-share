@@ -29,9 +29,11 @@ export const useShareSettingCRUD = () => {
 
   const checkExistShareData = async (tripId: string) => {
     try {
-      const existShareSetting = (await getShareSettingById({ variables: { tripId } })).data?.shareCollection?.edges[0]
-        .node.trip_id
-      return !!existShareSetting
+      const shareData = (await getShareSettingById({ variables: { tripId }, fetchPolicy: 'network-only' })).data
+        ?.shareCollection?.edges[0]?.node
+      return shareData
+        ? { exists: true, share_id: shareData.share_id, is_public: shareData.is_public }
+        : { exists: false, share_id: null, is_public: null }
     } catch (e) {
       if (e instanceof Error)
         dispatch?.({
@@ -39,6 +41,7 @@ export const useShareSettingCRUD = () => {
           open: true,
           ContentProps: { sx: { backgroundColor: 'tomato' } },
         })
+      return { exists: false, share_id: null, is_public: null }
     }
   }
 
@@ -49,10 +52,12 @@ export const useShareSettingCRUD = () => {
         is_public: true,
         trip_id: newData.trip_id,
       }
-      const existShareSetting = await checkExistShareData(newData.trip_id)
+      const shareDataResult = await checkExistShareData(newData.trip_id)
       let shareId
-      if (existShareSetting) {
-        const result = await updatePublicSetting({ variables: { objects: insertData } })
+      if (shareDataResult.exists) {
+        const result = await updatePublicSetting({
+          variables: { objects: insertData, filter: { trip_id: { eq: insertData.trip_id } } },
+        })
         shareId = result.data?.updateshareCollection?.records[0].share_id
       } else {
         const result = await addShareSetting({ variables: { objects: insertData } })
@@ -69,13 +74,18 @@ export const useShareSettingCRUD = () => {
     }
   }
 
-  const changePublishState = async (tripId: string, publish: boolean = false) => {
+  const changePublishState = async (tripId: string, publish: boolean = false): Promise<boolean> => {
     try {
       const updateData: ShareUpdateInput = {
-        trip_id: tripId,
         is_public: publish,
       }
-      await updatePublicSetting({ variables: { objects: updateData } })
+      const result = await updatePublicSetting({
+        variables: {
+          objects: updateData,
+          filter: { trip_id: { eq: tripId } },
+        },
+      })
+      return (result.data?.updateshareCollection?.affectedCount ?? 0) > 0
     } catch (e) {
       if (e instanceof Error)
         dispatch?.({
@@ -83,6 +93,7 @@ export const useShareSettingCRUD = () => {
           open: true,
           ContentProps: { sx: { backgroundColor: 'tomato' } },
         })
+      return false
     }
   }
 

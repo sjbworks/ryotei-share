@@ -1,5 +1,5 @@
-mutation updateshareCollection($objects: shareUpdateInput!) {
-  updateshareCollection(set: $objects) {
+mutation updateshareCollection($objects: shareUpdateInput!, $filter: shareFilter!) {
+  updateshareCollection(set: $objects, filter: $filter) {
     affectedCount
     records {
       id
