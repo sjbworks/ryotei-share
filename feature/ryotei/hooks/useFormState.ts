@@ -7,7 +7,7 @@ export const useFormState = () => {
   const [mode, setMode] = useState<ActionType | null>(null)
   const [selectedPlan, setSelectedPlan] = useState<RyoteiInsertInput | null>(null)
   const [trip, setTrip] = useState<TripsInsertInput | null>(null)
-  const [shareSetting, setShareSetting] = useState<ShareInsertInput | null>(null)
+  const [switchTripStatusData, setSwitchTripStatusData] = useState<ShareInsertInput | null>(null)
 
   const setEditMode = (plan: Plan) => {
     setMode('edit')
@@ -41,7 +41,7 @@ export const useFormState = () => {
 
   const setSwitchTripStatusMode = (shareData: ShareInsertInput) => {
     setMode('switchTripStatus')
-    setTrip(shareData)
+    setSwitchTripStatusData(shareData)
   }
 
   const resetMode = () => {
@@ -62,6 +62,7 @@ export const useFormState = () => {
     mode,
     selectedPlan,
     trip,
+    switchTripStatusData,
     setEditMode,
     setDeleteMode,
     setAddTripMode,

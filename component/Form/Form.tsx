@@ -10,6 +10,9 @@ import { RyoteiInsertInput, TripsInsertInput, ShareInsertInput } from '@/feature
 import { ActionType } from '@/feature/ryotei/types'
 import { ja } from 'date-fns/locale/ja'
 import { useRyoteiForm, useTripForm } from './hooks'
+import { InputAdornment, IconButton } from '@mui/material'
+import ContentCopyIcon from '@mui/icons-material/ContentCopy'
+import { useState } from 'react'
 
 type Props = {
   className?: string
@@ -36,6 +39,44 @@ const WithdrawAccountContent = () => {
 
 const ShareTripContent = () => {
   return <Box sx={{ paddingY: '16px' }}>この旅程をシェアしますか？</Box>
+}
+
+const ChangeTripStatusContent = ({ data }: { data?: ShareInsertInput | null }) => {
+  const [copied, setCopied] = useState(false)
+  const shareUrl = data?.share_id ? `${window.location.origin}/${data.share_id}` : ''
+
+  const handleCopyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(shareUrl)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } catch (err) {
+      console.error('Failed to copy: ', err)
+    }
+  }
+
+  return (
+    <Box sx={{ paddingY: '16px', display: 'flex', flexDirection: 'column', gap: 2 }}>
+      <Box>シェアリンク</Box>
+      <TextField
+        value={shareUrl}
+        fullWidth
+        variant="outlined"
+        size="small"
+        InputProps={{
+          readOnly: true,
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton onClick={handleCopyLink} edge="end">
+                <ContentCopyIcon />
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
+        helperText={copied ? 'リンクをコピーしました' : ''}
+      />
+    </Box>
+  )
 }
 
 const CreateUpdateContent = ({
@@ -153,6 +194,8 @@ export const Form = ({ className, onSubmit, data, onClose, action, mode }: Props
       <CreateUpdateContent register={register} control={control} errors={errors} />
     ) : mode === 'shareTrip' ? (
       <ShareTripContent />
+    ) : mode === 'switchTripStatus' ? (
+      <ChangeTripStatusContent data={data as ShareInsertInput} />
     ) : (
       <CreateUpdateContent register={register} control={control} errors={errors} />
     )

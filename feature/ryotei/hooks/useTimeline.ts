@@ -23,7 +23,7 @@ export const useTimeline = (
   const { createRyotei, updateRyoteiById, deleteRyoteiById } = useRyoteiCRUD(selectedTripId, refetch)
   const { createTrip, updateTrip, deleteTrip } = useTripCRUD(refetchTrip, onChangeTripId)
   const formState = useFormState()
-  const { shareTrip, checkExistShareData } = useShareSettingCRUD()
+  const { shareTrip, checkExistShareData, changePublishState } = useShareSettingCRUD()
 
   const onMenuClick = (action: ActionType, plan: Plan) => {
     formState.onMenuClick(action, plan)
@@ -69,6 +69,11 @@ export const useTimeline = (
       }
     } else if (formState.mode === 'shareTrip') {
       await shareTrip(data)
+    } else if (formState.mode === 'switchTripStatus') {
+      if (selectedTripId) {
+        const result = await changePublishState(selectedTripId, false)
+        result && formState.setShareTripMode(data)
+      }
     }
 
     await refetch()
@@ -89,6 +94,8 @@ export const useTimeline = (
         ? formState.trip
         : formState.mode === 'shareTrip'
         ? { trip_id: selectedTripId }
+        : formState.mode === 'switchTripStatus'
+        ? formState.switchTripStatusData
         : formState.selectedPlan,
     onSubmit: handleModalSubmit,
     onClose: modal.close,
@@ -100,6 +107,8 @@ export const useTimeline = (
           ? '削除'
           : formState.mode === 'shareTrip'
           ? 'シェア'
+          : formState.mode === 'switchTripStatus'
+          ? '非公開'
           : '追加',
     },
     mode: formState.mode,
@@ -112,8 +121,13 @@ export const useTimeline = (
   const onClickShareTrip = async (data: FormSubmitData) => {
     if (!isShareInsertInput(data)) return
 
-    const existShareData = await checkExistShareData(data.trip_id)
-    existShareData ? formState.setSwitchTripStatusMode(data) : formState.setShareTripMode(data)
+    const shareDataResult = await checkExistShareData(data.trip_id)
+    console.log('shareDataResult', shareDataResult)
+    if (shareDataResult.exists && shareDataResult.is_public) {
+      formState.setSwitchTripStatusMode({ ...data, share_id: shareDataResult.share_id })
+    } else {
+      formState.setShareTripMode(data)
+    }
     modal.open()
   }
 
