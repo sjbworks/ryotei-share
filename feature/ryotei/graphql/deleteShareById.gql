@@ -1,0 +1,10 @@
+mutation deleteShareByTripId($tripId: UUID!, $atMost: Int!) {
+  deleteFromshareCollection(filter: { trip_id: { eq: $tripId } }, atMost: $atMost) {
+    affectedCount
+    records {
+      id
+      trip_id
+      share_id
+    }
+  }
+}

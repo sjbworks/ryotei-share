@@ -4,16 +4,19 @@ import {
   MUTATION_UPDATE_TRIP,
   MUTATION_DELETE_TRIP,
   MUTATION_DELETE_RYOTEI_BY_TRIP_ID,
+  MUTATION_DELETE_SHARE,
 } from '@/feature/ryotei/graphql'
 import {
   InsertIntotripsCollectionMutation as AddTripMutation,
   InsertIntotripsCollectionMutationVariables as AddTripMutationVariables,
   UpdatetripsCollectionMutation as UpdateTripMutation,
   UpdatetripsCollectionMutationVariables as UpdateTripMutationVariables,
-  DeleteFromtripsCollectionMutation as DeleteTripMutation,
-  DeleteFromtripsCollectionMutationVariables as DeleteTripMutationVariables,
-  DeleteFromryoteiCollectionByTripIdMutation as DeleteRyoteiByTripIdMutation,
-  DeleteFromryoteiCollectionByTripIdMutationVariables as DeleteRyoteiByTripIdMutationVariables,
+  DeleteTripByIdMutation as DeleteTripMutation,
+  DeleteTripByIdMutationVariables as DeleteTripMutationVariables,
+  DeleteRyoteiByTripIdMutation as DeleteRyoteiByTripIdMutation,
+  DeleteRyoteiByTripIdMutationVariables as DeleteRyoteiByTripIdMutationVariables,
+  DeleteShareByTripIdMutation as DeleteShareMutation,
+  DeleteShareByTripIdMutationVariables as DeleteShareMutationVariables,
   TripsInsertInput,
   TripsUpdateInput,
   TripsFilter,
@@ -30,6 +33,7 @@ export const useTripCRUD = (refetchTrip?: () => void, onChangeTripId?: (id: stri
   const [deleteRyoteiByTripId] = useMutation<DeleteRyoteiByTripIdMutation, DeleteRyoteiByTripIdMutationVariables>(
     MUTATION_DELETE_RYOTEI_BY_TRIP_ID
   )
+  const [deleteShare] = useMutation<DeleteShareMutation, DeleteShareMutationVariables>(MUTATION_DELETE_SHARE)
 
   const createTrip = async (tripData: TripsInsertInput) => {
     try {
@@ -79,17 +83,25 @@ export const useTripCRUD = (refetchTrip?: () => void, onChangeTripId?: (id: stri
 
   const deleteTrip = async (tripData: TripsFilter) => {
     try {
-      // 1. 最初に関連するryoteiを削除する
+      // 1. 最初に関連するshareを削除する
+      await deleteShare({
+        variables: {
+          tripId: tripData.id,
+          atMost: 10, // 一つの旅程に最大10件のshareがあると仮定
+        },
+      })
+
+      // 2. 次に関連するryoteiを削除する
       await deleteRyoteiByTripId({
         variables: {
-          filter: { trip_id: { eq: tripData.id } },
+          tripId: tripData.id,
           atMost: 100, // 一つの旅程に最大100件の予定があると仮定
         },
       })
 
-      // 2. 次にtripを削除する
+      // 3. 最後にtripを削除する
       await deleteTrips({
-        variables: { filter: { id: { eq: tripData.id } }, atMost: 1 },
+        variables: { tripId: tripData.id, atMost: 1 },
       })
 
       await refetchTrip?.()
