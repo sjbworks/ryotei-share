@@ -35,21 +35,21 @@ export type InsertIntotripsCollectionMutation = {
   } | null
 }
 
-export type DeleteFromryoteiCollectionMutationVariables = Types.Exact<{
-  filter: Types.RyoteiFilter
+export type DeleteRyoteiByIdMutationVariables = Types.Exact<{
+  ryoteiId: Types.Scalars['UUID']['input']
 }>
 
-export type DeleteFromryoteiCollectionMutation = {
+export type DeleteRyoteiByIdMutation = {
   __typename?: 'Mutation'
   deleteFromryoteiCollection: { __typename?: 'ryoteiDeleteResponse'; affectedCount: number }
 }
 
-export type DeleteFromryoteiCollectionByTripIdMutationVariables = Types.Exact<{
-  filter: Types.RyoteiFilter
+export type DeleteRyoteiByTripIdMutationVariables = Types.Exact<{
+  tripId: Types.Scalars['UUID']['input']
   atMost: Types.Scalars['Int']['input']
 }>
 
-export type DeleteFromryoteiCollectionByTripIdMutation = {
+export type DeleteRyoteiByTripIdMutation = {
   __typename?: 'Mutation'
   deleteFromryoteiCollection: {
     __typename?: 'ryoteiDeleteResponse'
@@ -58,12 +58,26 @@ export type DeleteFromryoteiCollectionByTripIdMutation = {
   }
 }
 
-export type DeleteFromtripsCollectionMutationVariables = Types.Exact<{
-  filter: Types.TripsFilter
+export type DeleteShareByTripIdMutationVariables = Types.Exact<{
+  tripId: Types.Scalars['UUID']['input']
   atMost: Types.Scalars['Int']['input']
 }>
 
-export type DeleteFromtripsCollectionMutation = {
+export type DeleteShareByTripIdMutation = {
+  __typename?: 'Mutation'
+  deleteFromshareCollection: {
+    __typename?: 'shareDeleteResponse'
+    affectedCount: number
+    records: Array<{ __typename?: 'share'; id: any; trip_id?: any | null; share_id?: any | null }>
+  }
+}
+
+export type DeleteTripByIdMutationVariables = Types.Exact<{
+  tripId: Types.Scalars['UUID']['input']
+  atMost: Types.Scalars['Int']['input']
+}>
+
+export type DeleteTripByIdMutation = {
   __typename?: 'Mutation'
   deleteFromtripsCollection: {
     __typename?: 'tripsDeleteResponse'
