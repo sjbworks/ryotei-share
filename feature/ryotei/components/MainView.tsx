@@ -116,7 +116,6 @@ export const MainView = () => {
 
   const handleClickShare = async () => {
     await onClickShareTrip({ trip_id: selectedTripId })
-    handleClick()
   }
 
   const actions = [

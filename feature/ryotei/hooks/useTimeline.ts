@@ -125,7 +125,7 @@ export const useTimeline = (
       formState.mode === 'addTrip' || formState.mode === 'editTrip'
         ? formState.trip
         : formState.mode === 'shareTrip'
-        ? { trip_id: selectedTripId }
+        ? formState.trip
         : formState.mode === 'switchTripStatus'
         ? formState.switchTripStatusData
         : formState.selectedPlan,

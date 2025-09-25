@@ -218,6 +218,8 @@ export const Form = ({ className, onSubmit, data, onClose, action, mode }: Props
       ? tripHandleSubmit(handleClick)
       : mode === 'addRyotei'
       ? handleSubmit(handleClick)
+      : mode === 'shareTrip'
+      ? () => handleClick(data as ShareInsertInput)
       : handleSubmit(handleClick)
 
   return (
