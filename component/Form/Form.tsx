@@ -160,6 +160,7 @@ const AddTripContent = ({
 }
 
 export const Form = ({ className, onSubmit, data, onClose, action, mode }: Props) => {
+  console.log('Form props - mode:', mode, 'data:', data)
   const {
     register,
     handleSubmit,
@@ -174,21 +175,23 @@ export const Form = ({ className, onSubmit, data, onClose, action, mode }: Props
   } = useTripForm(data)
 
   const handleClick: SubmitHandler<RyoteiInsertInput | ShareInsertInput> = async (formData) => {
-    const submitData = mode === 'delete' || mode === 'shareTrip' ? data : formData
+    const submitData = mode === 'deleteRyotei' || mode === 'shareTrip' ? data : formData
     onSubmit && (await onSubmit(submitData as RyoteiInsertInput | ShareInsertInput))
   }
 
   const classProps = clsx('flex flex-col justify-between p-5 box-border', className)
   const content =
-    mode === 'delete' ? (
+    mode === 'deleteRyotei' ? (
       <DeleteContent />
     ) : mode === 'deleteTrip' ? (
       <DeleteTripContent />
     ) : mode === 'withdrawAccount' ? (
       <WithdrawAccountContent />
-    ) : mode === 'edit' ? (
+    ) : mode === 'editRyotei' ? (
       <CreateUpdateContent register={register} control={control} errors={errors} />
-    ) : mode === 'addEditTrip' ? (
+    ) : mode === 'addTrip' ? (
+      <AddTripContent register={tripRegister} errors={tripErrors} />
+    ) : mode === 'editTrip' ? (
       <AddTripContent register={tripRegister} errors={tripErrors} />
     ) : mode === 'addRyotei' ? (
       <CreateUpdateContent register={register} control={control} errors={errors} />
@@ -201,15 +204,17 @@ export const Form = ({ className, onSubmit, data, onClose, action, mode }: Props
     )
 
   const submit =
-    mode === 'delete'
+    mode === 'deleteRyotei'
       ? () => handleClick(data as RyoteiInsertInput)
       : mode === 'deleteTrip'
       ? () => handleClick(data as RyoteiInsertInput)
       : mode === 'withdrawAccount'
       ? () => handleClick(data as RyoteiInsertInput)
-      : mode === 'edit'
+      : mode === 'editRyotei'
       ? handleSubmit(handleClick)
-      : mode === 'addEditTrip'
+      : mode === 'addTrip'
+      ? tripHandleSubmit(handleClick)
+      : mode === 'editTrip'
       ? tripHandleSubmit(handleClick)
       : mode === 'addRyotei'
       ? handleSubmit(handleClick)
@@ -226,7 +231,7 @@ export const Form = ({ className, onSubmit, data, onClose, action, mode }: Props
           onClick={submit}
           className="block w-full"
           variant="contained"
-          color={mode === 'withdrawAccount' || mode === 'delete' || mode === 'deleteTrip' ? 'error' : 'primary'}
+          color={mode === 'withdrawAccount' || mode === 'deleteRyotei' || mode === 'deleteTrip' ? 'error' : 'primary'}
         >
           {action?.label || '登録'}
         </Button>

@@ -1,8 +1,9 @@
 export const ACTION = {
-  edit: 'edit',
-  delete: 'delete',
+  editRyotei: 'editRyotei',
+  deleteRyotei: 'deleteRyotei',
   addRyotei: 'addRyotei',
-  addEditTrip: 'addEditTrip',
+  addTrip: 'addTrip',
+  editTrip: 'editTrip',
   deleteTrip: 'deleteTrip',
   withdrawAccount: 'withdrawAccount',
   shareTrip: 'shareTrip',

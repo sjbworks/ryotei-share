@@ -2,11 +2,10 @@ import { LeftSideDrawer } from '@/component/Drawer/LeftSideDrawer'
 import { Button, AddIcon, MoreVertIcon, EditIcon, DeleteIcon } from '@/component'
 import IconButton from '@mui/material/IconButton'
 import { Menu } from '@/component/Menu/Menu'
-import { Modal } from '@/component/Modal'
-import { Form } from '@/component/Form/Form'
-import { useModal } from '@/feature/ryotei/hooks/useModal'
 import { useTripCRUD } from '@/feature/ryotei/hooks/useTripCRUD'
 import { useState } from 'react'
+
+import { TripsInsertInput } from '@/feature/api/graphql'
 
 type Trip = {
   id: any
@@ -24,6 +23,7 @@ type Props = {
   onModalSubmit?: (data: any) => void
   formState?: any
   onModalClose?: () => void
+  onOpenBottomDrawer?: () => void
 }
 
 export const TripListDrawer = ({
@@ -36,18 +36,26 @@ export const TripListDrawer = ({
   refetchTrip,
   onModalSubmit,
   formState: externalFormState,
+  onOpenBottomDrawer,
 }: Props) => {
+  console.log('TripListDrawer received formState:', externalFormState)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const [selectedTrip, setSelectedTrip] = useState<Trip | null>(null)
   const menuOpen = Boolean(anchorEl)
 
-  const editModal = useModal()
-  const deleteModal = useModal()
   const { updateTrip, deleteTrip } = useTripCRUD(refetchTrip, onChangeTripId)
 
+  console.log('External formState:', externalFormState)
+  console.log('External formState exists:', !!externalFormState)
+  console.log('External formState setEditTripMode:', externalFormState?.setEditTripMode)
+
   const formState = externalFormState || {
-    setEditTripMode: () => {},
-    setDeleteTripMode: () => {},
+    setEditTripMode: () => {
+      console.log('Using fallback setEditTripMode')
+    },
+    setDeleteTripMode: () => {
+      console.log('Using fallback setDeleteTripMode')
+    },
     trip: null,
     mode: null,
   }
@@ -64,10 +72,13 @@ export const TripListDrawer = ({
 
   const handleEdit = () => {
     if (selectedTrip) {
+      console.log('Selected trip for edit:', selectedTrip)
       formState.setEditTripMode(selectedTrip)
+      // React state is async, so we can't immediately check formState.trip
     }
-    editModal.open()
     handleMenuClose()
+    onClose() // Close the drawer
+    onOpenBottomDrawer?.() // Open BottomDrawer for form
   }
 
   const handleDelete = () => {
@@ -76,37 +87,9 @@ export const TripListDrawer = ({
         formState.setDeleteTripMode(selectedTrip)
       }
     }
-    deleteModal.open()
     handleMenuClose()
-  }
-
-  const handleEditSubmit = async (data: any) => {
-    if (selectedTrip) {
-      await updateTrip({ id: selectedTrip.id, name: data.name })
-      editModal.close()
-    }
-  }
-
-  const handleModalSubmitWithClose = async (data: any) => {
-    if (onModalSubmit) {
-      await onModalSubmit(data)
-      editModal.close()
-      deleteModal.close()
-    }
-  }
-
-  const handleDeleteTrip = async () => {
-    if (selectedTrip) {
-      await deleteTrip({ id: selectedTrip.id })
-      deleteModal.close()
-    }
-  }
-
-  const handleDeleteModalSubmitWithClose = async (data: any) => {
-    if (onModalSubmit) {
-      await onModalSubmit(data)
-      deleteModal.close()
-    }
+    onClose() // Close the drawer
+    onOpenBottomDrawer?.() // Open BottomDrawer for form
   }
 
   const menuItems = [
@@ -186,26 +169,6 @@ export const TripListDrawer = ({
           </span>
         </Button>
       </div>
-
-      <Modal isOpen={editModal.isOpen}>
-        <Form
-          mode="addEditTrip"
-          data={formState.trip}
-          onSubmit={onModalSubmit ? handleModalSubmitWithClose : handleEditSubmit}
-          onClose={editModal.close}
-          action={{ label: '更新' }}
-        />
-      </Modal>
-
-      <Modal isOpen={deleteModal.isOpen}>
-        <Form
-          mode="deleteTrip"
-          data={formState.trip || selectedTrip}
-          onSubmit={onModalSubmit ? handleDeleteModalSubmitWithClose : handleDeleteTrip}
-          onClose={deleteModal.close}
-          action={{ label: '削除' }}
-        />
-      </Modal>
     </LeftSideDrawer>
   )
 }

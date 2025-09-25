@@ -8,6 +8,7 @@ import { RyoteiInsertInput, TripsInsertInput, ShareInsertInput } from '@/feature
 import { ActionType } from '@/feature/ryotei/types'
 import { Plan } from '@/component/Timeline/TimelineItem'
 import { useShareSettingCRUD } from './useShareSettingCRUD'
+import { useEffect } from 'react'
 
 type FormSubmitData = RyoteiInsertInput | TripsInsertInput | ShareInsertInput
 
@@ -25,38 +26,78 @@ export const useTimeline = (
   const formState = useFormState()
   const { shareTrip, checkExistShareData, changePublishState } = useShareSettingCRUD()
 
+  // Debug: formStateの変更を監視
+  useEffect(() => {
+    console.log('FormState changed - mode:', formState.mode, 'trip:', formState.trip)
+  }, [formState.mode, formState.trip])
+
   const onMenuClick = (action: ActionType, plan: Plan) => {
     formState.onMenuClick(action, plan)
-    modal.open()
+    bottomSheet.open()
   }
 
   const onClickAddTrip = () => {
     formState.setAddTripMode()
     onSideClose?.()
-    modal.open()
+    bottomSheet.open()
   }
 
-  const handleBottomSubmit = async (newData: RyoteiInsertInput) => {
-    await createRyotei(newData)
+  const handleBottomSubmit = async (data: FormSubmitData) => {
+    if (formState.mode !== 'deleteRyotei' && formState.mode !== 'deleteTrip') {
+      await formState.setSelectedPlan(data)
+    }
+
+    if (formState.mode === 'addRyotei') {
+      await createRyotei(data as RyoteiInsertInput)
+    } else if (formState.mode === 'editRyotei') {
+      const ryoteiData = data as RyoteiInsertInput
+      await updateRyoteiById(formState.selectedPlan?.id, ryoteiData)
+    } else if (formState.mode === 'deleteRyotei') {
+      formState.selectedPlan?.id && (await deleteRyoteiById(formState.selectedPlan?.id))
+    } else if (formState.mode === 'deleteTrip') {
+      if (!formState.trip?.id) return
+      await deleteTrip({ id: formState.trip.id })
+    } else if (formState.mode === 'addTrip') {
+      const tripData = data as TripsInsertInput
+      await createTrip(tripData)
+    } else if (formState.mode === 'editTrip') {
+      const tripData = data as TripsInsertInput
+      const tripId = tripData.id || formState.trip?.id
+      if (tripId) {
+        await updateTrip({ id: tripId, name: tripData.name })
+      }
+    } else if (formState.mode === 'withdrawAccount') {
+      // Handle withdraw account logic here
+    } else if (formState.mode === 'shareTrip') {
+      await shareTrip(data)
+    } else if (formState.mode === 'switchTripStatus') {
+      if (selectedTripId) {
+        const result = await changePublishState(selectedTripId, false)
+        result && formState.setShareTripMode(data)
+      }
+    }
+
+    await refetch()
+    await refetchTrip()
     bottomSheet.close()
   }
 
   const handleModalSubmit = async (data: FormSubmitData) => {
-    if (formState.mode !== 'delete' && formState.mode !== 'deleteTrip') {
+    if (formState.mode !== 'deleteRyotei' && formState.mode !== 'deleteTrip') {
       await formState.setSelectedPlan(data)
     }
 
-    if (formState.mode === 'edit') {
+    if (formState.mode === 'editRyotei') {
       const ryoteiData = data as RyoteiInsertInput
       await updateRyoteiById(formState.selectedPlan?.id, ryoteiData)
-    } else if (formState.mode === 'delete') {
+    } else if (formState.mode === 'deleteRyotei') {
       if (formState.selectedPlan?.id) {
         await deleteRyoteiById(formState.selectedPlan?.id)
       }
     } else if (formState.mode === 'deleteTrip') {
       if (!formState.trip?.id) return
       await deleteTrip({ id: formState.trip.id })
-    } else if (formState.mode === 'addEditTrip') {
+    } else if (formState.mode === 'addTrip' || formState.mode === 'editTrip') {
       const tripData = data as TripsInsertInput
 
       // dataからidを取得するか、formState.tripからidを取得する
@@ -85,12 +126,41 @@ export const useTimeline = (
     isOpen: bottomSheet.isOpen,
     onSubmit: handleBottomSubmit,
     onClose: bottomSheet.close,
+    data:
+      formState.mode === 'addTrip' || formState.mode === 'editTrip'
+        ? formState.trip
+        : formState.mode === 'shareTrip'
+        ? { trip_id: selectedTripId }
+        : formState.mode === 'switchTripStatus'
+        ? formState.switchTripStatusData
+        : formState.selectedPlan,
+    action: {
+      label:
+        formState.mode === 'editRyotei'
+          ? '更新'
+          : formState.mode === 'deleteRyotei' || formState.mode === 'deleteTrip'
+          ? '削除'
+          : formState.mode === 'shareTrip'
+          ? 'シェア'
+          : formState.mode === 'switchTripStatus'
+          ? '非公開'
+          : formState.mode === 'addTrip'
+          ? '旅程を作成'
+          : formState.mode === 'addRyotei'
+          ? '追加'
+          : formState.mode === 'editTrip'
+          ? '旅程名を変更'
+          : formState.mode === 'withdrawAccount'
+          ? '退会'
+          : '追加',
+    },
+    mode: formState.mode,
   }
 
   const formProps = {
     isOpen: modal.isOpen,
     data:
-      formState.mode === 'addEditTrip'
+      formState.mode === 'addTrip' || formState.mode === 'editTrip'
         ? formState.trip
         : formState.mode === 'shareTrip'
         ? { trip_id: selectedTripId }
@@ -101,9 +171,9 @@ export const useTimeline = (
     onClose: modal.close,
     action: {
       label:
-        formState.mode === 'edit'
+        formState.mode === 'editRyotei'
           ? '更新'
-          : formState.mode === 'delete' || formState.mode === 'deleteTrip'
+          : formState.mode === 'deleteRyotei' || formState.mode === 'deleteTrip'
           ? '削除'
           : formState.mode === 'shareTrip'
           ? 'シェア'
@@ -128,7 +198,7 @@ export const useTimeline = (
     } else {
       formState.setShareTripMode(data)
     }
-    modal.open()
+    bottomSheet.open()
   }
 
   return {

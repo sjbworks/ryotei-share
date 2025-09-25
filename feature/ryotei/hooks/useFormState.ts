@@ -9,23 +9,27 @@ export const useFormState = () => {
   const [trip, setTrip] = useState<TripsInsertInput | null>(null)
   const [switchTripStatusData, setSwitchTripStatusData] = useState<ShareInsertInput | null>(null)
 
-  const setEditMode = (plan: Plan) => {
-    setMode('edit')
+  const setAddRyoteiMode = () => {
+    setMode('addRyotei')
+  }
+
+  const setEditRyoteiMode = (plan: Plan) => {
+    setMode('editRyotei')
     setSelectedPlan(plan)
   }
 
-  const setDeleteMode = (plan: Plan) => {
-    setMode('delete')
+  const setDeleteRyoteiMode = (plan: Plan) => {
+    setMode('deleteRyotei')
     setSelectedPlan(plan)
   }
 
   const setAddTripMode = () => {
-    setMode('addEditTrip')
+    setMode('addTrip')
     setTrip(null)
   }
 
   const setEditTripMode = (tripData: TripsInsertInput) => {
-    setMode('addEditTrip')
+    setMode('editTrip')
     setTrip(tripData)
   }
 
@@ -51,10 +55,10 @@ export const useFormState = () => {
   }
 
   const onMenuClick = (action: ActionType, plan: Plan) => {
-    if (action === 'edit') {
-      setEditMode(plan)
-    } else if (action === 'delete') {
-      setDeleteMode(plan)
+    if (action === 'editRyotei') {
+      setEditRyoteiMode(plan)
+    } else if (action === 'deleteRyotei') {
+      setDeleteRyoteiMode(plan)
     }
   }
 
@@ -63,8 +67,9 @@ export const useFormState = () => {
     selectedPlan,
     trip,
     switchTripStatusData,
-    setEditMode,
-    setDeleteMode,
+    setAddRyoteiMode,
+    setEditRyoteiMode,
+    setDeleteRyoteiMode,
     setAddTripMode,
     setEditTripMode,
     setDeleteTripMode,
