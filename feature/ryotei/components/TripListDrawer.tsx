@@ -38,16 +38,11 @@ export const TripListDrawer = ({
   formState: externalFormState,
   onOpenBottomDrawer,
 }: Props) => {
-  console.log('TripListDrawer received formState:', externalFormState)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const [selectedTrip, setSelectedTrip] = useState<Trip | null>(null)
   const menuOpen = Boolean(anchorEl)
 
   const { updateTrip, deleteTrip } = useTripCRUD(refetchTrip, onChangeTripId)
-
-  console.log('External formState:', externalFormState)
-  console.log('External formState exists:', !!externalFormState)
-  console.log('External formState setEditTripMode:', externalFormState?.setEditTripMode)
 
   const formState = externalFormState || {
     setEditTripMode: () => {
@@ -72,7 +67,6 @@ export const TripListDrawer = ({
 
   const handleEdit = () => {
     if (selectedTrip) {
-      console.log('Selected trip for edit:', selectedTrip)
       formState.setEditTripMode(selectedTrip)
       // React state is async, so we can't immediately check formState.trip
     }

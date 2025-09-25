@@ -26,11 +26,6 @@ export const useTimeline = (
   const formState = useFormState()
   const { shareTrip, checkExistShareData, changePublishState } = useShareSettingCRUD()
 
-  // Debug: formStateの変更を監視
-  useEffect(() => {
-    console.log('FormState changed - mode:', formState.mode, 'trip:', formState.trip)
-  }, [formState.mode, formState.trip])
-
   const onMenuClick = (action: ActionType, plan: Plan) => {
     formState.onMenuClick(action, plan)
     bottomSheet.open()
@@ -192,7 +187,6 @@ export const useTimeline = (
     if (!isShareInsertInput(data)) return
 
     const shareDataResult = await checkExistShareData(data.trip_id)
-    console.log('shareDataResult', shareDataResult)
     if (shareDataResult.exists && shareDataResult.is_public) {
       formState.setSwitchTripStatusMode({ ...data, share_id: shareDataResult.share_id })
     } else {

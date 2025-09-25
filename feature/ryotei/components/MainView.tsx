@@ -49,7 +49,6 @@ export const MainView = () => {
     onClickShareTrip,
   } = useTimeline(refetch, refetchTrip, selectedTripId, onSideClose, onChangeTripId)
 
-  console.log('MainView formState:', formState)
   const router = useRouter()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const menuOpen = Boolean(anchorEl)

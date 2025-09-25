@@ -45,9 +45,6 @@ const refreshOrGoToLogin = (operation: ErrorResponse['operation'], forward: Erro
 }
 
 const errorLink = onError(({ graphQLErrors, networkError, operation, forward }) => {
-  console.log('neto', networkError)
-  console.log('graphQLErrors', graphQLErrors)
-  console.log('operation', graphQLErrors)
   if (networkError && 'statusCode' in networkError && networkError.statusCode === 401) {
     return refreshOrGoToLogin(operation, forward)
   }
