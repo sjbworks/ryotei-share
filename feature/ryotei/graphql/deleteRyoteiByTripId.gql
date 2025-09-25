@@ -1,5 +1,5 @@
-mutation deleteFromryoteiCollectionByTripId($filter: ryoteiFilter!, $atMost: Int!) {
-  deleteFromryoteiCollection(filter: $filter, atMost: $atMost) {
+mutation deleteRyoteiByTripId($tripId: UUID!, $atMost: Int!) {
+  deleteFromryoteiCollection(filter: { trip_id: { eq: $tripId } }, atMost: $atMost) {
     affectedCount
     records {
       id

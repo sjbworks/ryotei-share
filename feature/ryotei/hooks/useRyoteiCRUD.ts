@@ -7,8 +7,8 @@ import {
   InsertIntoryoteiCollectionMutationVariables as AddRyoteiMutationVariables,
   UpdateryoteiCollectionMutation as UpdateRyoteiMutation,
   UpdateryoteiCollectionMutationVariables as UpdateRyoteiMutationVariables,
-  DeleteFromryoteiCollectionMutation as DeleteRyoteiMutation,
-  DeleteFromryoteiCollectionMutationVariables as DeleteRyoteiMutationVariables,
+  DeleteRyoteiByIdMutation as DeleteRyoteiMutation,
+  DeleteRyoteiByIdMutationVariables as DeleteRyoteiMutationVariables,
   RyoteiInsertInput,
 } from '@/feature/api/graphql'
 import { SnackbarDispatchContext } from '@/feature/provider/SnackbarContextProvider'
@@ -66,7 +66,7 @@ export const useRyoteiCRUD = (selectedTripId?: string, refetch?: () => void) => 
   const deleteRyoteiById = async (id: any) => {
     try {
       await deleteRyotei({
-        variables: { filter: { id: { eq: id } } },
+        variables: { ryoteiId: id },
       })
       await refetch?.()
     } catch (e) {

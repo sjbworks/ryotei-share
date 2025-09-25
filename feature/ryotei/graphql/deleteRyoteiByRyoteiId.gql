@@ -1,0 +1,5 @@
+mutation deleteRyoteiById($ryoteiId: UUID!) {
+  deleteFromryoteiCollection(filter: { id: { eq: $ryoteiId } }, atMost: 1) {
+    affectedCount
+  }
+}

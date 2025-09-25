@@ -1,0 +1,9 @@
+mutation deleteTripById($tripId: UUID!, $atMost: Int!) {
+  deleteFromtripsCollection(filter: { id: { eq: $tripId } }, atMost: $atMost) {
+    affectedCount
+    records {
+      id
+      name
+    }
+  }
+}
