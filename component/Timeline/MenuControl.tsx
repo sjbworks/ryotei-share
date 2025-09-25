@@ -6,13 +6,13 @@ import { MouseEvent, useState } from 'react'
 import { TimelineItemProps, Plan } from './TimelineItem'
 
 const action = {
-  edit: EditIcon,
-  delete: DeleteIcon,
+  editRyotei: EditIcon,
+  deleteRyotei: DeleteIcon,
 } as const
 
 const actionLabel = {
-  edit: '編集',
-  delete: '削除',
+  editRyotei: '編集',
+  deleteRyotei: '削除',
 } as const
 
 export type Action = keyof typeof action

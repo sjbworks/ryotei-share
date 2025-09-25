@@ -21,6 +21,7 @@ export const BottomDrawer: FC<Props> = (props) => {
           '.MuiDrawer-root > .MuiPaper-root': {
             width: '100%',
             overflow: 'visible',
+            height: 'calc(100% - 64px)',
           },
         }}
       />
