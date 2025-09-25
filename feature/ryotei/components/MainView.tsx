@@ -48,6 +48,8 @@ export const MainView = () => {
     shareTrip,
     onClickShareTrip,
   } = useTimeline(refetch, refetchTrip, selectedTripId, onSideClose, onChangeTripId)
+
+  console.log('MainView formState:', formState)
   const router = useRouter()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const menuOpen = Boolean(anchorEl)
@@ -108,11 +110,19 @@ export const MainView = () => {
     },
   ]
 
-  const handleClickShare = () => onClickShareTrip({ trip_id: selectedTripId })
+  const handleClickAdd = async () => {
+    await formState.setAddRyoteiMode()
+    handleClick()
+  }
+
+  const handleClickShare = async () => {
+    await onClickShareTrip({ trip_id: selectedTripId })
+    handleClick()
+  }
 
   const actions = [
+    { icon: <AddIcon onClick={handleClickAdd} />, name: '予定を追加' },
     { icon: <ShareIcon onClick={handleClickShare} />, name: '旅程をシェア' },
-    { icon: <AddIcon onClick={handleClick} />, name: '予定を追加' },
   ]
 
   return (
@@ -159,9 +169,6 @@ export const MainView = () => {
       </header>
       <main style={{ marginTop: '16px' }}>
         <TimelineView selectedTripId={selectedTripId} onMenuClick={onMenuClick} />
-        <Modal isOpen={modalOpen}>
-          <Form {...formProps} />
-        </Modal>
         <TripListDrawer
           open={sideOpen}
           onClose={onSideClose}
@@ -170,8 +177,9 @@ export const MainView = () => {
           onChangeTripId={onChangeTripId}
           onClickAddTrip={onClickAddTrip}
           refetchTrip={refetchTrip}
-          onModalSubmit={handleModalSubmit}
+          onModalSubmit={bottomFormProps.onSubmit}
           formState={formState}
+          onOpenBottomDrawer={handleClick}
         />
         <BottomDrawer {...bottomSheet}>
           <Form className={formStyle} {...bottomFormProps} />
