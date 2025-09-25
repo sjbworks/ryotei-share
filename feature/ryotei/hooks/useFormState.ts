@@ -11,6 +11,7 @@ export const useFormState = () => {
 
   const setAddRyoteiMode = () => {
     setMode('addRyotei')
+    setSelectedPlan(null)
   }
 
   const setEditRyoteiMode = (plan: Plan) => {

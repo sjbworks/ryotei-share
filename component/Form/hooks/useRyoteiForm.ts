@@ -9,10 +9,10 @@ export const useRyoteiForm = (data?: RyoteiInsertInput | null) => {
     reValidateMode: 'onBlur',
     defaultValues: {
       datetime,
-      description: data?.description,
-      id: data?.id,
-      user_id: data?.user_id,
-      trip_id: data?.trip_id,
+      description: data?.description || '',
+      id: data?.id || undefined,
+      user_id: data?.user_id || undefined,
+      trip_id: data?.trip_id || undefined,
     },
   })
 
@@ -20,10 +20,10 @@ export const useRyoteiForm = (data?: RyoteiInsertInput | null) => {
     const newDatetime = data?.datetime ? new Date(data.datetime) : new Date()
     form.reset({
       datetime: newDatetime,
-      description: data?.description,
-      id: data?.id,
-      user_id: data?.user_id,
-      trip_id: data?.trip_id,
+      description: data?.description || '',
+      id: data?.id || undefined,
+      user_id: data?.user_id || undefined,
+      trip_id: data?.trip_id || undefined,
     })
   }, [data, form])
 
