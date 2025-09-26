@@ -18,20 +18,20 @@ export async function DELETE() {
 
     const userId = user.id
 
+    // Delete user's data from ryotei table first (due to foreign key constraints)
+    const { error: ryoteiError } = await supabase.from('ryotei').delete().eq('user_id', userId)
+
+    if (ryoteiError) {
+      console.error('Error deleting ryotei:', ryoteiError)
+      return NextResponse.json({ error: 'Failed to delete ryotei data' }, { status: 500 })
+    }
+
     // Delete user's data from trips table
     const { error: tripsError } = await supabase.from('trips').delete().eq('user_id', userId)
 
     if (tripsError) {
       console.error('Error deleting trips:', tripsError)
       return NextResponse.json({ error: 'Failed to delete trips data' }, { status: 500 })
-    }
-
-    // Delete user's data from ryotei table
-    const { error: ryoteiError } = await supabase.from('ryotei').delete().eq('user_id', userId)
-
-    if (ryoteiError) {
-      console.error('Error deleting ryotei:', ryoteiError)
-      return NextResponse.json({ error: 'Failed to delete ryotei data' }, { status: 500 })
     }
 
     // Create admin client with Service Role key
