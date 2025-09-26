@@ -68,7 +68,7 @@ ryotei-share/
 └── stories/               # Storybookストーリー
 ```
 
-### 設計思想
+### 設計
 
 - **コンポーネント駆動開発**: Storybookを活用した独立したコンポーネント開発
 - **型安全性**: TypeScript + GraphQL Code Generatorによる型サポート
