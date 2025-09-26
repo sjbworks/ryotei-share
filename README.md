@@ -70,7 +70,7 @@ ryotei-share/
 
 ### 設計
 
-- **コンポーネント駆動開発**: Storybookを活用した独立したコンポーネント開発
+- **コンポーネント駆動開発**: Storybook + コンポーネント開発
 - **型安全性**: TypeScript + GraphQL Code Generatorによる型サポート
 - **関心の分離**: feature/component分離による保守性の向上
 - **カスタムフック活用**: ロジックとUIの分離による再利用性の向上
