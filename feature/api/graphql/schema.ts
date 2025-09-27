@@ -405,7 +405,7 @@ export type Ryotei = Node & {
   id: Scalars['UUID']['output']
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output']
-  trip_id?: Maybe<Scalars['UUID']['output']>
+  trip_id: Scalars['UUID']['output']
   trips?: Maybe<Trips>
   update_at?: Maybe<Scalars['Datetime']['output']>
   user_id?: Maybe<Scalars['UUID']['output']>

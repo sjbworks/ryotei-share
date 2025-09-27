@@ -24,20 +24,40 @@ export const useRyoteiCRUD = (selectedTripId?: string, refetch?: () => void) => 
 
   const createRyotei = async (newData: RyoteiInsertInput) => {
     try {
+      const tripId = newData.trip_id || selectedTripId
+
+      // Validate trip_id is provided
+      if (!tripId) {
+        dispatch?.({
+          message: 'Trip ID is required to create ryotei',
+          open: true,
+          ContentProps: { sx: { backgroundColor: 'tomato' } },
+        })
+        return
+      }
+
       const dataWithTripId: RyoteiInsertInput = {
         ...newData,
-        trip_id: newData.trip_id || selectedTripId,
+        trip_id: tripId,
       }
       await addRyotei({ variables: { objects: dataWithTripId } })
       await refetch?.()
     } catch (e) {
-      setRedirectReq(true)
-      if (e instanceof Error)
+      // Don't redirect to login for validation errors
+      if (e instanceof Error) {
+        const isAuthError =
+          e.message.toLowerCase().includes('unauthorized') || e.message.toLowerCase().includes('authentication')
+
+        if (isAuthError) {
+          setRedirectReq(true)
+        }
+
         dispatch?.({
           message: e.message,
           open: true,
           ContentProps: { sx: { backgroundColor: 'tomato' } },
         })
+      }
     }
   }
 

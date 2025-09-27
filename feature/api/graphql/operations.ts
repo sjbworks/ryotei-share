@@ -54,7 +54,7 @@ export type DeleteRyoteiByTripIdMutation = {
   deleteFromryoteiCollection: {
     __typename?: 'ryoteiDeleteResponse'
     affectedCount: number
-    records: Array<{ __typename?: 'ryotei'; id: any; trip_id?: any | null }>
+    records: Array<{ __typename?: 'ryotei'; id: any; trip_id: any }>
   }
 }
 
@@ -97,7 +97,7 @@ export type GetRyoteiQuery = {
     __typename?: 'ryoteiConnection'
     edges: Array<{
       __typename?: 'ryoteiEdge'
-      node: { __typename?: 'ryotei'; id: any; description: string; datetime: any; trip_id?: any | null }
+      node: { __typename?: 'ryotei'; id: any; description: string; datetime: any; trip_id: any }
     }>
   } | null
 }
