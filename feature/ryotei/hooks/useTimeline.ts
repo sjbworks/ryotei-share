@@ -8,7 +8,6 @@ import { RyoteiInsertInput, TripsInsertInput, ShareInsertInput } from '@/feature
 import { ActionType } from '@/feature/ryotei/types'
 import { Plan } from '@/component/Timeline/TimelineItem'
 import { useShareSettingCRUD } from './useShareSettingCRUD'
-import { useEffect } from 'react'
 
 type FormSubmitData = RyoteiInsertInput | TripsInsertInput | ShareInsertInput
 
@@ -152,33 +151,6 @@ export const useTimeline = (
     mode: formState.mode,
   }
 
-  const formProps = {
-    isOpen: modal.isOpen,
-    data:
-      formState.mode === 'addTrip' || formState.mode === 'editTrip'
-        ? formState.trip
-        : formState.mode === 'shareTrip'
-        ? { trip_id: selectedTripId }
-        : formState.mode === 'switchTripStatus'
-        ? formState.switchTripStatusData
-        : formState.selectedPlan,
-    onSubmit: handleModalSubmit,
-    onClose: modal.close,
-    action: {
-      label:
-        formState.mode === 'editRyotei'
-          ? '更新'
-          : formState.mode === 'deleteRyotei' || formState.mode === 'deleteTrip'
-          ? '削除'
-          : formState.mode === 'shareTrip'
-          ? 'シェア'
-          : formState.mode === 'switchTripStatus'
-          ? '非公開'
-          : '追加',
-    },
-    mode: formState.mode,
-  }
-
   const isShareInsertInput = (data: any): data is ShareInsertInput => {
     return typeof data === 'object' && data !== null && 'trip_id' in data
   }
@@ -198,7 +170,6 @@ export const useTimeline = (
   return {
     handleClick: bottomSheet.toggle,
     bottomSheet: bottomSheet.bottomSheetProps,
-    formProps,
     bottomFormProps,
     modalOpen: modal.isOpen,
     onMenuClick,
