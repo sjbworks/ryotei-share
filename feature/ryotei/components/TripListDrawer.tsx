@@ -159,7 +159,7 @@ export const TripListDrawer = ({
             }}
           >
             <AddIcon sx={{ marginRight: '2px' }} />
-            旅程を追加
+            旅程を作成
           </span>
         </Button>
       </div>

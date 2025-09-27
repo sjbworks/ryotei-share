@@ -1,6 +1,6 @@
 'use client'
 
-import { BottomDrawer, Modal, Form, AddIcon, ArrowForwardIosIcon, Snackbar } from '@/component'
+import { BottomDrawer, Modal, Form, AddIcon, ArrowForwardIosIcon, Snackbar, Text, Button } from '@/component'
 import { useTimeline } from '@/feature/ryotei/hooks/useTimeline'
 import { useGetRyotei } from '../hooks/useGetRyotei'
 import { useRyoteiList } from '../hooks/useRyoteiList'
@@ -35,19 +35,8 @@ export const MainView = () => {
     refetchTrip,
   } = useRyoteiList()
   const { refetch } = useGetRyotei(selectedTripId)
-  const {
-    handleClick,
-    bottomSheet,
-    formProps,
-    bottomFormProps,
-    modalOpen,
-    onMenuClick,
-    onClickAddTrip,
-    handleModalSubmit,
-    formState,
-    shareTrip,
-    onClickShareTrip,
-  } = useTimeline(refetch, refetchTrip, selectedTripId, onSideClose, onChangeTripId)
+  const { handleClick, bottomSheet, bottomFormProps, onMenuClick, onClickAddTrip, formState, onClickShareTrip } =
+    useTimeline(refetch, refetchTrip, selectedTripId, onSideClose, onChangeTripId)
 
   const router = useRouter()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
@@ -166,7 +155,23 @@ export const MainView = () => {
         </Box>
       </header>
       <main style={{ marginTop: '16px' }}>
-        <TimelineView selectedTripId={selectedTripId} onMenuClick={onMenuClick} />
+        {trips.length === 0 ? (
+          <div className="flex flex-col items-center justify-center p-8 text-center gap-2">
+            <Text variant="h6">旅程を作成しましょう</Text>
+            <Text variant="body1">旅行の予定を立てるために、まず旅程を作成してください。</Text>
+            <Button
+              onClick={() => {
+                onSideOpen()
+              }}
+              sx={{ marginTop: '4px' }}
+              variant="contained"
+            >
+              旅程を作成
+            </Button>
+          </div>
+        ) : (
+          <TimelineView selectedTripId={selectedTripId} onMenuClick={onMenuClick} />
+        )}
         <TripListDrawer
           open={sideOpen}
           onClose={onSideClose}
@@ -191,23 +196,25 @@ export const MainView = () => {
           />
         </Modal>
       </main>
-      <SpeedDial
-        ariaLabel="SpeedDial basic example"
-        sx={{ position: 'fixed', bottom: 16, right: 16, zIndex: 1000 }}
-        icon={<SpeedDialIcon />}
-      >
-        {actions.map((action) => (
-          <SpeedDialAction
-            key={action.name}
-            icon={action.icon}
-            slotProps={{
-              tooltip: {
-                title: action.name,
-              },
-            }}
-          />
-        ))}
-      </SpeedDial>
+      {trips.length > 0 && (
+        <SpeedDial
+          ariaLabel="SpeedDial: 予定を追加, 旅程をシェア"
+          sx={{ position: 'fixed', bottom: 16, right: 16, zIndex: 1000 }}
+          icon={<SpeedDialIcon />}
+        >
+          {actions.map((action) => (
+            <SpeedDialAction
+              key={action.name}
+              icon={action.icon}
+              slotProps={{
+                tooltip: {
+                  title: action.name,
+                },
+              }}
+            />
+          ))}
+        </SpeedDial>
+      )}
       <Snackbar {...snackbarState} />
     </div>
   )
