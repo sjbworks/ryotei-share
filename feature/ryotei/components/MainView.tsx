@@ -115,13 +115,15 @@ export const MainView = () => {
   return (
     <div className="flex flex-col gap-4 relative max-w-2xl mx-auto w-full p-4">
       <header className="flex items-center justify-between">
-        <IconButton
+        <Button
           className="p-0"
           onClick={handleMenuClick}
           color="primary"
+          startIcon={<ArrowForwardIosIcon sx={{ marginRight: '4px', flex: 1 }} />}
+          variant="text"
           sx={{
             display: '-webkit-flex',
-            padding: 0,
+            padding: 1,
             fontSize: '12px',
             flex: 3,
             lineClamp: 2,
@@ -130,7 +132,6 @@ export const MainView = () => {
             textOverflow: 'ellipsis',
           }}
         >
-          <ArrowForwardIosIcon sx={{ marginRight: '4px', flex: 1 }} />
           <span
             style={{
               display: '-webkit-box',
@@ -146,7 +147,7 @@ export const MainView = () => {
           >
             {title}
           </span>
-        </IconButton>
+        </Button>
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', flex: 1 }}>
           <IconButton onClick={handleMenuOpen} size="small">
             <AccountCircleIcon color="primary" />

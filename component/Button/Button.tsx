@@ -12,10 +12,21 @@ type Props = {
   className?: string
   sx?: SxProps<Theme>
   disabled?: boolean
+  startIcon?: ReactNode
 }
 
 export const Button = (props: Props) => {
-  const { className, children, onClick, variant = 'outlined', color = 'primary', size = 'medium', sx, disabled } = props
+  const {
+    className,
+    children,
+    onClick,
+    variant = 'outlined',
+    color = 'primary',
+    size = 'medium',
+    sx,
+    disabled,
+    startIcon,
+  } = props
   const sxProps = { backgroundColor: 'primary', fontFamily: 'inherit', textTransform: 'none' as const, ...sx }
   return (
     <MUIButton
@@ -27,6 +38,7 @@ export const Button = (props: Props) => {
       disableElevation
       sx={sxProps}
       disabled={disabled}
+      startIcon={startIcon}
     >
       {children}
     </MUIButton>

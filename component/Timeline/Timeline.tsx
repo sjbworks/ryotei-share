@@ -25,6 +25,9 @@ export const Timeline: FC<TimeLineProps> = (props) => {
             padding: 0,
           },
           marginTop: 0,
+          '&.MuiTimeline-root': {
+            paddingRight: 0,
+          },
         }}
       >
         {items.map((props, i) => {
