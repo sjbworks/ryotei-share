@@ -1,4 +1,4 @@
-import { useMutation } from '@apollo/client'
+import { useMutation } from '@apollo/client/react'
 import {
   MUTATION_ADD_TRIP,
   MUTATION_UPDATE_TRIP,

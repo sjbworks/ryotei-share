@@ -1,4 +1,4 @@
-import { useMutation } from '@apollo/client'
+import { useMutation } from '@apollo/client/react'
 import { useEffect, useState } from 'react'
 import { redirect } from 'next/navigation'
 import { MUTATION_ADD_RYOTEI, MUTATION_DELETE_RYOTEI, MUTATION_UPDATE_RYOTEI } from '@/feature/ryotei/graphql'
