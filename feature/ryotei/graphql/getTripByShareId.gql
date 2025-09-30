@@ -1,0 +1,16 @@
+query GetTripByShareId($shareId: UUID!) {
+  shareCollection(filter: { share_id: { eq: $shareId } }) {
+    edges {
+      node {
+        share_id
+        trip_id
+        is_public
+        trips {
+          id
+          name
+          created_at
+        }
+      }
+    }
+  }
+}

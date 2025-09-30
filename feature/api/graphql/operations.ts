@@ -86,6 +86,19 @@ export type DeleteTripByIdMutation = {
   }
 }
 
+export type GetAllPublicSharesQueryVariables = Types.Exact<{ [key: string]: never }>
+
+export type GetAllPublicSharesQuery = {
+  __typename?: 'Query'
+  shareCollection?: {
+    __typename?: 'shareConnection'
+    edges: Array<{
+      __typename?: 'shareEdge'
+      node: { __typename?: 'share'; share_id?: any | null; trip_id?: any | null; is_public?: boolean | null }
+    }>
+  } | null
+}
+
 export type GetRyoteiQueryVariables = Types.Exact<{
   orderBy?: Types.InputMaybe<Array<Types.RyoteiOrderBy> | Types.RyoteiOrderBy>
   filter?: Types.InputMaybe<Types.RyoteiFilter>
@@ -119,6 +132,27 @@ export type GetShareByTripIdQuery = {
         is_public?: boolean | null
         created_at: any
         user_id?: any | null
+      }
+    }>
+  } | null
+}
+
+export type GetTripByShareIdQueryVariables = Types.Exact<{
+  shareId: Types.Scalars['UUID']['input']
+}>
+
+export type GetTripByShareIdQuery = {
+  __typename?: 'Query'
+  shareCollection?: {
+    __typename?: 'shareConnection'
+    edges: Array<{
+      __typename?: 'shareEdge'
+      node: {
+        __typename?: 'share'
+        share_id?: any | null
+        trip_id?: any | null
+        is_public?: boolean | null
+        trips?: { __typename?: 'trips'; id: any; name?: string | null; created_at: any } | null
       }
     }>
   } | null

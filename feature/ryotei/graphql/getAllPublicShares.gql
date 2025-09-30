@@ -1,0 +1,11 @@
+query GetAllPublicShares {
+  shareCollection(filter: { is_public: { eq: true } }) {
+    edges {
+      node {
+        share_id
+        trip_id
+        is_public
+      }
+    }
+  }
+}
