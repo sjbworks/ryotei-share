@@ -17,10 +17,11 @@ export type Plan = { datetime: string; description: string; id: string; trip_id:
 export type TimelineItemProps = Plan & {
   color?: TimelineDotProps['color']
   onClick?: (action: Action, value: Plan) => void
+  readOnly?: boolean
 }
 
 export const TimelineItem: FC<TimelineItemProps> = (props) => {
-  const { id, datetime, description, color, onClick, trip_id } = props
+  const { id, datetime, description, color, onClick, trip_id, readOnly } = props
   const timeSx = {
     display: 'flex',
     alignItems: 'center',
@@ -38,7 +39,9 @@ export const TimelineItem: FC<TimelineItemProps> = (props) => {
             <AccessTimeIcon fontSize="small" sx={{ marginRight: '2px' }} />
             {time}
           </Text>
-          <MenuControl onClick={onClick} id={id} datetime={datetime} description={description} trip_id={trip_id} />
+          {!readOnly && (
+            <MenuControl onClick={onClick} id={id} datetime={datetime} description={description} trip_id={trip_id} />
+          )}
         </div>
         <Text variant="body1" color="grey.800">
           {description}
