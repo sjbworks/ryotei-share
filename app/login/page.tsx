@@ -3,7 +3,7 @@ import { AuthButton } from '@/feature/auth/components/AuthButton'
 import { login } from '@/feature/auth/api'
 import Image from 'next/image'
 import Link from 'next/link'
-import WalkingManSvg from '@/assets/svg/WalkingMan.svg'
+import World from '@/assets/image/world.png'
 import { Text } from '@/component/Text'
 
 export default function Login() {
@@ -13,7 +13,8 @@ export default function Login() {
     <div
       className="flex flex-col"
       style={{
-        minHeight: '100dvh',
+        height: '100dvh',
+        overflow: 'hidden',
       }}
     >
       <main className={containerStyle} style={{ flex: 1 }}>
@@ -28,10 +29,10 @@ export default function Login() {
         >
           旅程を無料で簡単につくれる{'\n'}Webサービスです。
         </Text>
-        <Image src={WalkingManSvg} alt="Walking Man" width={150} height={150} />
+        <Image src={World} alt="Walking Man" width={150} height={150} style={{ margin: 28 }} />
         <AuthButton login={login} />
       </main>
-      <footer className="absolute bottom-4 w-full text-center">
+      <footer className="py-4 w-full text-center">
         <Link href="/legal" className="text-sm text-gray-500 hover:text-gray-700 underline">
           利用規約・プライバシーポリシー
         </Link>
