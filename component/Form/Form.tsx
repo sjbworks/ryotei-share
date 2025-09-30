@@ -1,7 +1,7 @@
 'use client'
 import { Controller, SubmitHandler, type Control, type FieldErrors, type UseFormRegister } from 'react-hook-form'
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers'
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3'
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import TextField from '@mui/material/TextField'
 import Box from '@mui/material/Box'
 import { Button } from '@/component/Button'

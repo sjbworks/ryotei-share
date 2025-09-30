@@ -37,7 +37,7 @@ export const metadata = {
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const className = clsx(zenMaru.className, 'flex flex-col')
+  const className = clsx(zenMaru.className, 'flex flex-col items-center')
   return (
     <html lang="ja">
       <body

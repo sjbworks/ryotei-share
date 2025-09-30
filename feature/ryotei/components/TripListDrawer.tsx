@@ -100,7 +100,7 @@ export const TripListDrawer = ({
   ]
   return (
     <LeftSideDrawer anchor="left" open={open} onClose={onClose} onOpen={onOpen}>
-      <div className="flex flex-col truncate w-100">
+      <div className="flex flex-col w-full min-w-0">
         {trips?.map((trip) => (
           <div key={trip.id} style={{ display: 'flex', justifyContent: 'space-between' }}>
             <Button

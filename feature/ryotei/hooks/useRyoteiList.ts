@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo } from 'react'
 import { QUERY_GET_TRIPS } from '@/feature/ryotei/graphql'
 import { GetTripsQuery, GetTripsQueryVariables, OrderByDirection } from '@/feature/api/graphql'
-import { useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client/react'
 
 export const useRyoteiList = () => {
   const [sideOpen, setSideOpen] = useState(false)

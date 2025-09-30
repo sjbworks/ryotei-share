@@ -1,4 +1,4 @@
-import { useMutation, useLazyQuery } from '@apollo/client'
+import { useMutation, useLazyQuery } from '@apollo/client/react'
 import {
   MUTATION_ADD_SHARE_SETTING,
   MUTATION_UPDATE_SHARE_SETTING,
@@ -20,7 +20,8 @@ import { useContext } from 'react'
 export const useShareSettingCRUD = () => {
   const dispatch = useContext(SnackbarDispatchContext)
   const [getShareSettingById] = useLazyQuery<GetShareByTripIdQuery, GetShareByTripIdQueryVariables>(
-    QUERY_GET_SHARE_SETTING_BY_ID
+    QUERY_GET_SHARE_SETTING_BY_ID,
+    { fetchPolicy: 'network-only' }
   )
   const [addShareSetting] = useMutation<AddShareMutation, AddShareMutationVariables>(MUTATION_ADD_SHARE_SETTING)
   const [updatePublicSetting] = useMutation<UpdateshareMutation, UpdateshareMutationVariables>(
@@ -29,8 +30,7 @@ export const useShareSettingCRUD = () => {
 
   const checkExistShareData = async (tripId: string) => {
     try {
-      const shareData = (await getShareSettingById({ variables: { tripId }, fetchPolicy: 'network-only' })).data
-        ?.shareCollection?.edges[0]?.node
+      const shareData = (await getShareSettingById({ variables: { tripId } })).data?.shareCollection?.edges[0]?.node
       return shareData
         ? { exists: true, share_id: shareData.share_id, is_public: shareData.is_public }
         : { exists: false, share_id: null, is_public: null }
