@@ -1,11 +1,5 @@
 import { useMutation } from '@apollo/client/react'
-import {
-  MUTATION_ADD_TRIP,
-  MUTATION_UPDATE_TRIP,
-  MUTATION_DELETE_TRIP,
-  MUTATION_DELETE_RYOTEI_BY_TRIP_ID,
-  MUTATION_DELETE_SHARE,
-} from '@/feature/ryotei/graphql'
+import { MUTATION_ADD_TRIP, MUTATION_UPDATE_TRIP, MUTATION_DELETE_TRIP } from '@/feature/ryotei/graphql'
 import {
   InsertIntotripsCollectionMutation as AddTripMutation,
   InsertIntotripsCollectionMutationVariables as AddTripMutationVariables,
@@ -13,13 +7,8 @@ import {
   UpdatetripsCollectionMutationVariables as UpdateTripMutationVariables,
   DeleteTripByIdMutation as DeleteTripMutation,
   DeleteTripByIdMutationVariables as DeleteTripMutationVariables,
-  DeleteRyoteiByTripIdMutation as DeleteRyoteiByTripIdMutation,
-  DeleteRyoteiByTripIdMutationVariables as DeleteRyoteiByTripIdMutationVariables,
-  DeleteShareByTripIdMutation as DeleteShareMutation,
-  DeleteShareByTripIdMutationVariables as DeleteShareMutationVariables,
   TripsInsertInput,
   TripsUpdateInput,
-  TripsFilter,
 } from '@/feature/api/graphql'
 import { SnackbarDispatchContext } from '@/feature/provider/SnackbarContextProvider'
 import { useContext } from 'react'
@@ -30,10 +19,6 @@ export const useTripCRUD = (refetchTrip?: () => void, onChangeTripId?: (id: stri
   const [addTrip] = useMutation<AddTripMutation, AddTripMutationVariables>(MUTATION_ADD_TRIP)
   const [updateTrips] = useMutation<UpdateTripMutation, UpdateTripMutationVariables>(MUTATION_UPDATE_TRIP)
   const [deleteTrips] = useMutation<DeleteTripMutation, DeleteTripMutationVariables>(MUTATION_DELETE_TRIP)
-  const [deleteRyoteiByTripId] = useMutation<DeleteRyoteiByTripIdMutation, DeleteRyoteiByTripIdMutationVariables>(
-    MUTATION_DELETE_RYOTEI_BY_TRIP_ID
-  )
-  const [deleteShare] = useMutation<DeleteShareMutation, DeleteShareMutationVariables>(MUTATION_DELETE_SHARE)
 
   const createTrip = async (tripData: TripsInsertInput) => {
     try {
@@ -41,7 +26,6 @@ export const useTripCRUD = (refetchTrip?: () => void, onChangeTripId?: (id: stri
         variables: { objects: { name: tripData?.name } },
       })
       await refetchTrip?.()
-      // refetchTrip完了後にonChangeTripIdを呼び出して、新しいtripがtrips配列に含まれた状態でtitleを更新する
       const newTripId = result.data?.insertIntotripsCollection?.records[0].id
       if (newTripId) {
         onChangeTripId?.(newTripId)
@@ -65,7 +49,7 @@ export const useTripCRUD = (refetchTrip?: () => void, onChangeTripId?: (id: stri
       })
       await refetchTrip?.()
 
-      // refetchTrip完了後にonChangeTripIdを呼び出して、更新されたtripがtrips配列に反映された状態でtitleを更新する
+      // NOTE: Update title after refetchTrip completes to ensure the updated trip is reflected in the trips array
       const updatedTripId = result.data?.updatetripsCollection?.records[0].id
       if (updatedTripId) {
         onChangeTripId?.(updatedTripId)
@@ -81,33 +65,15 @@ export const useTripCRUD = (refetchTrip?: () => void, onChangeTripId?: (id: stri
     }
   }
 
-  const deleteTrip = async (tripData: TripsFilter) => {
+  const deleteTrip = async (tripData: { id: any }) => {
     try {
-      // 1. 最初に関連するshareを削除する
-      await deleteShare({
-        variables: {
-          tripId: tripData.id,
-          atMost: 10, // 一つの旅程に最大10件のshareがあると仮定
-        },
-      })
-
-      // 2. 次に関連するryoteiを削除する
-      await deleteRyoteiByTripId({
-        variables: {
-          tripId: tripData.id,
-          atMost: 100, // 一つの旅程に最大100件の予定があると仮定
-        },
-      })
-
-      // 3. 最後にtripを削除する
+      const tripId = tripData.id
+      // NOTE: ON DELETE CASCADE automatically removes related ryotei and share records
       await deleteTrips({
-        variables: { tripId: tripData.id, atMost: 1 },
+        variables: { tripId: tripId, atMost: 20 },
       })
 
       await refetchTrip?.()
-
-      // 削除後は最初の利用可能なtripを選択する（useRyoteiListのuseEffectで自動的に処理される）
-      // ここでonChangeTripIdを呼び出すとまだ削除されたIDを参照してしまう可能性があるため呼び出さない
     } catch (e) {
       console.error('deleteTrip error:', e)
       if (e instanceof Error)
