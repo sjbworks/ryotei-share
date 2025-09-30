@@ -55,7 +55,16 @@ export default async function Share({ params }: { params: Promise<{ shareId: str
   const tripId = tripNode?.trip_id
 
   if (!tripId || !tripNode?.is_public) {
-    return <div>Trip not found or not public</div>
+    return (
+      <div className="flex flex-col items-center justify-center h-full background">
+        <div className="flex flex-col items-center justify-center p-8 text-center gap-2">
+          <Text variant="h6">旅程が見つかりませんでした</Text>
+          <Text color="grey.600" variant="body1">
+            旅程が削除されたか、非公開になっています。
+          </Text>
+        </div>
+      </div>
+    )
   }
 
   const { data: ryoteiData } = await client.query<GetRyoteiQuery, GetRyoteiQueryVariables>({
