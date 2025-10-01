@@ -11,6 +11,7 @@ import {
 import { formatRyoteiData } from '@/feature/ryotei/utils/formatRyoteiData'
 import { Timeline, NoData, Text } from '@/component'
 import NoResult from '@/assets/image/no-results.png'
+import World from '@/assets/image/world.png'
 import Image from 'next/image'
 
 export const revalidate = 60
@@ -88,9 +89,12 @@ export default async function Share({ params }: { params: Promise<{ shareId: str
 
   return (
     <div className="flex flex-col gap-4 relative max-w-2xl mx-auto w-full p-4">
-      <Text variant="h5" fontWeight="700" className="pt-4">
-        {trip?.name}
-      </Text>
+      <div className="flex items-center gap-2 pt-4">
+        <Image src={World} alt="World Image" width={48} height={48} />
+        <Text variant="h5" fontWeight="700">
+          {trip?.name}
+        </Text>
+      </div>
       {Object.entries(formattedData).map(([key, item]) => (
         <Timeline key={key} title={key} items={item} readOnly={true} className="mb-3" />
       ))}
