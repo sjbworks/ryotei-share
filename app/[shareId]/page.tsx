@@ -10,6 +10,8 @@ import {
 } from '@/feature/api/graphql'
 import { formatRyoteiData } from '@/feature/ryotei/utils/formatRyoteiData'
 import { Timeline, NoData, Text } from '@/component'
+import NoResult from '@/assets/image/no-results.png'
+import Image from 'next/image'
 
 export const revalidate = 60
 
@@ -62,6 +64,7 @@ export default async function Share({ params }: { params: Promise<{ shareId: str
           <Text color="grey.600" variant="body1">
             旅程が削除されたか、非公開になっています。
           </Text>
+          <Image src={NoResult} alt="No Result Image" width={150} height={150} />
         </div>
       </div>
     )
