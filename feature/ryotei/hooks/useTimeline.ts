@@ -121,7 +121,7 @@ export const useTimeline = (
     onSubmit: handleBottomSubmit,
     onClose: bottomSheet.close,
     data:
-      formState.mode === 'addTrip' || formState.mode === 'editTrip'
+      formState.mode === 'addTrip' || formState.mode === 'editTrip' || formState.mode === 'deleteTrip'
         ? formState.trip
         : formState.mode === 'shareTrip'
         ? formState.trip

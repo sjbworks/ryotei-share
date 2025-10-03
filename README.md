@@ -1,21 +1,21 @@
 # Ryotei Share
 
-![Ryotei Share](assets/svg/WalkingMan.svg)
+![Ryotei Share](assets/image/world.png)
 
 https://ryotei-share.vercel.app/
 
-## 📝 プロジェクト概要
+## 📝 Overview
 
-**Ryotei Share**は、旅行の行程表をシンプルに作成・管理できるWebアプリケーションです。
+**Ryotei Share** is a simple web application for creating and managing travel itineraries.
 
-### 主な機能
+### Main Features
 
-- 📅 **タイムライン形式での旅程作成**: 時系列で旅行スケジュールを管理
-- 🗂️ **複数の旅行計画管理**: 複数のトリップを作成・切り替え可能
-- 🔐 **認証機能**: Supabase認証によるユーザー管理（Github, Google）
-- ⚡ **リアルタイム更新**: GraphQLによる効率的なデータ同期
+- 📅 **Create itineraries in timeline style**: Manage travel schedules chronologically
+- 🗂️ **Manage multiple itineraries**: Create and switch between multiple trips
+- 🤝 **Share itineraries**: Share your travel plans with others
+- 🔐 **Authentication**: User management with Supabase authentication (GitHub, Google)
 
-## 🛠️ 技術スタック
+## 🛠️ Tech Stack
 
 ### Frontend
 
@@ -27,7 +27,7 @@ https://ryotei-share.vercel.app/
 
 ### Backend & Infrastructure
 
-- **BaaS**: [Supabase](https://supabase.com/) (認証・データベース)
+- **BaaS**: [Supabase](https://supabase.com/) (Authentication & Database)
 - **API**: [GraphQL](https://graphql.org/)
 - **Type Generation**: [GraphQL Code Generator](https://www.graphql-code-generator.com/)
 
@@ -37,56 +37,54 @@ https://ryotei-share.vercel.app/
 - **Code Quality**: [ESLint](https://eslint.org/), [Prettier](https://prettier.io/)
 - **Package Manager**: npm
 
-### Deployment
+## 🏗️ Project Architecture
 
-- **Hosting**: [Vercel](https://vercel.com/)
-
-## 🏗️ プロジェクト構成
-
-本プロジェクトは**Feature-based Architecture**を採用しています。
+This project follows a **Feature-based Architecture**.
 
 ```
 ryotei-share/
-├── app/                    # Next.js App Router
-│   ├── layout.tsx         # ルートレイアウト
-│   ├── page.tsx           # ホームページ
-│   ├── login/             # ログインページ
-│   └── legal/             # 利用規約ページ
-├── component/             # 再利用可能なUIコンポーネント
+├── app/                   # Next.js App Router
+│   ├── layout.tsx         # Root layout
+│   ├── page.tsx           # Home page
+│   ├── login/             # Login page
+│   └── legal/             # Terms of Use page
+├── component/             # UI components
 │   ├── Button/
 │   ├── Form/
 │   ├── Modal/
 │   └── Timeline/
-├── feature/               # 機能別コンポーネント
-│   ├── auth/              # 認証機能
-│   ├── provider/          # Providerコンポーネント
-│   └── ryotei/            # 旅程管理機能
-│       ├── components/    # 機能専用コンポーネント
-│       └── hooks/         # カスタムフック
-├── utils/                 # ユーティリティ関数
-├── assets/                # 静的アセット
-└── stories/               # Storybookストーリー
+├── feature/               # Feature directories
+│   ├── auth/              # Authentication
+│   ├── provider/          # Providers
+│   └── ryotei/            # Itinerary management feature
+│       ├── components/    # Components for itinerary management
+│       └── hooks/         # Custom hooks
+├── utils/                 # Utility functions
+├── assets/                # Static assets
+└── stories/               # Storybook stories
 ```
 
-### 設計
+### Design Principles
 
-- **コンポーネント駆動開発**: Storybook + コンポーネント開発
-- **型安全性**: TypeScript + GraphQL Code Generatorによる型サポート
-- **関心の分離**: feature/component分離による保守性の向上
-- **カスタムフック活用**: ロジックとUIの分離による再利用性の向上
+- Component-driven development with Storybook + MUI
+- Type safety with TypeScript + GraphQL Code Generator
+- Separation of features and components
+- Custom hooks for business logic
 
-## 開発
+## 🚀 Development
+
+- **Hosting**: [Vercel](https://vercel.com/)
 
 ```bash
-# 開発サーバー起動
+# Start development server
 npm run dev
 
-# Storybook起動
+# Start Storybook
 npm run storybook
 
-# GraphQL型生成
+# Generate GraphQL types
 npm run codegen
 
-# ビルド
+# Build for production
 npm run build
 ```

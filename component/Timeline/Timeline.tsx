@@ -10,9 +10,10 @@ export type TimeLineProps = {
   items: Array<Omit<TimelineItemProps, 'onClick'>>
   onClick?: TimelineItemProps['onClick']
   className?: string
+  readOnly?: boolean
 }
 export const Timeline: FC<TimeLineProps> = (props) => {
-  const { title, items, className, onClick } = props
+  const { title, items, className, onClick, readOnly } = props
   return (
     <Box className={className}>
       <Text variant="h6" color="grey.700">
@@ -31,7 +32,7 @@ export const Timeline: FC<TimeLineProps> = (props) => {
         }}
       >
         {items.map((props, i) => {
-          return <TimelineItem {...props} onClick={onClick} key={i} />
+          return <TimelineItem {...props} onClick={onClick} readOnly={readOnly} key={i} />
         })}
       </MUITimeline>
     </Box>

@@ -100,9 +100,9 @@ export const TripListDrawer = ({
   ]
   return (
     <LeftSideDrawer anchor="left" open={open} onClose={onClose} onOpen={onOpen}>
-      <div className="flex flex-col w-full min-w-0">
+      <div className="flex flex-col w-full">
         {trips?.map((trip) => (
-          <div key={trip.id} style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <div key={trip.id} style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
             <Button
               variant="text"
               className="justify-start mb-2"

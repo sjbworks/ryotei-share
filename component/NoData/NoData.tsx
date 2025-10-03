@@ -1,5 +1,5 @@
-import { HikingIcon } from '@/component/Icon'
-import { grey } from '@mui/material/colors'
+import Calendar from '@/assets/image/calendar.png'
+import Image from 'next/image'
 import { Text } from '@/component/Text'
 
 export const NoData = () => {
@@ -10,6 +10,7 @@ export const NoData = () => {
         <Text color="grey.600" variant="body1">
           予定を登録して、あなたの旅程表を作りましょう！
         </Text>
+        <Image src={Calendar} alt="Calendar Image" width={150} height={150} />
       </div>
     </div>
   )
