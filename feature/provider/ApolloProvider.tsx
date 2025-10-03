@@ -3,10 +3,11 @@
 import { HttpLink } from '@apollo/client'
 import { SetContextLink } from '@apollo/client/link/context'
 import { ApolloNextAppProvider, InMemoryCache, ApolloClient } from '@apollo/client-integration-nextjs'
-import { getAccessTokenFromCookie, refreshAccessToken } from '@/utils'
+import { refreshAccessToken } from '@/utils'
 import { ErrorLink } from '@apollo/client/link/error'
 import { CombinedGraphQLErrors, CombinedProtocolErrors } from '@apollo/client/errors'
 import { ApolloLink } from '@apollo/client/link'
+import { createBrowserClient } from '@supabase/ssr'
 
 const httpLink = new HttpLink({
   // See more information about this GraphQL endpoint at https://studio.apollographql.com/public/spacex-l4uc6p/variant/main/home
@@ -15,9 +16,18 @@ const httpLink = new HttpLink({
   fetchOptions: { cache: 'force-cache' },
 })
 
-const authLink = new SetContextLink((prevContext, operation) => {
-  const key = `sb-${process.env.NEXT_PUBLIC_SUPABASE_PROJECT_ID!}-auth-token`
-  const token = getAccessTokenFromCookie(key)
+const supabase = createBrowserClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+)
+
+const authLink = new SetContextLink(async (prevContext) => {
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
+
+  const token = session?.access_token
+
   return {
     headers: {
       ...prevContext.headers,
