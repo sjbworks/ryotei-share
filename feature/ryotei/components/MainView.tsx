@@ -19,6 +19,8 @@ import SpeedDialIcon from '@mui/material/SpeedDialIcon'
 import SpeedDialAction from '@mui/material/SpeedDialAction'
 import ShareIcon from '@mui/icons-material/Share'
 import { SnackbarContext } from '@/feature/provider/SnackbarContextProvider'
+import Image from 'next/image'
+import Orbit from '@/assets/image/orbit.png'
 
 export const MainView = () => {
   const snackbarState = useContext(SnackbarContext)
@@ -160,6 +162,7 @@ export const MainView = () => {
           <div className="flex flex-col items-center justify-center p-8 text-center gap-2">
             <Text variant="h6">旅程を作成しましょう</Text>
             <Text variant="body1">旅行の予定を立てるために、まず旅程を作成してください。</Text>
+            <Image src={Orbit} alt="Orbit Image" width={150} height={150} style={{ margin: 28 }} />
             <Button
               onClick={() => {
                 onSideOpen()
@@ -186,7 +189,7 @@ export const MainView = () => {
           onOpenBottomDrawer={handleClick}
         />
         <BottomDrawer {...bottomSheet}>
-          <Form className={formStyle} {...bottomFormProps} />
+          <Form className={formStyle} {...bottomFormProps} open={bottomSheet.open} />
         </BottomDrawer>
         <Modal isOpen={withdrawModal.isOpen}>
           <Form
