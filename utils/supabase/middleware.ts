@@ -30,15 +30,26 @@ export const updateSession = async (request: NextRequest) => {
 
   const {
     data: { user },
-    error
+    error,
   } = await supabase.auth.getUser()
-  
+
   // If there's an auth error (like invalid refresh token), clear the session
   if (error && error.message.includes('refresh_token_not_found')) {
     await supabase.auth.signOut()
   }
-  
-  if (!user && !request.nextUrl.pathname.startsWith('/login') && !request.nextUrl.pathname.startsWith('/auth')) {
+
+  // Check if the path is a share page (root level path like /abc123 or /abc123/)
+  const isSharePage =
+    request.nextUrl.pathname.match(/^\/[^\/]+\/?$/) &&
+    !request.nextUrl.pathname.startsWith('/login') &&
+    !request.nextUrl.pathname.startsWith('/legal')
+
+  if (
+    !user &&
+    !request.nextUrl.pathname.startsWith('/login') &&
+    !request.nextUrl.pathname.startsWith('/auth') &&
+    !isSharePage
+  ) {
     // no user, potentially respond by redirecting the user to the login page
     const url = request.nextUrl.clone()
     url.pathname = '/login'

@@ -45,6 +45,24 @@ export async function generateStaticParams() {
   }))
 }
 
+export async function generateMetadata({ params }: { params: Promise<{ shareId: string }> }) {
+  const { shareId } = await params
+  const client = createServerApolloClient()
+
+  const { data: shareData } = await client.query<GetTripByShareIdQuery, GetTripByShareIdQueryVariables>({
+    query: QUERY_GET_TRIP_BY_SHARE_ID,
+    variables: { shareId },
+  })
+
+  const tripNode = shareData?.shareCollection?.edges?.[0]?.node
+  const tripName = tripNode?.trips?.name ? `Ryotei Share | ${tripNode?.trips?.name}` : 'Ryotei Share'
+
+  return {
+    title: tripName,
+    description: '旅程を作成するためのWebサービスです。',
+  }
+}
+
 export default async function Share({ params }: { params: Promise<{ shareId: string }> }) {
   const { shareId } = await params
   const client = createServerApolloClient()
