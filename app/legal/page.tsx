@@ -1,9 +1,9 @@
 import Link from 'next/link'
 
 export default function Legal() {
-  const containerStyle = 'max-w-4xl mx-auto p-6 bg-white'
+  const containerStyle = 'max-w-4xl mx-auto p-6 bg-white flex flex-col gap-4 '
   const h1Style = 'text-xl font-bold mb-6 text-gray-800 break-words'
-  const sectionStyle = 'mb-8'
+  const sectionStyle = 'mb-8 flex flex-col gap-2'
   const h2Style = 'text-lg font-semibold mb-3 text-gray-700'
   const h3Style = 'text-base font-semibold mb-2 text-gray-700'
   const paragraphStyle = 'mb-4 text-gray-600 leading-relaxed'
@@ -12,7 +12,7 @@ export default function Legal() {
   return (
     <div className={containerStyle}>
       <div className="mb-6">
-        <Link href="/" className="text-blue-600 hover:text-blue-800 underline">
+        <Link href="/" className="text-gray-700 hover:text-gray-400 underline">
           ← ホームに戻る
         </Link>
       </div>
@@ -108,14 +108,18 @@ export default function Legal() {
 
         <h3 className={h3Style}>お問い合わせ</h3>
         <p className={paragraphStyle}>
-          本規約およびプライバシーポリシーに関するご質問は、本サービス内のお問い合わせ機能またはGitHubリポジトリのIssueにてお寄せください。
+          本規約およびプライバシーポリシーに関するご質問は、
+          <Link href={'https://github.com/sjbworks/ryotei-share'} className="hover:text-gray-400 underline">
+            GitHubリポジトリ
+          </Link>
+          のIssueにてお寄せください。
         </p>
       </section>
 
       <p className="text-sm text-gray-500 border-t pt-4">
         制定日：2025年8月28日
         <br />
-        最終更新：2025年8月28日
+        最終更新：2025年11月2日
       </p>
     </div>
   )
