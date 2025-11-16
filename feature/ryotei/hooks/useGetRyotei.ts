@@ -11,6 +11,7 @@ export const useGetRyotei = (selectedTripId?: string) => {
   }
   const { data, refetch } = useQuery<GetRyoteiQuery, GetRyoteiQueryVariables>(QUERY_GET_RYOTEI, {
     variables,
+    fetchPolicy: 'cache-first',
   })
 
   const nodes = data?.ryoteiCollection?.edges?.map((edge) => edge.node)
