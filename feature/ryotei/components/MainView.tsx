@@ -35,8 +35,10 @@ export const MainView = () => {
     onChangeTripId,
     title,
     refetchTrip,
+    loading: tripLoading,
   } = useRyoteiList()
-  const { refetch } = useGetRyotei(selectedTripId)
+  const { refetch, loading: ryoteiLoading } = useGetRyotei(selectedTripId)
+  const loading = tripLoading || ryoteiLoading
   const { handleClick, bottomSheet, bottomFormProps, onMenuClick, onClickAddTrip, formState, onClickShareTrip } =
     useTimeline(refetch, refetchTrip, selectedTripId, onSideClose, onChangeTripId)
 
@@ -158,20 +160,22 @@ export const MainView = () => {
         </Box>
       </header>
       <main style={{ marginTop: '16px' }}>
-        {trips.length === 0 ? (
+        {loading || trips.length === 0 ? (
           <div className="flex flex-col items-center justify-center p-8 text-center gap-2">
             <Text variant="h6">旅程を作成しましょう</Text>
             <Text variant="body1">旅行の予定を立てるために、まず旅程を作成してください。</Text>
             <Image src={Orbit} alt="Orbit Image" width={150} height={150} style={{ margin: 28 }} priority />
-            <Button
-              onClick={() => {
-                onSideOpen()
-              }}
-              sx={{ marginTop: '4px' }}
-              variant="contained"
-            >
-              旅程を作成
-            </Button>
+            {!loading && (
+              <Button
+                onClick={() => {
+                  onSideOpen()
+                }}
+                sx={{ marginTop: '4px' }}
+                variant="contained"
+              >
+                旅程を作成
+              </Button>
+            )}
           </div>
         ) : (
           <TimelineView selectedTripId={selectedTripId} onMenuClick={onMenuClick} />

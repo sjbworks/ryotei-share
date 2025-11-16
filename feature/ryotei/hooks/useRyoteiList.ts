@@ -14,7 +14,7 @@ export const useRyoteiList = () => {
   const variables: GetTripsQueryVariables = {
     orderBy: [{ created_at: OrderByDirection.AscNullsLast }],
   }
-  const { data, refetch: refetchTrip } = useQuery<GetTripsQuery, GetTripsQueryVariables>(QUERY_GET_TRIPS, {
+  const { data, refetch: refetchTrip, loading } = useQuery<GetTripsQuery, GetTripsQueryVariables>(QUERY_GET_TRIPS, {
     variables,
     fetchPolicy: 'cache-first',
   })
@@ -46,5 +46,6 @@ export const useRyoteiList = () => {
     onChangeTripId,
     selectedTripId,
     refetchTrip,
+    loading,
   }
 }

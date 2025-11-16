@@ -9,7 +9,7 @@ export const useGetRyotei = (selectedTripId?: string) => {
     orderBy: [{ datetime: OrderByDirection.AscNullsLast }],
     filter: selectedTripId ? { trip_id: { eq: selectedTripId } } : undefined,
   }
-  const { data, refetch } = useQuery<GetRyoteiQuery, GetRyoteiQueryVariables>(QUERY_GET_RYOTEI, {
+  const { data, refetch, loading } = useQuery<GetRyoteiQuery, GetRyoteiQueryVariables>(QUERY_GET_RYOTEI, {
     variables,
     fetchPolicy: 'cache-first',
   })
@@ -20,5 +20,6 @@ export const useGetRyotei = (selectedTripId?: string) => {
   return {
     data: formattedData,
     refetch,
+    loading,
   }
 }
