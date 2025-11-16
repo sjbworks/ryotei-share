@@ -16,6 +16,7 @@ export const useRyoteiList = () => {
   }
   const { data, refetch: refetchTrip } = useQuery<GetTripsQuery, GetTripsQueryVariables>(QUERY_GET_TRIPS, {
     variables,
+    fetchPolicy: 'cache-first',
   })
   const trips =
     data?.tripsCollection?.edges?.map(({ node: { id, name } }) => ({ id, name })).filter((trip) => trip.id) || []
