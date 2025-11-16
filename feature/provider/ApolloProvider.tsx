@@ -21,12 +21,37 @@ const supabase = createBrowserClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 )
 
+// セッショントークンをキャッシュ（5秒間有効）
+let cachedToken: string | null = null
+let tokenCacheTime = 0
+const TOKEN_CACHE_DURATION = 5000 // 5秒
+
 const authLink = new SetContextLink(async (prevContext) => {
+  const now = Date.now()
+
+  // キャッシュが有効な場合はキャッシュを使用
+  if (cachedToken && now - tokenCacheTime < TOKEN_CACHE_DURATION) {
+    return {
+      headers: {
+        ...prevContext.headers,
+        authorization: `Bearer ${cachedToken}`,
+        apiKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      },
+    }
+  }
+
+  // キャッシュが無効な場合は新しいセッションを取得
   const {
     data: { session },
   } = await supabase.auth.getSession()
 
   const token = session?.access_token
+
+  // トークンをキャッシュ
+  if (token) {
+    cachedToken = token
+    tokenCacheTime = now
+  }
 
   return {
     headers: {
@@ -40,6 +65,10 @@ const authLink = new SetContextLink(async (prevContext) => {
 const refreshOrGoToLogin = (operation: ApolloLink.Operation, forward: ApolloLink.ForwardFunction) => {
   refreshAccessToken().then((newToken) => {
     if (newToken) {
+      // トークンキャッシュを更新
+      cachedToken = newToken
+      tokenCacheTime = Date.now()
+
       operation.setContext(({ headers = {} }) => ({
         headers: {
           ...headers,
