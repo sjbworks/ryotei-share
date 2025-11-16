@@ -162,7 +162,7 @@ export const MainView = () => {
           <div className="flex flex-col items-center justify-center p-8 text-center gap-2">
             <Text variant="h6">旅程を作成しましょう</Text>
             <Text variant="body1">旅行の予定を立てるために、まず旅程を作成してください。</Text>
-            <Image src={Orbit} alt="Orbit Image" width={150} height={150} style={{ margin: 28 }} />
+            <Image src={Orbit} alt="Orbit Image" width={150} height={150} style={{ margin: 28 }} priority />
             <Button
               onClick={() => {
                 onSideOpen()
