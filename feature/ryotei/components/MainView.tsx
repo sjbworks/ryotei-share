@@ -37,7 +37,7 @@ export const MainView = () => {
     refetchTrip,
     loading: tripLoading,
   } = useRyoteiList()
-  const { refetch, loading: ryoteiLoading } = useGetRyotei(selectedTripId)
+  const { data, refetch, loading: ryoteiLoading } = useGetRyotei(selectedTripId)
   const loading = tripLoading || ryoteiLoading
   const { handleClick, bottomSheet, bottomFormProps, onMenuClick, onClickAddTrip, formState, onClickShareTrip } =
     useTimeline(refetch, refetchTrip, selectedTripId, onSideClose, onChangeTripId)
@@ -178,7 +178,7 @@ export const MainView = () => {
             )}
           </div>
         ) : (
-          <TimelineView selectedTripId={selectedTripId} onMenuClick={onMenuClick} />
+          <TimelineView data={data} onMenuClick={onMenuClick} />
         )}
         <TripListDrawer
           open={sideOpen}
