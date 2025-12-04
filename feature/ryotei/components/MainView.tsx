@@ -4,14 +4,13 @@ import { BottomDrawer, Modal, Form, AddIcon, ArrowForwardIosIcon, Snackbar, Text
 import { useTimeline } from '@/feature/ryotei/hooks/useTimeline'
 import { useGetRyotei } from '../hooks/useGetRyotei'
 import { useRyoteiList } from '../hooks/useRyoteiList'
-import { TimelineView } from './TimelineView'
 import { useRouter } from 'next/navigation'
 import { logout } from '@/feature/auth/api'
 import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
 import { AccountCircleIcon } from '@/component/Icon'
 import { Menu } from '@/component/Menu/Menu'
-import { useState, useContext } from 'react'
+import { useState, useContext, Suspense, lazy } from 'react'
 import { TripListDrawer } from './TripListDrawer'
 import { useModal } from '../hooks/useModal'
 import SpeedDial from '@mui/material/SpeedDial'
@@ -21,6 +20,9 @@ import ShareIcon from '@mui/icons-material/Share'
 import { SnackbarContext } from '@/feature/provider/SnackbarContextProvider'
 import Image from 'next/image'
 import Orbit from '@/assets/image/orbit.png'
+import { Skeleton } from '@mui/material'
+
+const TimelineView = lazy(() => import('./TimelineView').then((mod) => ({ default: mod.TimelineView })))
 
 export const MainView = () => {
   const snackbarState = useContext(SnackbarContext)
@@ -178,7 +180,9 @@ export const MainView = () => {
             )}
           </div>
         ) : (
-          <TimelineView data={data} onMenuClick={onMenuClick} />
+          <Suspense fallback={<Skeleton variant="rounded" width={'100%'} height={500} />}>
+            <TimelineView data={data} onMenuClick={onMenuClick} />
+          </Suspense>
         )}
         <TripListDrawer
           open={sideOpen}
