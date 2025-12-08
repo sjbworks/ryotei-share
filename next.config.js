@@ -9,9 +9,10 @@ const nextConfig = {
       ],
     },
   },
-  images: {
-    unoptimized: true,
-  },
+  // 画像最適化を有効化（LCP改善のため）
+  // images: {
+  //   unoptimized: true,
+  // },
   trailingSlash: true,
   webpack: (config) => {
     config.module.rules.push({
