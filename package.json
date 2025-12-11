@@ -8,6 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "analyze": "ANALYZE=true next build",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "codegen": "graphql-codegen --require dotenv/config --config codegen.ts dotenv_config_path=.env.local",
@@ -54,6 +55,7 @@
   },
   "devDependencies": {
     "@graphql-codegen/cli": "6.0.0",
+    "@next/bundle-analyzer": "^16.0.7",
     "@storybook/addon-docs": "^9.1.8",
     "@storybook/addon-links": "9.1.8",
     "@storybook/addon-onboarding": "^9.1.8",
