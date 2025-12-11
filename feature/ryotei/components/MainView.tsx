@@ -1,6 +1,6 @@
 'use client'
 
-import { BottomDrawer, Modal, Form, AddIcon, ArrowForwardIosIcon, Snackbar, Text, Button } from '@/component'
+import { BottomDrawer, Modal, AddIcon, ArrowForwardIosIcon, Snackbar, Text, Button } from '@/component'
 import { useTimeline } from '@/feature/ryotei/hooks/useTimeline'
 import { useGetRyotei } from '../hooks/useGetRyotei'
 import { useRyoteiList } from '../hooks/useRyoteiList'
@@ -11,7 +11,7 @@ import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
 import { AccountCircleIcon } from '@/component/Icon'
 import { Menu } from '@/component/Menu/Menu'
-import { useState, useContext } from 'react'
+import { useState, useContext, lazy, Suspense } from 'react'
 import { TripListDrawer } from './TripListDrawer'
 import { useModal } from '../hooks/useModal'
 import SpeedDial from '@mui/material/SpeedDial'
@@ -21,6 +21,9 @@ import ShareIcon from '@mui/icons-material/Share'
 import { SnackbarContext } from '@/feature/provider/SnackbarContextProvider'
 import Image from 'next/image'
 import Orbit from '@/assets/image/orbit.png'
+
+// Formを遅延ロード（@mui/x-date-pickersも一緒に遅延ロードされる）
+const Form = lazy(() => import('@/component/Form').then((mod) => ({ default: mod.Form })))
 
 export const MainView = () => {
   const snackbarState = useContext(SnackbarContext)
@@ -193,15 +196,19 @@ export const MainView = () => {
           onOpenBottomDrawer={handleClick}
         />
         <BottomDrawer {...bottomSheet}>
-          <Form className={formStyle} {...bottomFormProps} open={bottomSheet.open} />
+          <Suspense fallback={<div style={{ padding: '20px' }}>読み込み中...</div>}>
+            <Form className={formStyle} {...bottomFormProps} open={bottomSheet.open} />
+          </Suspense>
         </BottomDrawer>
         <Modal isOpen={withdrawModal.isOpen}>
-          <Form
-            mode="withdrawAccount"
-            onSubmit={handleWithdrawAccount}
-            onClose={withdrawModal.close}
-            action={{ label: '退会' }}
-          />
+          <Suspense fallback={<div style={{ padding: '20px' }}>読み込み中...</div>}>
+            <Form
+              mode="withdrawAccount"
+              onSubmit={handleWithdrawAccount}
+              onClose={withdrawModal.close}
+              action={{ label: '退会' }}
+            />
+          </Suspense>
         </Modal>
       </main>
       {trips.length > 0 && (
