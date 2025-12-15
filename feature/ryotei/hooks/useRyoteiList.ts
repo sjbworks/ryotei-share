@@ -3,7 +3,7 @@ import { QUERY_GET_TRIPS } from '@/feature/ryotei/graphql'
 import { GetTripsQuery, GetTripsQueryVariables, OrderByDirection } from '@/feature/api/graphql'
 import { useQuery } from '@apollo/client/react'
 
-export const useRyoteiList = () => {
+export const useRyoteiList = (initialData?: GetTripsQuery | null, initialSelectedTripId?: string) => {
   const [sideOpen, setSideOpen] = useState(false)
   const handleMenuClick = () => {
     setSideOpen(!sideOpen)
@@ -14,14 +14,23 @@ export const useRyoteiList = () => {
   const variables: GetTripsQueryVariables = {
     orderBy: [{ created_at: OrderByDirection.AscNullsLast }],
   }
-  const { data, refetch: refetchTrip, loading } = useQuery<GetTripsQuery, GetTripsQueryVariables>(QUERY_GET_TRIPS, {
+
+  // 初期データがある場合はクエリをスキップ
+  const {
+    data,
+    refetch: refetchTrip,
+    loading,
+  } = useQuery<GetTripsQuery, GetTripsQueryVariables>(QUERY_GET_TRIPS, {
     variables,
     fetchPolicy: 'cache-first',
+    skip: !!initialData,
   })
-  const trips =
-    data?.tripsCollection?.edges?.map(({ node: { id, name } }) => ({ id, name })).filter((trip) => trip.id) || []
 
-  const [selectedTripId, setSelectedTripId] = useState<string | undefined>(undefined)
+  const currentData = data || initialData
+  const trips =
+    currentData?.tripsCollection?.edges?.map(({ node: { id, name } }) => ({ id, name })).filter((trip) => trip.id) || []
+
+  const [selectedTripId, setSelectedTripId] = useState<string | undefined>(initialSelectedTripId)
   const onChangeTripId = (tripId: string) => setSelectedTripId(tripId)
   const title = useMemo(() => trips?.find((trip) => trip.id === selectedTripId)?.name || '', [selectedTripId, trips])
 
@@ -46,6 +55,6 @@ export const useRyoteiList = () => {
     onChangeTripId,
     selectedTripId,
     refetchTrip,
-    loading,
+    loading: initialData ? false : loading,
   }
 }
