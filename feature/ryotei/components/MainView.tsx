@@ -21,11 +21,18 @@ import ShareIcon from '@mui/icons-material/Share'
 import { SnackbarContext } from '@/feature/provider/SnackbarContextProvider'
 import Image from 'next/image'
 import Orbit from '@/assets/image/orbit.png'
+import { GetTripsQuery, GetRyoteiQuery } from '@/feature/api/graphql'
 
 // Formを遅延ロード（@mui/x-date-pickersも一緒に遅延ロードされる）
 const Form = lazy(() => import('@/component/Form').then((mod) => ({ default: mod.Form })))
 
-export const MainView = () => {
+type MainViewProps = {
+  initialTripsData?: GetTripsQuery | null
+  initialRyoteiData?: GetRyoteiQuery | null
+  initialSelectedTripId?: string
+}
+
+export const MainView = ({ initialTripsData, initialRyoteiData, initialSelectedTripId }: MainViewProps) => {
   const snackbarState = useContext(SnackbarContext)
   const formStyle = 'flex flex-col justify-between p-10'
   const {
@@ -39,8 +46,8 @@ export const MainView = () => {
     title,
     refetchTrip,
     loading: tripLoading,
-  } = useRyoteiList()
-  const { data, refetch, loading: ryoteiLoading } = useGetRyotei(selectedTripId)
+  } = useRyoteiList(initialTripsData, initialSelectedTripId)
+  const { data, refetch, loading: ryoteiLoading } = useGetRyotei(selectedTripId, initialRyoteiData)
   const loading = tripLoading || ryoteiLoading
   const { handleClick, bottomSheet, bottomFormProps, onMenuClick, onClickAddTrip, formState, onClickShareTrip } =
     useTimeline(refetch, refetchTrip, selectedTripId, onSideClose, onChangeTripId)
