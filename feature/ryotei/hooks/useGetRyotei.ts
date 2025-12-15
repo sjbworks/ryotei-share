@@ -14,7 +14,7 @@ export const useGetRyotei = (selectedTripId?: string, initialData?: GetRyoteiQue
   const { data, refetch, loading } = useQuery<GetRyoteiQuery, GetRyoteiQueryVariables>(QUERY_GET_RYOTEI, {
     variables,
     fetchPolicy: 'cache-first',
-    skip: !!initialData && !!selectedTripId, // 初期データがありかつselectedTripIdがある場合はスキップ
+    skip: !selectedTripId || !!initialData, // selectedTripIdがない、または初期データがある場合はスキップ
   })
 
   const currentData = data || initialData
