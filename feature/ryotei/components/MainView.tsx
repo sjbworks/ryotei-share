@@ -49,6 +49,19 @@ export const MainView = ({ initialTripsData, initialRyoteiData, initialSelectedT
   } = useRyoteiList(initialTripsData, initialSelectedTripId)
   const { data, refetch, loading: ryoteiLoading } = useGetRyotei(selectedTripId, initialRyoteiData)
   const loading = tripLoading || ryoteiLoading
+
+  // デバッグ用ログ（一時的）
+  console.log('MainView render:', {
+    hasInitialTripsData: !!initialTripsData,
+    hasInitialRyoteiData: !!initialRyoteiData,
+    initialSelectedTripId,
+    tripsLength: trips.length,
+    selectedTripId,
+    tripLoading,
+    ryoteiLoading,
+    loading,
+    hasData: !!data,
+  })
   const { handleClick, bottomSheet, bottomFormProps, onMenuClick, onClickAddTrip, formState, onClickShareTrip } =
     useTimeline(refetch, refetchTrip, selectedTripId, onSideClose, onChangeTripId)
 
