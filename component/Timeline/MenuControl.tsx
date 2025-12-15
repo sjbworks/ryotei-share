@@ -38,7 +38,7 @@ export const MenuControl = ({ onClick, id, datetime, description, className, tri
 
   return (
     <div className={className}>
-      <IconButton size="small" onClick={onOpen}>
+      <IconButton size="small" onClick={onOpen} aria-label="open menu - edit or delete">
         <MoreHorizIcon />
       </IconButton>
       <Menu open={Boolean(anchorEl)} anchorEl={anchorEl} onClose={onClose} items={items} />

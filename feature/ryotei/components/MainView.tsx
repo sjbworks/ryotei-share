@@ -163,7 +163,7 @@ export const MainView = ({ initialTripsData, initialRyoteiData, initialSelectedT
           </span>
         </Button>
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', flex: 1 }}>
-          <IconButton onClick={handleMenuOpen} size="small">
+          <IconButton onClick={handleMenuOpen} size="small" aria-label="account menu">
             <AccountCircleIcon color="primary" />
           </IconButton>
           <Menu open={menuOpen} anchorEl={anchorEl} onClose={handleMenuClose} items={menuItems} />
