@@ -1,17 +1,7 @@
 import './globals.css'
-import { Zen_Maru_Gothic } from 'next/font/google'
-import clsx from 'clsx'
 import { ApolloProvider } from '@/feature/provider/ApolloProvider'
 import { SnackbarContextProvider } from '@/feature/provider/SnackbarContextProvider'
 import { Footer } from '@/component/Footer'
-
-const zenMaru = Zen_Maru_Gothic({
-  weight: ['400', '500', '700', '900'],
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-zen-maru-gothic',
-  adjustFontFallback: false,
-})
 
 export const metadata = {
   title: 'Ryotei Share',
@@ -38,12 +28,13 @@ export const metadata = {
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const className = clsx(zenMaru.className, 'flex flex-col items-center')
   return (
     <html lang="ja">
       <body
-        className={className}
+        className="flex flex-col items-center"
         style={{
+          fontFamily:
+            'Inter, Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Noto Sans JP", sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"',
           fontVariantNumeric: 'tabular-nums',
           fontFeatureSettings: '"tnum"',
           minHeight: '100dvh',
