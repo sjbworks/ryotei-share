@@ -15,7 +15,6 @@ export const useRyoteiList = (initialData?: GetTripsQuery | null, initialSelecte
     orderBy: [{ created_at: OrderByDirection.AscNullsLast }],
   }
 
-  // 初期データがある場合はクエリをスキップ
   const {
     data,
     refetch: refetchTrip,
@@ -23,7 +22,6 @@ export const useRyoteiList = (initialData?: GetTripsQuery | null, initialSelecte
   } = useQuery<GetTripsQuery, GetTripsQueryVariables>(QUERY_GET_TRIPS, {
     variables,
     fetchPolicy: 'cache-first',
-    skip: !!initialData,
   })
 
   const currentData = data || initialData
