@@ -106,7 +106,7 @@ export default async function Share({ params }: { params: Promise<{ shareId: str
   }
 
   return (
-    <div className="flex flex-col gap-4 relative max-w-2xl mx-auto w-full p-4">
+    <div className="flex flex-col gap-4 relative max-w-2xl mx-auto w-full py-8 px-6">
       <div className="flex items-center gap-2 pt-4">
         <Image src={World} alt="World Image" width={48} height={48} />
         <Text variant="h5" fontWeight="700">

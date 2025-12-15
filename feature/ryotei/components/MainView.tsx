@@ -127,7 +127,7 @@ export const MainView = ({ initialTripsData, initialRyoteiData, initialSelectedT
   ]
 
   return (
-    <div className="flex flex-col gap-4 relative max-w-2xl mx-auto w-full p-4">
+    <div className="flex flex-col gap-4 relative max-w-2xl mx-auto w-full py-8 px-6">
       <header className="flex items-center justify-between">
         <Button
           className="p-0"
