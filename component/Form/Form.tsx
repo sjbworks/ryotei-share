@@ -231,7 +231,6 @@ const AddTripContent = ({
 }
 
 export const Form = ({ className, onSubmit, data, onClose, action, mode, open }: Props) => {
-  console.log('Form props - mode:', mode, 'data:', data)
   const {
     register,
     handleSubmit,
@@ -277,20 +276,20 @@ export const Form = ({ className, onSubmit, data, onClose, action, mode, open }:
     mode === 'deleteRyotei'
       ? () => handleClick(data as RyoteiInsertInput)
       : mode === 'deleteTrip'
-      ? () => handleClick(data as RyoteiInsertInput)
-      : mode === 'withdrawAccount'
-      ? () => handleClick(data as RyoteiInsertInput)
-      : mode === 'editRyotei'
-      ? handleSubmit(handleClick)
-      : mode === 'addTrip'
-      ? tripHandleSubmit(handleClick)
-      : mode === 'editTrip'
-      ? tripHandleSubmit(handleClick)
-      : mode === 'addRyotei'
-      ? handleSubmit(handleClick)
-      : mode === 'shareTrip'
-      ? () => handleClick(data as ShareInsertInput)
-      : handleSubmit(handleClick)
+        ? () => handleClick(data as RyoteiInsertInput)
+        : mode === 'withdrawAccount'
+          ? () => handleClick(data as RyoteiInsertInput)
+          : mode === 'editRyotei'
+            ? handleSubmit(handleClick)
+            : mode === 'addTrip'
+              ? tripHandleSubmit(handleClick)
+              : mode === 'editTrip'
+                ? tripHandleSubmit(handleClick)
+                : mode === 'addRyotei'
+                  ? handleSubmit(handleClick)
+                  : mode === 'shareTrip'
+                    ? () => handleClick(data as ShareInsertInput)
+                    : handleSubmit(handleClick)
 
   return (
     <div className={classProps}>
