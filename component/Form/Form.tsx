@@ -9,7 +9,7 @@ import clsx from 'clsx'
 import { RyoteiInsertInput, TripsInsertInput, ShareInsertInput } from '@/feature/api/graphql'
 import { ActionType } from '@/feature/ryotei/types'
 import { ja } from 'date-fns/locale/ja'
-import { useRyoteiForm, useTripForm } from './hooks'
+import { useRyoteiForm, useTripForm, saveFormValues } from './hooks'
 import { InputAdornment, IconButton } from '@mui/material'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
@@ -245,7 +245,15 @@ export const Form = ({ className, onSubmit, data, onClose, action, mode, open }:
 
   const handleClick: SubmitHandler<RyoteiInsertInput | ShareInsertInput> = async (formData) => {
     const submitData = mode === 'deleteRyotei' || mode === 'shareTrip' ? data : formData
-    onSubmit && (await onSubmit(submitData as RyoteiInsertInput | ShareInsertInput))
+
+    // Save form values to localStorage for addRyotei and editRyotei modes
+    if ((mode === 'addRyotei' || mode === 'editRyotei') && 'datetime' in formData && 'description' in formData) {
+      saveFormValues(formData.datetime as Date, formData.description as string)
+    }
+
+    if (onSubmit) {
+      await onSubmit(submitData as RyoteiInsertInput | ShareInsertInput)
+    }
   }
 
   const classProps = clsx('flex flex-col justify-between p-5 box-border', className)
