@@ -6,7 +6,9 @@ const withBundleAnalyzer = bundleAnalyzer({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Next.js 16 では Turbopack がデフォルトだが、webpack を使用
   experimental: {
+    webpackBuildWorker: true,
     serverActions: {
       allowedOrigins: [
         'localhost:3000',
