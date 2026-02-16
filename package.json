@@ -21,6 +21,7 @@
     "@apollo/client-integration-nextjs": "^0.14.4",
     "@base-ui-components/react": "^1.0.0-beta.3",
     "@date-fns/tz": "1.4.1",
+    "@ducanh2912/next-pwa": "^10.2.9",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@graphql-codegen/import-types-preset": "^3.0.1",
