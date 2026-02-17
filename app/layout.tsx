@@ -25,6 +25,20 @@ export const metadata = {
     index: true,
     follow: true,
   },
+  manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true, // iOSでPWAとして動作させる
+    statusBarStyle: 'black-translucent', // ステータスバーを透過させる
+    title: 'Ryotei Share',
+  },
+  icons: {
+    icon: '/icon/favicon-96x96.png',
+    apple: '/icon/apple-touch-icon.png',
+  },
+}
+
+export const viewport = {
+  themeColor: '#000000',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

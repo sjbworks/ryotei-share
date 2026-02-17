@@ -2,7 +2,7 @@
 import { AuthButton } from '@/feature/auth/components/AuthButton'
 import { login } from '@/feature/auth/api'
 import Image from 'next/image'
-import World from '@/assets/image/world.png'
+import RyoteiShare from '@/assets/image/ryotei-share.png'
 import { Text } from '@/component/Text'
 
 export default function Login() {
@@ -14,7 +14,7 @@ export default function Login() {
       <Text variant="body1" color="grey.600" fontWeight={'800'} style={{ whiteSpace: 'pre-line', textAlign: 'center' }}>
         旅程を作って{'\n'}シェアしよう
       </Text>
-      <Image src={World} alt="Walking Man" width={150} height={150} style={{ margin: 28 }} />
+      <Image src={RyoteiShare} alt="Ryotei Share Main Image" width={150} height={150} style={{ margin: 28 }} />
       <AuthButton login={login} />
     </div>
   )
