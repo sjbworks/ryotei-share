@@ -48,10 +48,8 @@ const WithdrawAccountContent = () => {
           borderColor: 'grey.200',
         }}
       >
-        <Box sx={{ fontSize: '0.875rem', wordBreak: 'break-word' }}>
-          退会すると、今まで登録していた旅程や
-          <br />
-          シェアしたページは全て失われます。
+        <Box sx={{ fontSize: '0.875rem', wordBreak: 'keep-all' }}>
+          退会すると、今まで登録していた旅程や{'\n'}シェアしたページは全て失われます。
         </Box>
       </Box>
     </Box>
