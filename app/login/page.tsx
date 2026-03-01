@@ -11,7 +11,7 @@ export default function Login() {
       <Text variant="h5" color="grey.800" fontWeight={'800'}>
         Ryotei Share
       </Text>
-      <Text variant="body1" color="grey.600" fontWeight={'800'} style={{ whiteSpace: 'pre-line', textAlign: 'center' }}>
+      <Text variant="body1" color="grey.600" fontWeight={'800'} style={{ whiteSpace: 'pre-line', textAlign: 'center', wordBreak: 'keep-all' }}>
         旅程を作って{'\n'}シェアしよう
       </Text>
       <Image src={RyoteiShare} alt="Ryotei Share Main Image" width={150} height={150} style={{ margin: 28 }} />

@@ -39,6 +39,7 @@ export const metadata = {
 
 export const viewport = {
   themeColor: '#000000',
+  viewportFit: 'cover',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -54,6 +55,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           minHeight: '100dvh',
           display: 'flex',
           flexDirection: 'column',
+          paddingTop: 'env(safe-area-inset-top)',
+          paddingRight: 'env(safe-area-inset-right)',
+          paddingBottom: 'env(safe-area-inset-bottom)',
+          paddingLeft: 'env(safe-area-inset-left)',
         }}
       >
         <ApolloProvider>
