@@ -221,7 +221,7 @@ export const MainView = ({ initialTripsData, initialRyoteiData, initialSelectedT
       {trips.length > 0 && (
         <SpeedDial
           ariaLabel="SpeedDial: 予定を追加, 旅程をシェア"
-          sx={{ position: 'fixed', bottom: 16, right: 16, zIndex: 1000 }}
+          sx={{ position: 'fixed', bottom: 24, right: 24, zIndex: 1000 }}
           icon={<SpeedDialIcon />}
         >
           {actions.map((action) => (
