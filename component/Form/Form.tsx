@@ -38,7 +38,7 @@ const DeleteTripContent = () => {
 const WithdrawAccountContent = () => {
   return (
     <Box sx={{ paddingY: '16px', display: 'flex', flexDirection: 'column', gap: 2 }}>
-      <Box sx={{ fontSize: '0.875rem', fontWeight: 600 }}>退会しますか？</Box>
+      <Box sx={{ fontSize: '1.05rem', fontWeight: 600 }}>退会しますか？</Box>
       <Box
         sx={{
           padding: 2,
@@ -57,7 +57,7 @@ const WithdrawAccountContent = () => {
 }
 
 const ShareTripContent = () => {
-  return <Box sx={{ paddingY: '16px', fontSize: '0.875rem', fontWeight: 600 }}>この旅程をシェアしますか？</Box>
+  return <Box sx={{ paddingY: '16px', fontSize: '1.05rem', fontWeight: 600 }}>この旅程をシェアしますか？</Box>
 }
 
 const ChangeTripStatusContent = ({ data, open }: { data?: ShareInsertInput | null; open?: boolean }) => {
@@ -161,7 +161,7 @@ const CreateUpdateContent = ({
       noValidate
       autoComplete="off"
     >
-      <Box sx={{ fontWeight: 600 }}>予定を入力</Box>
+      <Box sx={{ fontWeight: 600, fontSize: '1.05rem' }}>予定を入力</Box>
       <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ja}>
         <Controller
           control={control}
