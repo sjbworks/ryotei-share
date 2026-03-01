@@ -6,7 +6,7 @@ export default function Legal() {
   const sectionStyle = 'mb-8 flex flex-col gap-2'
   const h2Style = 'text-lg font-semibold mb-3 text-gray-700'
   const h3Style = 'text-base font-semibold mb-2 text-gray-700'
-  const paragraphStyle = 'mb-4 text-gray-600 leading-relaxed'
+  const paragraphStyle = 'mb-4 text-gray-600 leading-relaxed keep-all'
   const listStyle = 'list-disc list-inside mb-4 text-gray-600 space-y-1'
 
   return (
