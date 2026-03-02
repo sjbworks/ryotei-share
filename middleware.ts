@@ -20,4 +20,5 @@ export const config = {
      */
     '/((?!_next/static|_next/image|favicon|auth|login|legal|api|.*\\.jpg|.*\\.svg|.*\\.png|.*\\.ico|.*\\.webmanifest).*)',
   ],
+  runtime: 'nodejs', // Specify the runtime environment as Node.js
 }

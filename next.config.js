@@ -24,6 +24,7 @@ const nextConfig = {
         '*-ryotei-share.tskyn33ftprnt.workers.dev',
       ],
     },
+    nodeMiddleware: true,
   },
   // 画像最適化を有効化（LCP改善のため）
   // images: {
