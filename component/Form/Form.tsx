@@ -28,11 +28,11 @@ type Props = {
 }
 
 const DeleteContent = () => {
-  return <Box sx={{ paddingY: '16px', fontSize: '0.875rem', fontWeight: 600 }}>この予定を削除しますか？</Box>
+  return <Box sx={{ paddingY: '16px', fontSize: '1.05rem', fontWeight: 600 }}>この予定を削除しますか？</Box>
 }
 
 const DeleteTripContent = () => {
-  return <Box sx={{ paddingY: '16px', fontSize: '0.875rem', fontWeight: 600 }}>この旅程を削除しますか？</Box>
+  return <Box sx={{ paddingY: '16px', fontSize: '1.05rem', fontWeight: 600 }}>この旅程を削除しますか？</Box>
 }
 
 const WithdrawAccountContent = () => {
