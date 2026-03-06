@@ -20,7 +20,6 @@ export async function GET(_req: NextRequest) {
     return NextResponse.json({ success: true, data, body: data })
   } catch (error) {
     if (error instanceof Error) {
-      console.log(error)
       return NextResponse.json({ message: error.cause }, { status: Number(error.message) })
     }
     return NextResponse.json({ message: error })

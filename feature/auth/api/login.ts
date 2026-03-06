@@ -7,7 +7,7 @@ export async function login(provider: Provider) {
     if (typeof window !== 'undefined') {
       return window.location.origin
     }
-    
+
     let url = process?.env?.VERCEL_URL ?? 'http://localhost:3000' // Automatically set by Vercel.
     // Make sure to include `https://` when not localhost.
     url = url.startsWith('http') ? url : `https://${url}`
@@ -18,8 +18,7 @@ export async function login(provider: Provider) {
   try {
     const supabase = createClient()
     const redirectUrl = `${getURL()}/api/auth/callback`
-    console.log('Login redirect URL:', redirectUrl)
-    
+
     const { error } = await supabase.auth.signInWithOAuth({
       provider,
       options: {
