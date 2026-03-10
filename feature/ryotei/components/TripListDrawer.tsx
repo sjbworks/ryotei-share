@@ -18,7 +18,8 @@ type Props = {
   onChangeTripId: (id: string) => void
   onClickAddTrip: () => void
   refetchTrip?: () => void
-  onModalSubmit?: (data: unknown) => void
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onModalSubmit?: (data: any) => void
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   formState?: any
   onModalClose?: () => void
