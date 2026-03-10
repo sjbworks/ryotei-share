@@ -74,7 +74,7 @@ const ChangeTripStatusContent = ({ data, open }: { data?: ShareInsertInput | nul
   }
 
   useEffect(() => {
-    open === false && setCopied(false)
+    if (!open) setCopied(false)
   }, [open])
 
   return (
@@ -146,7 +146,7 @@ const CreateUpdateContent = ({
   errors,
   register,
 }: {
-  control: Control<RyoteiInsertInput, any>
+  control: Control<RyoteiInsertInput, unknown>
   errors: FieldErrors<RyoteiInsertInput>
   register: UseFormRegister<RyoteiInsertInput>
 }) => {

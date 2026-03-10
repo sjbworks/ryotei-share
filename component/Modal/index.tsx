@@ -1,5 +1,5 @@
 'use client'
-import { FC, CSSProperties, ReactNode, useEffect } from 'react'
+import { FC, CSSProperties, ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 
 interface ModalProps {
