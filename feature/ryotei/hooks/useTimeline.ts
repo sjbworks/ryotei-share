@@ -151,7 +151,7 @@ export const useTimeline = (
     mode: formState.mode,
   }
 
-  const isShareInsertInput = (data: any): data is ShareInsertInput => {
+  const isShareInsertInput = (data: unknown): data is ShareInsertInput => {
     return typeof data === 'object' && data !== null && 'trip_id' in data
   }
 

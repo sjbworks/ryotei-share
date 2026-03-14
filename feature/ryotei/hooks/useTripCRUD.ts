@@ -65,7 +65,7 @@ export const useTripCRUD = (refetchTrip?: () => void, onChangeTripId?: (id: stri
     }
   }
 
-  const deleteTrip = async (tripData: { id: any }) => {
+  const deleteTrip = async (tripData: { id: string }) => {
     try {
       const tripId = tripData.id
       // NOTE: ON DELETE CASCADE automatically removes related ryotei and share records

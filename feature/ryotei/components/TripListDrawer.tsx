@@ -5,10 +5,8 @@ import { Menu } from '@/component/Menu/Menu'
 import { useTripCRUD } from '@/feature/ryotei/hooks/useTripCRUD'
 import { useState } from 'react'
 
-import { TripsInsertInput } from '@/feature/api/graphql'
-
 type Trip = {
-  id: any
+  id: string
   name?: string | null
 }
 
@@ -20,7 +18,9 @@ type Props = {
   onChangeTripId: (id: string) => void
   onClickAddTrip: () => void
   refetchTrip?: () => void
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onModalSubmit?: (data: any) => void
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   formState?: any
   onModalClose?: () => void
   onOpenBottomDrawer?: () => void
@@ -34,7 +34,7 @@ export const TripListDrawer = ({
   onChangeTripId,
   onClickAddTrip,
   refetchTrip,
-  onModalSubmit,
+  onModalSubmit: _onModalSubmit,
   formState: externalFormState,
   onOpenBottomDrawer,
 }: Props) => {
@@ -42,7 +42,7 @@ export const TripListDrawer = ({
   const [selectedTrip, setSelectedTrip] = useState<Trip | null>(null)
   const menuOpen = Boolean(anchorEl)
 
-  const { updateTrip, deleteTrip } = useTripCRUD(refetchTrip, onChangeTripId)
+  const { updateTrip: _updateTrip, deleteTrip: _deleteTrip } = useTripCRUD(refetchTrip, onChangeTripId)
 
   const formState = externalFormState || {
     setEditTripMode: () => {

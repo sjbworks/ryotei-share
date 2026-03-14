@@ -61,7 +61,7 @@ export const useRyoteiCRUD = (selectedTripId?: string, refetch?: () => void) => 
     }
   }
 
-  const updateRyoteiById = async (id: any, data: RyoteiInsertInput) => {
+  const updateRyoteiById = async (id: string, data: RyoteiInsertInput) => {
     try {
       await updateRyotei({
         variables: {
@@ -83,7 +83,7 @@ export const useRyoteiCRUD = (selectedTripId?: string, refetch?: () => void) => 
     }
   }
 
-  const deleteRyoteiById = async (id: any) => {
+  const deleteRyoteiById = async (id: string) => {
     try {
       await deleteRyotei({
         variables: { ryoteiId: id },
