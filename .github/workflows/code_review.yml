@@ -22,3 +22,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           prompt: '/review'
           claude_args: '--max-turns 5'
+          show_full_output: true
