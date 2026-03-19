@@ -198,7 +198,6 @@ export const MainView = ({ initialTripsData, initialRyoteiData, initialSelectedT
           onChangeTripId={onChangeTripId}
           onClickAddTrip={onClickAddTrip}
           refetchTrip={refetchTrip}
-          onModalSubmit={bottomFormProps.onSubmit}
           formState={formState}
           onOpenBottomDrawer={handleClick}
         />
