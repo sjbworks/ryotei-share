@@ -1,5 +1,5 @@
 ---
-allowed-tools: Bash(gh pr diff:*), Bash(gh pr comment:*), Bash(gh pr review:*), Bash(echo *), Bash(head *), Write
+allowed-tools: Bash(gh pr view:*), Bash(gh pr diff:*), Bash(gh pr comment:*), Bash(gh pr review:*), Bash(echo *), Bash(head *), Write
 description: PR のコードレビューを行い、品質・セキュリティ・パフォーマンスの観点でコメントを投稿する。Critical がなく CI が通過していれば Approve する。
 ---
 
