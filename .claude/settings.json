@@ -9,7 +9,8 @@
       "Bash(gh pr checks:*)",
       "Bash(echo *)",
       "Bash(grep *)",
-      "Bash(head *)"
+      "Bash(head *)",
+      "Write(**)"
     ],
     "deny": [
       "Read(lighthouse.json)",
