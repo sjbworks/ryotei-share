@@ -13,6 +13,7 @@ jobs:
     name: Run Lint
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
       - run: npm run lint
 
@@ -20,6 +21,7 @@ jobs:
     name: Run Type Check
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
       - run: npm run typecheck
 
@@ -27,6 +29,7 @@ jobs:
     name: Run Tests
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
       - run: npm run test
 
@@ -39,6 +42,7 @@ jobs:
       NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
       NEXT_PUBLIC_SCHEMA_URL: ${{ secrets.NEXT_PUBLIC_SCHEMA_URL }}
     steps:
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
       - run: npm run build
 
