@@ -10,6 +10,7 @@
       "Bash(echo *)",
       "Bash(grep *)",
       "Bash(head *)",
+      "Read(**)",
       "Write(**)"
     ],
     "deny": [
