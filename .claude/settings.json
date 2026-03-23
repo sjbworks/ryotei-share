@@ -1,18 +1,6 @@
 {
   "permissions": {
-    "allow": [
-      "Bash(gh pr list *)",
-      "Bash(gh pr view *)",
-      "Bash(gh pr diff *)",
-      "Bash(gh pr comment *)",
-      "Bash(gh pr review *)",
-      "Bash(gh pr checks *)",
-      "Bash(echo *)",
-      "Bash(grep *)",
-      "Bash(head *)",
-      "Read(**)",
-      "Write(**)"
-    ],
+    "allow": ["Bash(gh *)", "Bash(echo *)", "Bash(grep *)", "Bash(head *)", "Read(**)", "Write(**)"],
     "deny": [
       "Read(lighthouse.json)",
       "Read(package-lock.json)",
