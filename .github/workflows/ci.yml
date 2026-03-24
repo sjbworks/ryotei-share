@@ -68,4 +68,15 @@ jobs:
           prompt: '/review ${{ github.event.pull_request.number }}'
           claude_args: '--max-turns 15'
           show_full_output: true
-          settings: '.claude/settings.json'
+          settings: |
+            {
+              "permissions": {
+                "allow": ["Bash(gh *)", "Bash(echo *)", "Bash(grep *)", "Bash(head *)", "Read(**)", "Write(**)"],
+                "deny": [
+                  "Read(lighthouse.json)",
+                  "Read(package-lock.json)",
+                  "Read(feature/api/graphql/schema.ts)",
+                  "Read(feature/api/graphql/operations.ts)"
+                ]
+              }
+            }
