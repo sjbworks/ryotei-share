@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": ["Bash(gh *)", "Bash(echo *)", "Bash(grep *)", "Bash(head *)", "Read(**)", "Write(**)"],
+    "deny": [
+      "Read(lighthouse.json)",
+      "Read(package-lock.json)",
+      "Read(feature/api/graphql/schema.ts)",
+      "Read(feature/api/graphql/operations.ts)"
+    ]
+  }
+}
