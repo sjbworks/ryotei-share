@@ -66,12 +66,12 @@ jobs:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
           prompt: '/review ${{ github.event.pull_request.number }}'
-          claude_args: '--max-turns 15'
+          claude_args: '--max-turns 20'
           show_full_output: true
           settings: |
             {
               "permissions": {
-                "allow": ["Bash(gh *)", "Bash(echo *)", "Bash(grep *)", "Bash(head *)", "Read(**)", "Write(**)"],
+                "allow": ["Bash(gh *)", "Bash(echo *)", "Bash(grep *)", "Bash(head *)", "Bash(sed *)", "Read(**)", "Write(**)"],
                 "deny": [
                   "Read(lighthouse.json)",
                   "Read(package-lock.json)",
