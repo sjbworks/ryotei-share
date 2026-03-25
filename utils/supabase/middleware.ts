@@ -1,6 +1,5 @@
-import { createServerClient, type CookieOptions } from '@supabase/ssr'
+import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
-import { isTokenExpired } from '@/utils'
 
 export const updateSession = async (request: NextRequest) => {
   let response = NextResponse.next({
@@ -18,7 +17,7 @@ export const updateSession = async (request: NextRequest) => {
           return request.cookies.getAll()
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) => request.cookies.set(name, value))
+          cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value))
           response = NextResponse.next({
             request,
           })
@@ -40,7 +39,7 @@ export const updateSession = async (request: NextRequest) => {
 
   // Check if the path is a share page (root level path like /abc123 or /abc123/)
   const isSharePage =
-    request.nextUrl.pathname.match(/^\/[^\/]+\/?$/) &&
+    request.nextUrl.pathname.match(/^\/[^/]+\/?$/) &&
     !request.nextUrl.pathname.startsWith('/login') &&
     !request.nextUrl.pathname.startsWith('/legal')
 

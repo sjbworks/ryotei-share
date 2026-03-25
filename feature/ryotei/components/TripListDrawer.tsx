@@ -2,13 +2,10 @@ import { LeftSideDrawer } from '@/component/Drawer/LeftSideDrawer'
 import { Button, AddIcon, MoreVertIcon, EditIcon, DeleteIcon } from '@/component'
 import IconButton from '@mui/material/IconButton'
 import { Menu } from '@/component/Menu/Menu'
-import { useTripCRUD } from '@/feature/ryotei/hooks/useTripCRUD'
 import { useState } from 'react'
 
-import { TripsInsertInput } from '@/feature/api/graphql'
-
 type Trip = {
-  id: any
+  id: string
   name?: string | null
 }
 
@@ -20,7 +17,7 @@ type Props = {
   onChangeTripId: (id: string) => void
   onClickAddTrip: () => void
   refetchTrip?: () => void
-  onModalSubmit?: (data: any) => void
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   formState?: any
   onModalClose?: () => void
   onOpenBottomDrawer?: () => void
@@ -33,16 +30,12 @@ export const TripListDrawer = ({
   trips,
   onChangeTripId,
   onClickAddTrip,
-  refetchTrip,
-  onModalSubmit,
   formState: externalFormState,
   onOpenBottomDrawer,
 }: Props) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const [selectedTrip, setSelectedTrip] = useState<Trip | null>(null)
   const menuOpen = Boolean(anchorEl)
-
-  const { updateTrip, deleteTrip } = useTripCRUD(refetchTrip, onChangeTripId)
 
   const formState = externalFormState || {
     setEditTripMode: () => {
@@ -102,7 +95,10 @@ export const TripListDrawer = ({
     <LeftSideDrawer anchor="left" open={open} onClose={onClose} onOpen={onOpen}>
       <div className="flex flex-col w-full">
         {trips?.map((trip) => (
-          <div key={trip.id} style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
+          <div
+            key={trip.id}
+            style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}
+          >
             <Button
               variant="text"
               className="justify-start mb-2"

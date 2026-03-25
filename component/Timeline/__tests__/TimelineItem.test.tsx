@@ -16,7 +16,7 @@ jest.mock('@mui/lab', () => ({
 
 // Mock Icon components
 jest.mock('../../Icon', () => ({
-  AccessTimeIcon: ({ fontSize, sx }: any) => (
+  AccessTimeIcon: ({ fontSize, sx: _sx }: any) => (
     <span data-testid="access-time-icon" data-fontsize={fontSize}>
       🕒
     </span>

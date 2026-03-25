@@ -1,0 +1,6 @@
+package-lock.json
+lighthouse.json
+feature/api/graphql/schema.ts
+feature/api/graphql/operations.ts
+.next/
+node_modules/
