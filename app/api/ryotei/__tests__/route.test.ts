@@ -44,7 +44,7 @@ function createMockSupabaseClient({
 describe('GET /api/ryotei', () => {
   const makeRequest = () => new NextRequest('http://localhost/api/ryotei', { method: 'GET' })
 
-  it('セッションがない場合は401を返す', async () => {
+  it('returns 401 when session is not found', async () => {
     const mockClient = createMockSupabaseClient({ session: null })
     mockCreateClientForServer.mockResolvedValue(mockClient as never)
 
@@ -55,7 +55,7 @@ describe('GET /api/ryotei', () => {
     expect(body.message).toBe('Unauthorized')
   })
 
-  it('認証済みの場合はryoteiデータを返す', async () => {
+  it('returns ryotei data when authenticated', async () => {
     const ryoteiData = [
       { id: '1', description: 'テスト旅程', datetime: '2024-01-01' },
       { id: '2', description: '旅行', datetime: '2024-02-01' },
@@ -74,7 +74,7 @@ describe('GET /api/ryotei', () => {
     expect(body.data).toEqual(ryoteiData)
   })
 
-  it('DBエラーが発生した場合はエラーレスポンスを返す', async () => {
+  it('returns an error response when a DB error occurs', async () => {
     const dbError = { code: '500', message: 'Database error' }
     const mockClient = createMockSupabaseClient({
       session: { access_token: 'token' },
@@ -89,7 +89,7 @@ describe('GET /api/ryotei', () => {
     expect(body.message).toBe('Database error')
   })
 
-  it('ユーザーIDでフィルタリングしてDBを呼ぶ', async () => {
+  it('queries DB filtered by user ID', async () => {
     const userId = 'specific-user-id'
     const mockClient = createMockSupabaseClient({
       session: { access_token: 'token' },
@@ -113,18 +113,18 @@ describe('POST /api/ryotei', () => {
       headers: { 'Content-Type': 'application/json' },
     })
 
-  it('セッションがない場合は401を返す', async () => {
+  it('returns 401 when session is not found', async () => {
     const mockClient = createMockSupabaseClient({ session: null })
     mockCreateClientForServer.mockResolvedValue(mockClient as never)
 
-    const response = await POST(makeRequest({ description: 'テスト', datetime: '2024-01-01' }))
+    const response = await POST(makeRequest({ description: 'test', datetime: '2024-01-01' }))
     const body = await response.json()
 
     expect(response.status).toBe(401)
     expect(body.message).toBe('Unauthorized')
   })
 
-  it('認証済みの場合はryoteiを作成してsuccessを返す', async () => {
+  it('creates a ryotei record and returns success when authenticated', async () => {
     const userId = 'test-user-id'
     const mockClient = createMockSupabaseClient({
       session: { access_token: 'token' },
@@ -144,7 +144,7 @@ describe('POST /api/ryotei', () => {
     })
   })
 
-  it('DBエラーが発生した場合はエラーレスポンスを返す', async () => {
+  it('returns an error response when a DB error occurs', async () => {
     const dbError = { code: '500', message: 'Insert failed' }
     const mockClient = createMockSupabaseClient({
       session: { access_token: 'token' },
