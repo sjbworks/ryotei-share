@@ -4,7 +4,6 @@
 import { NextRequest } from 'next/server'
 import { GET, POST } from '../route'
 
-// Supabase サーバークライアントをモック化
 jest.mock('@/utils/supabase/server', () => ({
   createClientForServer: jest.fn(),
 }))
@@ -13,7 +12,6 @@ import { createClientForServer } from '@/utils/supabase/server'
 
 const mockCreateClientForServer = createClientForServer as jest.MockedFunction<typeof createClientForServer>
 
-// Supabase クライアントのモックファクトリ
 function createMockSupabaseClient({
   session = null as object | null,
   userId = 'test-user-id',
