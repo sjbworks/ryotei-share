@@ -39,7 +39,7 @@ function makeRequest(url: string, headers: Record<string, string> = {}) {
 beforeEach(() => {
   process.env.NEXT_PUBLIC_SUPABASE_URL = 'https://example.supabase.co'
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY = 'anon-key'
-  process.env.NODE_ENV = 'development'
+  Object.assign(process.env, { NODE_ENV: 'development' })
   delete process.env.ALLOWED_HOSTS
 
   const cookieStore = createMockCookieStore()
@@ -70,7 +70,7 @@ describe('GET /api/auth/callback', () => {
   })
 
   it('redirects to origin root on success in development', async () => {
-    process.env.NODE_ENV = 'development'
+    Object.assign(process.env, { NODE_ENV: 'development' })
     const request = makeRequest('http://localhost/api/auth/callback?code=abc123')
 
     const response = await GET(request)
@@ -80,7 +80,7 @@ describe('GET /api/auth/callback', () => {
   })
 
   it('redirects to next param on success in development', async () => {
-    process.env.NODE_ENV = 'development'
+    Object.assign(process.env, { NODE_ENV: 'development' })
     const request = makeRequest('http://localhost/api/auth/callback?code=abc123&next=/dashboard')
 
     const response = await GET(request)
@@ -90,7 +90,7 @@ describe('GET /api/auth/callback', () => {
   })
 
   it('redirects to x-forwarded-host when valid in production', async () => {
-    process.env.NODE_ENV = 'production'
+    Object.assign(process.env, { NODE_ENV: 'production' })
     process.env.ALLOWED_HOSTS = 'myapp.vercel.app,other.com'
     const request = makeRequest('http://localhost/api/auth/callback?code=abc123', {
       'x-forwarded-host': 'myapp.vercel.app',
@@ -103,7 +103,7 @@ describe('GET /api/auth/callback', () => {
   })
 
   it('falls back to origin when x-forwarded-host is not in allowed list in production', async () => {
-    process.env.NODE_ENV = 'production'
+    Object.assign(process.env, { NODE_ENV: 'production' })
     process.env.ALLOWED_HOSTS = 'allowed.com'
     const request = makeRequest('http://localhost/api/auth/callback?code=abc123', {
       'x-forwarded-host': 'malicious.com',
@@ -116,7 +116,7 @@ describe('GET /api/auth/callback', () => {
   })
 
   it('redirects to origin when x-forwarded-host is absent in production', async () => {
-    process.env.NODE_ENV = 'production'
+    Object.assign(process.env, { NODE_ENV: 'production' })
     const request = makeRequest('http://localhost/api/auth/callback?code=abc123')
 
     const response = await GET(request)
@@ -146,9 +146,7 @@ describe('GET /api/auth/callback', () => {
   })
 
   it('redirects to root when next param is an external URL', async () => {
-    const request = makeRequest(
-      'http://localhost/api/auth/callback?code=abc123&next=https://evil.com'
-    )
+    const request = makeRequest('http://localhost/api/auth/callback?code=abc123&next=https://evil.com')
 
     const response = await GET(request)
 
