@@ -125,7 +125,7 @@ describe('GET /api/auth/callback', () => {
     expect(response.headers.get('location')).toBe('http://localhost/')
   })
 
-  it('returns error response when exchangeCodeForSession fails', async () => {
+  it('redirects to origin when exchangeCodeForSession fails', async () => {
     const supabaseClient = createMockSupabaseClient({ exchangeError: { message: 'Exchange failed' } })
     mockCreateServerClient.mockReturnValue(supabaseClient as never)
 

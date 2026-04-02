@@ -153,7 +153,6 @@ describe('POST /api/ryotei', () => {
     const response = await POST(makeRequest({ description: 'test', datetime: '2024-01-01' }))
     const body = await response.json()
 
-    // DBエラーは error.message !== '401' のため message: error のブランチに入る
-    expect(body).toBeDefined()
+    expect(body.message).toBe('Insert failed')
   })
 })
