@@ -13,7 +13,7 @@ import { useRyoteiForm, useTripForm, saveFormValues } from './hooks'
 import { InputAdornment, IconButton } from '@mui/material'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
 type Props = {
   className?: string
@@ -60,7 +60,7 @@ const ShareTripContent = () => {
   return <Box sx={{ paddingY: '16px', fontSize: '1.05rem', fontWeight: 600 }}>この旅程をシェアしますか？</Box>
 }
 
-const ChangeTripStatusContent = ({ data, open }: { data?: ShareInsertInput | null; open?: boolean }) => {
+const ChangeTripStatusContent = ({ data }: { data?: ShareInsertInput | null }) => {
   const [copied, setCopied] = useState(false)
   const shareUrl = data?.share_id ? `${window.location.origin}/${data.share_id}` : ''
 
@@ -72,10 +72,6 @@ const ChangeTripStatusContent = ({ data, open }: { data?: ShareInsertInput | nul
       console.error('Failed to copy: ', err)
     }
   }
-
-  useEffect(() => {
-    if (!open) setCopied(false)
-  }, [open])
 
   return (
     <Box sx={{ paddingY: '16px', display: 'flex', flexDirection: 'column', gap: 3 }}>
@@ -273,7 +269,7 @@ export const Form = ({ className, onSubmit, data, onClose, action, mode, open }:
     ) : mode === 'shareTrip' ? (
       <ShareTripContent />
     ) : mode === 'switchTripStatus' ? (
-      <ChangeTripStatusContent data={data as ShareInsertInput} open={open} />
+      <ChangeTripStatusContent key={String(open)} data={data as ShareInsertInput} />
     ) : (
       <CreateUpdateContent register={register} control={control} errors={errors} />
     )

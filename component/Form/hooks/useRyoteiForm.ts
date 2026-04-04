@@ -58,7 +58,7 @@ export const useRyoteiForm = (data?: RyoteiInsertInput | null) => {
       datetime: new Date(),
       description: '',
     }
-  }, [data?.datetime, data?.description])
+  }, [data])
 
   const form = useForm<RyoteiInsertInput>({
     reValidateMode: 'onBlur',

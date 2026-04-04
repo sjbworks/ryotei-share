@@ -20,7 +20,8 @@ export async function GET(_req: NextRequest) {
     return NextResponse.json({ success: true, data, body: data })
   } catch (error) {
     if (error instanceof Error) {
-      return NextResponse.json({ message: error.cause }, { status: Number(error.message) })
+      const statusCode = Number(error.message)
+      return NextResponse.json({ message: error.cause }, { status: Number.isFinite(statusCode) ? statusCode : 500 })
     }
     return NextResponse.json({ message: error })
   }
@@ -44,7 +45,7 @@ export async function POST(req: NextRequest) {
     if (error) throw new Error(error.code, { cause: error.message })
     return NextResponse.json({ success: true })
   } catch (error) {
-    if (error instanceof Error && error.message === ERROR_CODE_UNAUTHORIZED) {
+    if (error instanceof Error) {
       return NextResponse.json({ message: error.cause }, { status: Number(error.message) })
     }
     return NextResponse.json({ message: error })

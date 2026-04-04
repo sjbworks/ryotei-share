@@ -71,6 +71,20 @@ ryotei-share/
 - Separation of features and components
 - Custom hooks for business logic
 
+## 📏 Code Rules
+
+### Testing
+
+- Write all `it` / `test` descriptions in English.
+
+```ts
+// Good
+it('returns 401 when session is not found', async () => { ... })
+
+// Bad
+it('セッションがない場合は401を返す', async () => { ... })
+```
+
 ## 🚀 Development
 
 - **Hosting**: [Vercel](https://vercel.com/)
