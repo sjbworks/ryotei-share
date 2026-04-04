@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react'
+import { useState, useMemo } from 'react'
 import { QUERY_GET_TRIPS } from '@/feature/ryotei/graphql'
 import { GetTripsQuery, GetTripsQueryVariables, OrderByDirection } from '@/feature/api/graphql'
 import { useQuery } from '@apollo/client/react'
@@ -25,23 +25,23 @@ export const useRyoteiList = (initialData?: GetTripsQuery | null, initialSelecte
   })
 
   const currentData = data || initialData
-  const trips =
-    currentData?.tripsCollection?.edges?.map(({ node: { id, name } }) => ({ id, name })).filter((trip) => trip.id) || []
+  const trips = useMemo(
+    () =>
+      currentData?.tripsCollection?.edges?.map(({ node: { id, name } }) => ({ id, name })).filter((trip) => trip.id) ||
+      [],
+    [currentData]
+  )
 
-  const [selectedTripId, setSelectedTripId] = useState<string | undefined>(initialSelectedTripId)
+  const [storedTripId, setSelectedTripId] = useState<string | undefined>(initialSelectedTripId)
   const onChangeTripId = (tripId: string) => setSelectedTripId(tripId)
-  const title = useMemo(() => trips?.find((trip) => trip.id === selectedTripId)?.name || '', [selectedTripId, trips])
 
-  useEffect(() => {
-    if (trips && trips.length > 0) {
-      const selectedTripExists = trips.some((trip) => trip.id === selectedTripId)
-      if (!selectedTripId || !selectedTripExists) {
-        setSelectedTripId(trips[0].id)
-      }
-    } else {
-      setSelectedTripId(undefined)
-    }
-  }, [trips, selectedTripId])
+  const selectedTripId = useMemo(() => {
+    if (!trips.length) return undefined
+    const exists = trips.some((trip) => trip.id === storedTripId)
+    return !storedTripId || !exists ? trips[0].id : storedTripId
+  }, [trips, storedTripId])
+
+  const title = useMemo(() => trips?.find((trip) => trip.id === selectedTripId)?.name || '', [selectedTripId, trips])
 
   return {
     sideOpen,
