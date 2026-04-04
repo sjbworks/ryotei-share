@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
     if (error) throw new Error(error.code, { cause: error.message })
     return NextResponse.json({ success: true })
   } catch (error) {
-    if (error instanceof Error && error.message === ERROR_CODE_UNAUTHORIZED) {
+    if (error instanceof Error) {
       return NextResponse.json({ message: error.cause }, { status: Number(error.message) })
     }
     return NextResponse.json({ message: error })
