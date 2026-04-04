@@ -8,5 +8,11 @@ runs:
       with:
         node-version: '22'
         cache: 'npm'
+    - name: Install npm@11
+      shell: bash
+      run: |
+        mkdir -p ~/.npm-global
+        npm_config_prefix=~/.npm-global npm install -g npm@11
+        echo "$HOME/.npm-global/bin" >> $GITHUB_PATH
     - run: npm ci
       shell: bash
