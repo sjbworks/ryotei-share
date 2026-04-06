@@ -79,9 +79,9 @@ describe('updateSession', () => {
       expect(response.headers.get('location')).toBeNull()
     })
 
-    it('redirects from /legal (not treated as share page)', async () => {
+    it('does not redirect from /legal (public page)', async () => {
       const response = await updateSession(createRequest('/legal'))
-      expect(response.headers.get('location')).toContain('/login')
+      expect(response.headers.get('location')).toBeNull()
     })
 
     it('redirects from nested paths (not a share page)', async () => {
