@@ -1,7 +1,10 @@
 import { chromium } from '@playwright/test'
 import { createClient } from '@supabase/supabase-js'
+import { config } from 'dotenv'
 import fs from 'fs'
 import path from 'path'
+
+config({ path: '.env.local' })
 
 const AUTH_FILE = 'playwright/.auth/user.json'
 
