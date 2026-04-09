@@ -1,0 +1,55 @@
+name: E2E Tests
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  e2e-unauthenticated:
+    name: E2E (unauthenticated)
+    runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+      NEXT_PUBLIC_SCHEMA_URL: ${{ secrets.NEXT_PUBLIC_SCHEMA_URL }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+      - name: Run unauthenticated E2E tests
+        run: npx playwright test --project=unauthenticated
+      - name: Upload report
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report-unauthenticated
+          path: playwright-report/
+          retention-days: 7
+
+  e2e-authenticated:
+    name: E2E (authenticated)
+    runs-on: ubuntu-latest
+    # Tests auto-skip when E2E_TEST_EMAIL / E2E_TEST_PASSWORD are not set
+    env:
+      NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+      NEXT_PUBLIC_SCHEMA_URL: ${{ secrets.NEXT_PUBLIC_SCHEMA_URL }}
+      E2E_TEST_EMAIL: ${{ secrets.E2E_TEST_EMAIL }}
+      E2E_TEST_PASSWORD: ${{ secrets.E2E_TEST_PASSWORD }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+      - name: Run authenticated E2E tests
+        run: npx playwright test --project=authenticated
+      - name: Upload report
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report-authenticated
+          path: playwright-report/
+          retention-days: 7
