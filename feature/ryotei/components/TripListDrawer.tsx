@@ -93,7 +93,7 @@ export const TripListDrawer = ({
   ]
   return (
     <LeftSideDrawer anchor="left" open={open} onClose={onClose} onOpen={onOpen}>
-      <div className="flex flex-col w-full">
+      <div className="flex flex-col w-full" data-testid="trip-list-drawer">
         {trips?.map((trip) => (
           <div
             key={trip.id}

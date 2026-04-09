@@ -7,8 +7,11 @@ const hasAuthCredentials = !!(
 )
 
 test.describe('Itinerary flow', () => {
-  test.beforeEach(async ({ page }) => {
+  test.beforeAll(() => {
     test.skip(!hasAuthCredentials, 'E2E_TEST_EMAIL / E2E_TEST_PASSWORD not set')
+  })
+
+  test.beforeEach(async ({ page }) => {
     await page.goto('/')
     await expect(page).not.toHaveURL(/\/login/)
   })
@@ -24,10 +27,7 @@ test.describe('Itinerary flow', () => {
 
   test('opens TripListDrawer when 旅程を作成 is clicked', async ({ page }) => {
     await page.getByRole('button', { name: '旅程を作成' }).click()
-    // The TripListDrawer opens from the left side
-    // It contains a "旅程を作成" button inside the drawer
-    const drawer = page.locator('[data-testid="left-side-drawer"], .MuiDrawer-root').first()
-    await expect(drawer).toBeVisible()
+    await expect(page.getByTestId('trip-list-drawer')).toBeVisible()
   })
 
   test('can create a new trip', async ({ page }) => {
