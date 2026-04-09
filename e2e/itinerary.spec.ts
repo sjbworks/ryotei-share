@@ -56,7 +56,7 @@ test.describe('Itinerary flow', () => {
     await page.getByRole('button', { name: '旅程を作成' }).click()
 
     // Click 旅程を作成 in the drawer
-    const drawerAddButton = page.getByRole('button', { name: '旅程を作成' }).last()
+    const drawerAddButton = page.getByRole('button', { name: '旅程を作成' })
     await drawerAddButton.click()
 
     // BottomDrawer form should open
