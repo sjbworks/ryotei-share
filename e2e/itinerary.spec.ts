@@ -65,9 +65,11 @@ test.describe('Itinerary flow', () => {
 })
 
 test.describe('Itinerary detail flow', () => {
-  test.beforeEach(async ({ page }) => {
+  test.beforeAll(() => {
     test.skip(!hasAuthCredentials, 'E2E_TEST_EMAIL / E2E_TEST_PASSWORD not set')
+  })
 
+  test.beforeEach(async ({ page }) => {
     // Mock trips data for consistent test state
     await page.route('**/graphql', async (route) => {
       const body = route.request().postDataJSON()
