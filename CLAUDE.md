@@ -17,6 +17,7 @@ npm run storybook    # Storybook on port 6006
 ```
 
 Single test file:
+
 ```bash
 npx jest path/to/file.test.tsx
 ```
@@ -26,6 +27,7 @@ npx jest path/to/file.test.tsx
 **Tech stack**: Next.js 16 (App Router), TypeScript, MUI v7, Apollo Client 4, Supabase, GraphQL, Tailwind CSS, React Hook Form
 
 **Directory structure**:
+
 - `app/` — Next.js routes (App Router). `[shareId]/` is the public share page (unauthenticated)
 - `feature/` — Feature modules. Each module owns its components, hooks, graphql queries, and types
   - `feature/ryotei/` — Core itinerary feature (main business logic)
@@ -46,6 +48,20 @@ npx jest path/to/file.test.tsx
 **Supabase auth**: Session managed via cookies in middleware. Protected routes redirect to `/login`. Share pages (`/[shareId]`) and `/legal`, `/login`, `/api/auth` are public.
 
 **Data mutations**: All data operations go through GraphQL mutations. Apollo's `InMemoryCache` handles local state — invalidate cache after mutations via `refetchQueries` or manual cache updates.
+
+## 📏 Code Rules
+
+### Testing
+
+- Write all `it` / `test` descriptions in English.
+
+```ts
+// Good
+it('returns 401 when session is not found', async () => { ... })
+
+// Bad
+it('セッションがない場合は401を返す', async () => { ... })
+```
 
 ## Environment Variables
 
