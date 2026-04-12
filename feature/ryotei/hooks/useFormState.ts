@@ -81,3 +81,5 @@ export const useFormState = () => {
     setSwitchTripStatusMode,
   }
 }
+
+export type FormState = ReturnType<typeof useFormState>

@@ -3,6 +3,7 @@ import { Button, AddIcon, MoreVertIcon, EditIcon, DeleteIcon } from '@/component
 import IconButton from '@mui/material/IconButton'
 import { Menu } from '@/component/Menu/Menu'
 import { useState } from 'react'
+import type { FormState } from '@/feature/ryotei/hooks/useFormState'
 
 type Trip = {
   id: string
@@ -17,8 +18,7 @@ type Props = {
   onChangeTripId: (id: string) => void
   onClickAddTrip: () => void
   refetchTrip?: () => void
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  formState?: any
+  formState: FormState
   onModalClose?: () => void
   onOpenBottomDrawer?: () => void
 }
@@ -30,23 +30,12 @@ export const TripListDrawer = ({
   trips,
   onChangeTripId,
   onClickAddTrip,
-  formState: externalFormState,
+  formState,
   onOpenBottomDrawer,
 }: Props) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const [selectedTrip, setSelectedTrip] = useState<Trip | null>(null)
   const menuOpen = Boolean(anchorEl)
-
-  const formState = externalFormState || {
-    setEditTripMode: () => {
-      console.log('Using fallback setEditTripMode')
-    },
-    setDeleteTripMode: () => {
-      console.log('Using fallback setDeleteTripMode')
-    },
-    trip: null,
-    mode: null,
-  }
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>, trip: Trip) => {
     setAnchorEl(event.currentTarget)
