@@ -5,7 +5,15 @@ import { RyoteiInsertInput, TripsInsertInput, ShareInsertInput } from '@/feature
 
 // Mock MUI DatePicker
 jest.mock('@mui/x-date-pickers', () => ({
-  DateTimePicker: ({ value, onChange, slotProps }: any) => (
+  DateTimePicker: ({
+    value,
+    onChange,
+    slotProps,
+  }: {
+    value?: Date | null
+    onChange?: (date: Date) => void
+    slotProps?: { textField?: { error?: boolean } }
+  }) => (
     <input
       data-testid="datetime-picker"
       type="datetime-local"
@@ -14,7 +22,7 @@ jest.mock('@mui/x-date-pickers', () => ({
       aria-invalid={slotProps?.textField?.error}
     />
   ),
-  LocalizationProvider: ({ children }: any) => <div>{children}</div>,
+  LocalizationProvider: ({ children }: { children?: React.ReactNode }) => <div>{children}</div>,
 }))
 
 jest.mock('@mui/x-date-pickers/AdapterDateFns', () => ({

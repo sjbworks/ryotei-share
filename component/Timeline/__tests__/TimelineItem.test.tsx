@@ -3,20 +3,20 @@ import { TimelineItem, TimelineItemProps, Plan } from '../TimelineItem'
 
 // Mock MUI Lab components
 jest.mock('@mui/lab', () => ({
-  TimelineItem: ({ children }: any) => <div data-testid="mui-timeline-item">{children}</div>,
-  TimelineSeparator: ({ children }: any) => <div data-testid="timeline-separator">{children}</div>,
+  TimelineItem: ({ children }: { children?: React.ReactNode }) => <div data-testid="mui-timeline-item">{children}</div>,
+  TimelineSeparator: ({ children }: { children?: React.ReactNode }) => <div data-testid="timeline-separator">{children}</div>,
   TimelineConnector: () => <div data-testid="timeline-connector" />,
-  TimelineContent: ({ children }: any) => (
+  TimelineContent: ({ children }: { children?: React.ReactNode }) => (
     <div data-testid="timeline-content">
       {children}
     </div>
   ),
-  TimelineDot: ({ color }: any) => <div data-testid="timeline-dot" data-color={color} />,
+  TimelineDot: ({ color }: { color?: string }) => <div data-testid="timeline-dot" data-color={color} />,
 }))
 
 // Mock Icon components
 jest.mock('../../Icon', () => ({
-  AccessTimeIcon: ({ fontSize, sx: _sx }: any) => (
+  AccessTimeIcon: ({ fontSize, sx: _sx }: { fontSize?: string; sx?: unknown }) => (
     <span data-testid="access-time-icon" data-fontsize={fontSize}>
       🕒
     </span>
