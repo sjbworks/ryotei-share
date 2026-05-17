@@ -19,6 +19,7 @@ export const useRyoteiList = (initialData?: GetTripsQuery | null, initialSelecte
     data,
     refetch: refetchTrip,
     loading,
+    error,
   } = useQuery<GetTripsQuery, GetTripsQueryVariables>(QUERY_GET_TRIPS, {
     variables,
     fetchPolicy: 'cache-first',
@@ -54,5 +55,6 @@ export const useRyoteiList = (initialData?: GetTripsQuery | null, initialSelecte
     selectedTripId,
     refetchTrip,
     loading: initialData ? false : loading,
+    error,
   }
 }

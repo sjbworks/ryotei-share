@@ -11,7 +11,7 @@ export const useGetRyotei = (selectedTripId?: string, initialData?: GetRyoteiQue
     filter: selectedTripId ? { trip_id: { eq: selectedTripId } } : undefined,
   }
 
-  const { data, refetch, loading } = useQuery<GetRyoteiQuery, GetRyoteiQueryVariables>(QUERY_GET_RYOTEI, {
+  const { data, refetch, loading, error } = useQuery<GetRyoteiQuery, GetRyoteiQueryVariables>(QUERY_GET_RYOTEI, {
     variables,
     fetchPolicy: 'cache-first',
     skip: !selectedTripId, // selectedTripIdがない場合のみスキップ
@@ -25,5 +25,6 @@ export const useGetRyotei = (selectedTripId?: string, initialData?: GetRyoteiQue
     data: formattedData,
     refetch,
     loading: initialData ? false : loading,
+    error,
   }
 }

@@ -46,8 +46,9 @@ export const MainView = ({ initialTripsData, initialRyoteiData, initialSelectedT
     title,
     refetchTrip,
     loading: tripLoading,
+    error: tripError,
   } = useRyoteiList(initialTripsData, initialSelectedTripId)
-  const { data, refetch, loading: ryoteiLoading } = useGetRyotei(selectedTripId, initialRyoteiData)
+  const { data, refetch, loading: ryoteiLoading, error: ryoteiError } = useGetRyotei(selectedTripId, initialRyoteiData)
   const loading = tripLoading || ryoteiLoading
   const { handleClick, bottomSheet, bottomFormProps, onMenuClick, onClickAddTrip, formState, onClickShareTrip } =
     useTimeline(refetch, refetchTrip, selectedTripId, onSideClose, onChangeTripId)
@@ -170,7 +171,14 @@ export const MainView = ({ initialTripsData, initialRyoteiData, initialSelectedT
         </Box>
       </header>
       <main style={{ marginTop: '16px' }}>
-        {loading || trips.length === 0 ? (
+        {tripError ? (
+          <div className="flex flex-col items-center justify-center p-8 text-center gap-2">
+            <Text variant="h6">旅程の取得に失敗しました</Text>
+            <Text color="grey.600" variant="body1">
+              しばらく時間をおいてから再度お試しください。
+            </Text>
+          </div>
+        ) : loading || trips.length === 0 ? (
           <div className="flex flex-col items-center justify-center p-8 text-center gap-2">
             <Text variant="h6">旅程を作成しましょう</Text>
             <Text variant="body1">旅行の予定を立てるために、まず旅程を作成してください。</Text>
@@ -186,6 +194,13 @@ export const MainView = ({ initialTripsData, initialRyoteiData, initialSelectedT
                 旅程を作成
               </Button>
             )}
+          </div>
+        ) : ryoteiError ? (
+          <div className="flex flex-col items-center justify-center p-8 text-center gap-2">
+            <Text variant="h6">予定の取得に失敗しました</Text>
+            <Text color="grey.600" variant="body1">
+              しばらく時間をおいてから再度お試しください。
+            </Text>
           </div>
         ) : (
           <TimelineView data={data} onMenuClick={onMenuClick} />
