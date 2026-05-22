@@ -10,7 +10,6 @@ export function createServerApolloClient(accessToken?: string) {
         apiKey,
         authorization: `Bearer ${token}`,
       },
-      fetchOptions: { cache: 'no-store' },
     }),
     cache: new InMemoryCache(),
   })
