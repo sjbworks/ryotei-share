@@ -71,6 +71,7 @@ const nextConfig = {
 
     return config
   },
+  cacheComponents: true,
 }
 
 export default withBundleAnalyzer(withPWA(nextConfig))
