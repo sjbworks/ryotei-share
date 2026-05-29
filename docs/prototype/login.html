@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ryotei Share — ログイン</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+    <style>
+      :root {
+        --sun: #ff8c42;
+        --sun-light: #fff3eb;
+        --sun-mid: #ffd4b3;
+        --sun-dark: #c45d1a;
+        --sky: #3aafcc;
+        --sky-light: #e8f7fb;
+        --sky-mid: #a8dfe9;
+        --sky-dark: #1a7a93;
+        --sand: #f9f6f1;
+        --white: #ffffff;
+        --ink: #1c1917;
+        --ink-2: #57534e;
+        --ink-3: #a8a29e;
+        --border: rgba(28, 25, 23, 0.09);
+        --border-md: rgba(28, 25, 23, 0.14);
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body {
+        height: 100%;
+        font-family: 'DM Sans', sans-serif;
+        background: var(--sand);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .screen {
+        width: 390px;
+        min-height: 100dvh;
+        background: var(--sand);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 64px 28px 40px;
+      }
+      .wordmark {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 6px;
+      }
+      .logo {
+        width: 36px;
+        height: 36px;
+        border-radius: 11px;
+        background: var(--sun);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .logo i {
+        font-size: 20px;
+        color: #fff;
+      }
+      .appname {
+        font-size: 22px;
+        font-weight: 500;
+        color: var(--ink);
+      }
+      .tagline {
+        font-size: 14px;
+        color: var(--ink-2);
+        margin-bottom: 40px;
+      }
+      .illust {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        width: 100%;
+        margin-bottom: 48px;
+      }
+      .illust-card {
+        background: var(--white);
+        border: 0.5px solid var(--border);
+        border-radius: 18px;
+        padding: 18px 16px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+      }
+      .illust-card i {
+        font-size: 24px;
+        color: var(--sun);
+      }
+      .illust-card.sky i {
+        color: var(--sky);
+      }
+      .illust-label {
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--ink);
+      }
+      .illust-sub {
+        font-size: 11px;
+        color: var(--ink-3);
+      }
+      .btn {
+        width: 100%;
+        height: 50px;
+        border-radius: 15px;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 15px;
+        font-weight: 500;
+        transition: opacity 0.15s;
+      }
+      .btn:hover {
+        opacity: 0.88;
+      }
+      .btn-primary {
+        background: var(--sun);
+        color: #fff;
+        margin-bottom: 10px;
+      }
+      .btn-primary i {
+        font-size: 20px;
+        color: rgba(255, 255, 255, 0.85);
+      }
+      .btn-secondary {
+        background: var(--white);
+        color: var(--ink);
+        border: 0.5px solid var(--border-md) !important;
+      }
+      .btn-secondary i {
+        font-size: 20px;
+        color: var(--ink-3);
+      }
+      .terms {
+        font-size: 12px;
+        color: var(--ink-3);
+        margin-top: 24px;
+      }
+      .terms a {
+        color: var(--ink-3);
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="screen">
+      <div class="wordmark">
+        <div class="logo"><i class="ti ti-plane"></i></div>
+        <span class="appname">Ryotei Share</span>
+      </div>
+      <p class="tagline">旅程を作って、シェアしよう</p>
+
+      <div class="illust">
+        <div class="illust-card">
+          <i class="ti ti-map-pin"></i>
+          <span class="illust-label">スポット登録</span>
+          <span class="illust-sub">行きたい場所を追加</span>
+        </div>
+        <div class="illust-card sky">
+          <i class="ti ti-calendar-event"></i>
+          <span class="illust-label">日程を管理</span>
+          <span class="illust-sub">日付・時刻で整理</span>
+        </div>
+        <div class="illust-card sky">
+          <i class="ti ti-share"></i>
+          <span class="illust-label">一緒に計画</span>
+          <span class="illust-sub">旅仲間とシェア</span>
+        </div>
+        <div class="illust-card">
+          <i class="ti ti-luggage"></i>
+          <span class="illust-label">旅程を保存</span>
+          <span class="illust-sub">いつでも振り返れる</span>
+        </div>
+      </div>
+
+      <button class="btn btn-primary">
+        <i class="ti ti-brand-google"></i>
+        Google でログイン
+      </button>
+      <button class="btn btn-secondary">
+        <i class="ti ti-brand-github"></i>
+        GitHub でログイン
+      </button>
+
+      <p class="terms"><a href="#">利用規約・プライバシーポリシー</a></p>
+    </div>
+  </body>
+</html>
