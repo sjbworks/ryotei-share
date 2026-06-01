@@ -3,6 +3,24 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Design tokens */
+:root {
+  --sun: #ff8c42;
+  --sun-light: #fff3eb;
+  --sun-mid: #ffd4b3;
+  --sun-dark: #c45d1a;
+  --sky: #3aafcc;
+  --sky-light: #e8f7fb;
+  --sky-mid: #a8dfe9;
+  --sky-dark: #1a7a93;
+  --sand: #f9f6f1;
+  --ink: #1c1917;
+  --ink-2: #57534e;
+  --ink-3: #a8a29e;
+  --border: rgba(28, 25, 23, 0.09);
+  --border-md: rgba(28, 25, 23, 0.14);
+}
+
 /* Reset css */
 
 /* 1. Use a more-intuitive box-sizing model */
