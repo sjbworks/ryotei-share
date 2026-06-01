@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ryotei Share — タイムライン</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+    <style>
+      :root {
+        --sun: #ff8c42;
+        --sun-light: #fff3eb;
+        --sun-mid: #ffd4b3;
+        --sun-dark: #c45d1a;
+        --sky: #3aafcc;
+        --sky-light: #e8f7fb;
+        --sky-mid: #a8dfe9;
+        --sky-dark: #1a7a93;
+        --sand: #f9f6f1;
+        --white: #ffffff;
+        --ink: #1c1917;
+        --ink-2: #57534e;
+        --ink-3: #a8a29e;
+        --border: rgba(28, 25, 23, 0.09);
+        --border-md: rgba(28, 25, 23, 0.14);
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body {
+        height: 100%;
+        font-family: 'DM Sans', sans-serif;
+        background: #eeebe6;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+      }
+      .screen {
+        width: 390px;
+        min-height: 100dvh;
+        background: var(--white);
+        display: flex;
+        flex-direction: column;
+        position: relative;
+      }
+
+      /* Header */
+      .header {
+        background: var(--white);
+        padding: 14px 18px;
+        border-bottom: 0.5px solid var(--border);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+      .menu-btn {
+        width: 34px;
+        height: 34px;
+        border-radius: 10px;
+        border: 0.5px solid var(--border-md);
+        background: var(--white);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background 0.15s;
+      }
+      .menu-btn:hover {
+        background: var(--sand);
+      }
+      .menu-btn i {
+        font-size: 17px;
+        color: var(--ink-2);
+      }
+      .header-title {
+        font-size: 15px;
+        font-weight: 500;
+        color: var(--ink);
+        flex: 1;
+      }
+      .avatar {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background: var(--sun-light);
+        border: 0.5px solid var(--sun-mid);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+      .avatar i {
+        font-size: 17px;
+        color: var(--sun-dark);
+      }
+
+      /* Body */
+      .body {
+        background: var(--sand);
+        padding: 8px 18px 100px;
+        flex: 1;
+      }
+
+      /* Date group */
+      .date-group {
+        margin-top: 18px;
+      }
+      .date-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        background: var(--sky-light);
+        border: 0.5px solid var(--sky-mid);
+        border-radius: 20px;
+        padding: 4px 13px;
+        margin-bottom: 10px;
+        font-size: 11px;
+        font-weight: 500;
+        color: var(--sky-dark);
+        letter-spacing: 0.03em;
+      }
+      .date-pill i {
+        font-size: 13px;
+      }
+
+      /* Timeline row */
+      .tl-row {
+        display: flex;
+        align-items: stretch;
+      }
+      .rail {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 28px;
+        padding-top: 14px;
+        flex-shrink: 0;
+      }
+      .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--sun);
+        flex-shrink: 0;
+      }
+      .line {
+        width: 1.5px;
+        flex: 1;
+        min-height: 20px;
+        background: var(--border-md);
+        margin-top: 4px;
+      }
+
+      /* Event card */
+      .event-card {
+        flex: 1;
+        background: var(--white);
+        border: 0.5px solid var(--border);
+        border-radius: 14px;
+        padding: 10px 12px;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        cursor: pointer;
+        transition: border-color 0.15s;
+      }
+      .event-card:hover {
+        border-color: var(--border-md);
+      }
+      .event-meta {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 11px;
+        color: var(--ink-3);
+        margin-bottom: 3px;
+      }
+      .event-meta i {
+        font-size: 12px;
+      }
+      .event-title {
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--ink);
+      }
+      .event-more {
+        padding: 4px;
+        cursor: pointer;
+      }
+      .event-more i {
+        font-size: 17px;
+        color: var(--ink-3);
+      }
+
+      /* FAB */
+      .fab {
+        position: fixed;
+        bottom: 28px;
+        left: 50%;
+        transform: translateX(calc(-50% + 177px));
+        width: 52px;
+        height: 52px;
+        border-radius: 16px;
+        background: var(--sun);
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: opacity 0.15s;
+        z-index: 20;
+      }
+      .fab:hover {
+        opacity: 0.88;
+      }
+      .fab i {
+        font-size: 24px;
+        color: #fff;
+      }
+
+      /* Context menu */
+      .ctx-menu {
+        display: none;
+        position: absolute;
+        right: 0;
+        top: 0;
+        background: var(--white);
+        border: 0.5px solid var(--border-md);
+        border-radius: 14px;
+        overflow: hidden;
+        width: 152px;
+        z-index: 30;
+      }
+      .ctx-menu.open {
+        display: block;
+      }
+      .ctx-item {
+        padding: 13px 16px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.12s;
+      }
+      .ctx-item:hover {
+        background: var(--sand);
+      }
+      .ctx-item.edit {
+        color: var(--ink);
+        border-bottom: 0.5px solid var(--border);
+      }
+      .ctx-item.edit i {
+        font-size: 16px;
+        color: var(--sky-dark);
+      }
+      .ctx-item.del {
+        color: #dc2626;
+      }
+      .ctx-item.del i {
+        font-size: 16px;
+        color: #dc2626;
+      }
+      .event-wrap {
+        position: relative;
+        flex: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="screen">
+      <header class="header">
+        <button class="menu-btn" aria-label="メニュー"><i class="ti ti-layout-sidebar"></i></button>
+        <span class="header-title">旅程テスト２</span>
+        <div class="avatar"><i class="ti ti-user"></i></div>
+      </header>
+
+      <div class="body">
+        <div class="date-group">
+          <div class="date-pill"><i class="ti ti-calendar"></i>2025年12月15日</div>
+          <div class="tl-row">
+            <div class="rail">
+              <div class="dot"></div>
+              <div class="line"></div>
+            </div>
+            <div class="event-wrap">
+              <div class="event-card">
+                <div>
+                  <div class="event-meta"><i class="ti ti-clock"></i>21:20</div>
+                  <div class="event-title">$1</div>
+                </div>
+                <div class="event-more" onclick="toggleMenu(this)"><i class="ti ti-dots-vertical"></i></div>
+              </div>
+              <div class="ctx-menu">
+                <div class="ctx-item edit"><i class="ti ti-pencil"></i>編集</div>
+                <div class="ctx-item del"><i class="ti ti-trash"></i>削除</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="date-group">
+          <div class="date-pill"><i class="ti ti-calendar"></i>2025年12月16日</div>
+          <div class="tl-row">
+            <div class="rail">
+              <div class="dot"></div>
+              <div class="line"></div>
+            </div>
+            <div class="event-wrap">
+              <div class="event-card">
+                <div>
+                  <div class="event-meta"><i class="ti ti-clock"></i>21:20</div>
+                  <div class="event-title">$1</div>
+                </div>
+                <div class="event-more" onclick="toggleMenu(this)"><i class="ti ti-dots-vertical"></i></div>
+              </div>
+              <div class="ctx-menu">
+                <div class="ctx-item edit"><i class="ti ti-pencil"></i>編集</div>
+                <div class="ctx-item del"><i class="ti ti-trash"></i>削除</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="date-group">
+          <div class="date-pill"><i class="ti ti-calendar"></i>2026年2月23日</div>
+          <div class="tl-row">
+            <div class="rail">
+              <div class="dot"></div>
+              <div class="line"></div>
+            </div>
+            <div class="event-wrap">
+              <div class="event-card">
+                <div>
+                  <div class="event-meta"><i class="ti ti-clock"></i>22:05</div>
+                  <div class="event-title">え？</div>
+                </div>
+                <div class="event-more" onclick="toggleMenu(this)"><i class="ti ti-dots-vertical"></i></div>
+              </div>
+              <div class="ctx-menu">
+                <div class="ctx-item edit"><i class="ti ti-pencil"></i>編集</div>
+                <div class="ctx-item del"><i class="ti ti-trash"></i>削除</div>
+              </div>
+            </div>
+          </div>
+          <div class="tl-row">
+            <div class="rail">
+              <div class="dot"></div>
+              <div class="line"></div>
+            </div>
+            <div class="event-wrap">
+              <div class="event-card">
+                <div>
+                  <div class="event-meta"><i class="ti ti-clock"></i>23:05</div>
+                  <div class="event-title">お</div>
+                </div>
+                <div class="event-more" onclick="toggleMenu(this)"><i class="ti ti-dots-vertical"></i></div>
+              </div>
+              <div class="ctx-menu">
+                <div class="ctx-item edit"><i class="ti ti-pencil"></i>編集</div>
+                <div class="ctx-item del"><i class="ti ti-trash"></i>削除</div>
+              </div>
+            </div>
+          </div>
+          <div class="tl-row">
+            <div class="rail">
+              <div class="dot"></div>
+              <div class="line"></div>
+            </div>
+            <div class="event-wrap">
+              <div class="event-card">
+                <div>
+                  <div class="event-meta"><i class="ti ti-clock"></i>23:05</div>
+                  <div class="event-title">ん？</div>
+                </div>
+                <div class="event-more" onclick="toggleMenu(this)"><i class="ti ti-dots-vertical"></i></div>
+              </div>
+              <div class="ctx-menu">
+                <div class="ctx-item edit"><i class="ti ti-pencil"></i>編集</div>
+                <div class="ctx-item del"><i class="ti ti-trash"></i>削除</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="date-group">
+          <div class="date-pill"><i class="ti ti-calendar"></i>2026年3月1日</div>
+          <div class="tl-row">
+            <div class="rail">
+              <div class="dot"></div>
+              <div class="line"></div>
+            </div>
+            <div class="event-wrap">
+              <div class="event-card">
+                <div>
+                  <div class="event-meta"><i class="ti ti-clock"></i>14:30</div>
+                  <div class="event-title">イベント</div>
+                </div>
+                <div class="event-more" onclick="toggleMenu(this)"><i class="ti ti-dots-vertical"></i></div>
+              </div>
+              <div class="ctx-menu">
+                <div class="ctx-item edit"><i class="ti ti-pencil"></i>編集</div>
+                <div class="ctx-item del"><i class="ti ti-trash"></i>削除</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button class="fab" aria-label="予定を追加"><i class="ti ti-plus"></i></button>
+    </div>
+
+    <script>
+      function toggleMenu(btn) {
+        const wrap = btn.closest('.event-wrap')
+        const menu = wrap.querySelector('.ctx-menu')
+        const isOpen = menu.classList.contains('open')
+        document.querySelectorAll('.ctx-menu.open').forEach((m) => m.classList.remove('open'))
+        if (!isOpen) menu.classList.add('open')
+      }
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('.event-more') && !e.target.closest('.ctx-menu')) {
+          document.querySelectorAll('.ctx-menu.open').forEach((m) => m.classList.remove('open'))
+        }
+      })
+    </script>
+  </body>
+</html>
