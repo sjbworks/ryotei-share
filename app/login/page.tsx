@@ -33,7 +33,7 @@ export default function Login() {
     <div
       style={{
         background: 'var(--sand)',
-        minHeight: '100dvh',
+        flex: 1,
         width: '100%',
         display: 'flex',
         justifyContent: 'center',
