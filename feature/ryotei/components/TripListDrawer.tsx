@@ -1,7 +1,11 @@
-import { LeftSideDrawer } from '@/component/Drawer/LeftSideDrawer'
-import { Button, AddIcon, MoreVertIcon, EditIcon, DeleteIcon } from '@/component'
-import IconButton from '@mui/material/IconButton'
+'use client'
+import { BottomDrawer } from '@/component/Drawer/BottomDrawer'
 import { Menu } from '@/component/Menu/Menu'
+import { EditIcon, DeleteIcon } from '@/component'
+import IconButton from '@mui/material/IconButton'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
+import FlightIcon from '@mui/icons-material/Flight'
+import AddIcon from '@mui/icons-material/Add'
 import { useState } from 'react'
 import type { FormState } from '@/feature/ryotei/hooks/useFormState'
 
@@ -16,6 +20,7 @@ type Props = {
   onOpen: () => void
   trips: Trip[]
   onChangeTripId: (id: string) => void
+  selectedTripId?: string
   onClickAddTrip: () => void
   refetchTrip?: () => void
   formState: FormState
@@ -29,6 +34,7 @@ export const TripListDrawer = ({
   onOpen,
   trips,
   onChangeTripId,
+  selectedTripId,
   onClickAddTrip,
   formState,
   onOpenBottomDrawer,
@@ -38,6 +44,7 @@ export const TripListDrawer = ({
   const menuOpen = Boolean(anchorEl)
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>, trip: Trip) => {
+    event.stopPropagation()
     setAnchorEl(event.currentTarget)
     setSelectedTrip(trip)
   }
@@ -50,104 +57,138 @@ export const TripListDrawer = ({
   const handleEdit = () => {
     if (selectedTrip) {
       formState.setEditTripMode(selectedTrip)
-      // React state is async, so we can't immediately check formState.trip
     }
     handleMenuClose()
-    onClose() // Close the drawer
-    onOpenBottomDrawer?.() // Open BottomDrawer for form
+    onClose()
+    onOpenBottomDrawer?.()
   }
 
   const handleDelete = () => {
-    if (selectedTrip) {
-      if (formState.setDeleteTripMode) {
-        formState.setDeleteTripMode(selectedTrip)
-      }
+    if (selectedTrip && formState.setDeleteTripMode) {
+      formState.setDeleteTripMode(selectedTrip)
     }
     handleMenuClose()
-    onClose() // Close the drawer
-    onOpenBottomDrawer?.() // Open BottomDrawer for form
+    onClose()
+    onOpenBottomDrawer?.()
   }
 
   const menuItems = [
-    {
-      label: '編集',
-      action: handleEdit,
-      icon: <EditIcon />,
-    },
-    {
-      label: '削除',
-      action: handleDelete,
-      icon: <DeleteIcon />,
-    },
+    { label: '編集', action: handleEdit, icon: <EditIcon /> },
+    { label: '削除', action: handleDelete, icon: <DeleteIcon /> },
   ]
+
   return (
-    <LeftSideDrawer anchor="left" open={open} onClose={onClose} onOpen={onOpen}>
-      <div className="flex flex-col w-full pt-4" data-testid="trip-list-drawer">
-        {trips?.map((trip) => (
-          <div
-            key={trip.id}
-            style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}
-          >
-            <Button
-              variant="text"
-              className="justify-start mb-2"
-              sx={{
-                width: '100%',
-                justifyContent: 'flex-start',
-                padding: '8px 16px',
-                minWidth: 0,
-              }}
+    <BottomDrawer open={open} onClose={onClose} onOpen={onOpen}>
+      <div data-testid="trip-list-drawer" style={{ paddingTop: 16, paddingBottom: 16 }}>
+        <button
+          onClick={() => {
+            onClickAddTrip()
+            onClose()
+          }}
+          style={{
+            margin: '0 14px 6px',
+            width: 'calc(100% - 28px)',
+            height: 48,
+            borderRadius: 14,
+            background: 'var(--sun)',
+            border: 'none',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: 8,
+            fontSize: 14,
+            fontWeight: 500,
+            color: '#fff',
+          }}
+        >
+          <AddIcon sx={{ fontSize: 18, color: 'rgba(255,255,255,0.85)' }} />
+          旅程を作成
+        </button>
+
+        {trips.map((trip) => {
+          const isActive = trip.id === selectedTripId
+          return (
+            <button
+              key={trip.id}
               onClick={() => {
                 onChangeTripId(trip.id)
                 onClose()
               }}
+              style={{
+                padding: '12px 16px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 12,
+                borderTop: '0.5px solid var(--border)',
+                cursor: 'pointer',
+                width: '100%',
+                background: 'none',
+                border: 'none',
+                textAlign: 'left',
+              }}
             >
-              <span
+              <div
                 style={{
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  whiteSpace: 'nowrap',
-                  width: '100%',
-                  textAlign: 'left',
+                  width: 36,
+                  height: 36,
+                  borderRadius: 11,
+                  background: isActive ? 'var(--sun-light)' : 'var(--sky-light)',
+                  border: `0.5px solid ${isActive ? 'var(--sun-mid)' : 'var(--sky-mid)'}`,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexShrink: 0,
                 }}
               >
-                {trip.name || '無題'}
-              </span>
-            </Button>
-            <IconButton onClick={(e) => handleMenuOpen(e, trip)} size="small">
-              <MoreVertIcon />
-            </IconButton>
-            <Menu open={menuOpen} anchorEl={anchorEl} onClose={handleMenuClose} items={menuItems} />
-          </div>
-        ))}
-        <Button
-          key={'new'}
-          variant="contained"
-          className="justify-start mb-2"
-          sx={{
-            width: '100%',
-            justifyContent: 'flex-start',
-            padding: '8px 16px',
-            minWidth: 0,
-          }}
-          onClick={onClickAddTrip}
-        >
-          <span
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              whiteSpace: 'nowrap',
-              width: '100%',
-              textAlign: 'left',
-            }}
-          >
-            <AddIcon sx={{ marginRight: '2px' }} />
-            旅程を作成
-          </span>
-        </Button>
+                <FlightIcon
+                  sx={{
+                    fontSize: 17,
+                    color: isActive ? 'var(--sun-dark)' : 'var(--sky-dark)',
+                  }}
+                />
+              </div>
+
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div
+                  style={{
+                    fontSize: 14,
+                    fontWeight: 500,
+                    color: 'var(--ink)',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  {trip.name || '無題'}
+                </div>
+              </div>
+
+              {isActive && (
+                <div
+                  style={{
+                    width: 6,
+                    height: 6,
+                    borderRadius: '50%',
+                    background: 'var(--sun)',
+                    flexShrink: 0,
+                  }}
+                />
+              )}
+
+              <IconButton
+                size="small"
+                onClick={(e) => handleMenuOpen(e, trip)}
+                sx={{ color: 'var(--ink-3)', flexShrink: 0 }}
+              >
+                <MoreVertIcon fontSize="small" />
+              </IconButton>
+            </button>
+          )
+        })}
+
+        <Menu open={menuOpen} anchorEl={anchorEl} onClose={handleMenuClose} items={menuItems} />
       </div>
-    </LeftSideDrawer>
+    </BottomDrawer>
   )
 }
