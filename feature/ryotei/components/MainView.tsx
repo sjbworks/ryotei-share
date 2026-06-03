@@ -1,29 +1,25 @@
 'use client'
 
-import { BottomDrawer, Modal, AddIcon, ArrowForwardIosIcon, Snackbar, Text, Button } from '@/component'
+import { BottomDrawer, Modal, Snackbar } from '@/component'
 import { useTimeline } from '@/feature/ryotei/hooks/useTimeline'
 import { useGetRyotei } from '../hooks/useGetRyotei'
 import { useRyoteiList } from '../hooks/useRyoteiList'
 import { TimelineView } from './TimelineView'
 import { useRouter } from 'next/navigation'
 import { logout } from '@/feature/auth/api'
-import Box from '@mui/material/Box'
-import IconButton from '@mui/material/IconButton'
-import { AccountCircleIcon } from '@/component/Icon'
 import { Menu } from '@/component/Menu/Menu'
 import { useState, useContext, lazy, Suspense } from 'react'
 import { TripListDrawer } from './TripListDrawer'
 import { useModal } from '../hooks/useModal'
-import SpeedDial from '@mui/material/SpeedDial'
-import SpeedDialIcon from '@mui/material/SpeedDialIcon'
-import SpeedDialAction from '@mui/material/SpeedDialAction'
-import ShareIcon from '@mui/icons-material/Share'
 import { SnackbarContext } from '@/feature/provider/SnackbarContextProvider'
+import { GetTripsQuery, GetRyoteiQuery } from '@/feature/api/graphql'
+import MenuIcon from '@mui/icons-material/Menu'
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+import AddIcon from '@mui/icons-material/Add'
+import { Text } from '@/component/Text'
 import Image from 'next/image'
 import Orbit from '@/assets/image/orbit.png'
-import { GetTripsQuery, GetRyoteiQuery } from '@/feature/api/graphql'
 
-// Formを遅延ロード（@mui/x-date-pickersも一緒に遅延ロードされる）
 const Form = lazy(() => import('@/component/Form').then((mod) => ({ default: mod.Form })))
 
 type MainViewProps = {
@@ -34,7 +30,6 @@ type MainViewProps = {
 
 export const MainView = ({ initialTripsData, initialRyoteiData, initialSelectedTripId }: MainViewProps) => {
   const snackbarState = useContext(SnackbarContext)
-  const formStyle = 'flex flex-col justify-between p-10'
   const {
     handleMenuClick,
     sideOpen,
@@ -50,8 +45,13 @@ export const MainView = ({ initialTripsData, initialRyoteiData, initialSelectedT
   } = useRyoteiList(initialTripsData, initialSelectedTripId)
   const { data, refetch, loading: ryoteiLoading, error: ryoteiError } = useGetRyotei(selectedTripId, initialRyoteiData)
   const loading = tripLoading || ryoteiLoading
-  const { handleClick, bottomSheet, bottomFormProps, onMenuClick, onClickAddTrip, formState, onClickShareTrip } =
-    useTimeline(refetch, refetchTrip, selectedTripId, onSideClose, onChangeTripId)
+  const { handleClick, bottomSheet, bottomFormProps, onMenuClick, onClickAddTrip, formState } = useTimeline(
+    refetch,
+    refetchTrip,
+    selectedTripId,
+    onSideClose,
+    onChangeTripId,
+  )
 
   const router = useRouter()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
@@ -73,14 +73,9 @@ export const MainView = ({ initialTripsData, initialRyoteiData, initialSelectedT
 
   const handleWithdrawAccount = async () => {
     try {
-      const response = await fetch('/api/user/delete', {
-        method: 'DELETE',
-      })
-
+      const response = await fetch('/api/user/delete', { method: 'DELETE' })
       if (response.ok) {
         router.push('/login')
-      } else {
-        console.error('Failed to delete account')
       }
     } catch (error) {
       console.error('Error deleting account:', error)
@@ -93,90 +88,99 @@ export const MainView = ({ initialTripsData, initialRyoteiData, initialSelectedT
   }
 
   const menuItems = [
-    {
-      label: 'ログアウト',
-      action: () => {
-        handleMenuClose()
-        handleLogout()
-      },
-    },
-    {
-      label: '退会',
-      action: handleWithdraw,
-    },
-    {
-      label: '利用規約・プライバシーポリシー',
-      action: () => {
-        handleMenuClose()
-        router.push('/legal')
-      },
-    },
+    { label: 'ログアウト', action: () => { handleMenuClose(); handleLogout() } },
+    { label: '退会', action: handleWithdraw },
+    { label: '利用規約・プライバシーポリシー', action: () => { handleMenuClose(); router.push('/legal') } },
   ]
 
-  const handleClickAdd = async () => {
-    await formState.setAddRyoteiMode()
+  const handleClickAdd = () => {
+    formState.setAddRyoteiMode()
     handleClick()
   }
 
-  const handleClickShare = async () => {
-    await onClickShareTrip({ trip_id: selectedTripId })
-  }
-
-  const actions = [
-    { icon: <AddIcon onClick={handleClickAdd} />, name: '予定を追加' },
-    { icon: <ShareIcon onClick={handleClickShare} />, name: '旅程をシェア' },
-  ]
-
   return (
-    <div className="flex flex-col gap-4 relative max-w-2xl mx-auto w-full py-8 px-6">
-      <header className="flex items-center justify-between">
-        <Button
-          className="p-0"
+    <div
+      style={{
+        background: '#fff',
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
+        maxWidth: 640,
+      }}
+    >
+      <header
+        style={{
+          background: '#fff',
+          padding: '14px 18px',
+          borderBottom: '0.5px solid var(--border)',
+          display: 'flex',
+          alignItems: 'center',
+          gap: 10,
+          position: 'sticky',
+          top: 0,
+          zIndex: 10,
+        }}
+      >
+        <button
           onClick={handleMenuClick}
-          color="primary"
-          startIcon={<ArrowForwardIosIcon sx={{ marginRight: '4px', flex: 1 }} />}
-          variant="text"
-          sx={{
-            display: '-webkit-flex',
-            padding: 1,
-            fontSize: '12px',
-            flex: 3,
-            lineClamp: 2,
-            WebkitLineClamp: 2,
-            WebkitBoxOrient: 'vertical',
-            textOverflow: 'ellipsis',
+          aria-label="旅程一覧"
+          style={{
+            width: 34,
+            height: 34,
+            borderRadius: 10,
+            border: '0.5px solid var(--border-md)',
+            background: '#fff',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer',
+            flexShrink: 0,
           }}
         >
-          <span
-            style={{
-              display: '-webkit-box',
-              lineClamp: 2,
-              WebkitLineClamp: 2,
-              WebkitBoxOrient: 'vertical',
-              flex: 12,
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              textAlign: 'left',
-              fontWeight: 700,
-            }}
-          >
-            {title}
-          </span>
-        </Button>
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end', flex: 1 }}>
-          <IconButton onClick={handleMenuOpen} size="small" aria-label="account menu">
-            <AccountCircleIcon color="primary" />
-          </IconButton>
-          <Menu open={menuOpen} anchorEl={anchorEl} onClose={handleMenuClose} items={menuItems} />
-        </Box>
+          <MenuIcon sx={{ fontSize: 17, color: 'var(--ink-2)' }} />
+        </button>
+
+        <span
+          style={{
+            fontSize: 15,
+            fontWeight: 500,
+            color: 'var(--ink)',
+            flex: 1,
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          {title}
+        </span>
+
+        <button
+          onClick={handleMenuOpen}
+          aria-label="アカウントメニュー"
+          style={{
+            width: 34,
+            height: 34,
+            borderRadius: '50%',
+            background: 'var(--sun-light)',
+            border: '0.5px solid var(--sun-mid)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer',
+            flexShrink: 0,
+          }}
+        >
+          <AccountCircleIcon sx={{ fontSize: 17, color: 'var(--sun-dark)' }} />
+        </button>
+        <Menu open={menuOpen} anchorEl={anchorEl} onClose={handleMenuClose} items={menuItems} />
       </header>
-      <main style={{ marginTop: '16px' }}>
+
+      <main style={{ background: 'var(--sand)', flex: 1, padding: '0 18px 100px' }}>
         {tripError ? (
           <div className="flex flex-col items-center justify-center p-8 text-center gap-2">
             <Text variant="h6">旅程の取得に失敗しました</Text>
-            <Text color="grey.600" variant="body1">
-              しばらく時間をおいてから再度お試しください。
-            </Text>
+            <Text color="grey.600" variant="body1">しばらく時間をおいてから再度お試しください。</Text>
           </div>
         ) : loading || trips.length === 0 ? (
           <div className="flex flex-col items-center justify-center p-8 text-center gap-2">
@@ -184,73 +188,85 @@ export const MainView = ({ initialTripsData, initialRyoteiData, initialSelectedT
             <Text variant="body1">旅行の予定を立てるために、まず旅程を作成してください。</Text>
             <Image src={Orbit} alt="Orbit Image" width={150} height={150} style={{ margin: 28 }} priority />
             {!loading && (
-              <Button
-                onClick={() => {
-                  onSideOpen()
+              <button
+                onClick={onSideOpen}
+                style={{
+                  marginTop: 4,
+                  height: 48,
+                  padding: '0 24px',
+                  borderRadius: 14,
+                  background: 'var(--sun)',
+                  border: 'none',
+                  color: '#fff',
+                  fontSize: 14,
+                  fontWeight: 500,
+                  cursor: 'pointer',
                 }}
-                sx={{ marginTop: '4px' }}
-                variant="contained"
               >
                 旅程を作成
-              </Button>
+              </button>
             )}
           </div>
         ) : ryoteiError ? (
           <div className="flex flex-col items-center justify-center p-8 text-center gap-2">
             <Text variant="h6">予定の取得に失敗しました</Text>
-            <Text color="grey.600" variant="body1">
-              しばらく時間をおいてから再度お試しください。
-            </Text>
+            <Text color="grey.600" variant="body1">しばらく時間をおいてから再度お試しください。</Text>
           </div>
         ) : (
           <TimelineView data={data} onMenuClick={onMenuClick} />
         )}
-        <TripListDrawer
-          open={sideOpen}
-          onClose={onSideClose}
-          onOpen={onSideOpen}
-          trips={trips}
-          onChangeTripId={onChangeTripId}
-          onClickAddTrip={onClickAddTrip}
-          refetchTrip={refetchTrip}
-          formState={formState}
-          onOpenBottomDrawer={handleClick}
-        />
-        <BottomDrawer {...bottomSheet}>
-          <Suspense fallback={<div style={{ padding: '20px' }}>読み込み中...</div>}>
-            <Form className={formStyle} {...bottomFormProps} open={bottomSheet.open} />
-          </Suspense>
-        </BottomDrawer>
-        <Modal isOpen={withdrawModal.isOpen}>
-          <Suspense fallback={<div style={{ padding: '20px' }}>読み込み中...</div>}>
-            <Form
-              mode="withdrawAccount"
-              onSubmit={handleWithdrawAccount}
-              onClose={withdrawModal.close}
-              action={{ label: '退会' }}
-            />
-          </Suspense>
-        </Modal>
       </main>
+
       {trips.length > 0 && (
-        <SpeedDial
-          ariaLabel="SpeedDial: 予定を追加, 旅程をシェア"
-          sx={{ position: 'fixed', bottom: 24, right: 24, zIndex: 1000 }}
-          icon={<SpeedDialIcon />}
+        <button
+          onClick={handleClickAdd}
+          aria-label="予定を追加"
+          style={{
+            position: 'fixed',
+            bottom: 28,
+            right: 18,
+            width: 52,
+            height: 52,
+            borderRadius: 16,
+            background: 'var(--sun)',
+            border: 'none',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 20,
+            boxShadow: '0 4px 12px rgba(255,140,66,0.4)',
+          }}
         >
-          {actions.map((action) => (
-            <SpeedDialAction
-              key={action.name}
-              icon={action.icon}
-              slotProps={{
-                tooltip: {
-                  title: action.name,
-                },
-              }}
-            />
-          ))}
-        </SpeedDial>
+          <AddIcon sx={{ fontSize: 24, color: '#fff' }} />
+        </button>
       )}
+
+      <TripListDrawer
+        open={sideOpen}
+        onClose={onSideClose}
+        onOpen={onSideOpen}
+        trips={trips}
+        selectedTripId={selectedTripId}
+        onChangeTripId={onChangeTripId}
+        onClickAddTrip={onClickAddTrip}
+        refetchTrip={refetchTrip}
+        formState={formState}
+        onOpenBottomDrawer={handleClick}
+      />
+
+      <BottomDrawer {...bottomSheet}>
+        <Suspense fallback={<div style={{ padding: '20px' }}>読み込み中...</div>}>
+          <Form {...bottomFormProps} open={bottomSheet.open} />
+        </Suspense>
+      </BottomDrawer>
+
+      <Modal isOpen={withdrawModal.isOpen}>
+        <Suspense fallback={<div style={{ padding: '20px' }}>読み込み中...</div>}>
+          <Form mode="withdrawAccount" onSubmit={handleWithdrawAccount} onClose={withdrawModal.close} action={{ label: '退会' }} />
+        </Suspense>
+      </Modal>
+
       <Snackbar {...snackbarState} />
     </div>
   )
