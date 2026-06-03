@@ -109,73 +109,81 @@ export const TripListDrawer = ({
         {trips.map((trip) => {
           const isActive = trip.id === selectedTripId
           return (
-            <button
+            <div
               key={trip.id}
-              onClick={() => {
-                onChangeTripId(trip.id)
-                onClose()
-              }}
               style={{
-                padding: '12px 16px',
                 display: 'flex',
                 alignItems: 'center',
-                gap: 12,
                 borderTop: '0.5px solid var(--border)',
-                cursor: 'pointer',
-                width: '100%',
-                background: 'none',
-                border: 'none',
-                textAlign: 'left',
+                paddingRight: 8,
               }}
             >
-              <div
+              {/* 旅程選択ボタン（行の大部分） */}
+              <button
+                onClick={() => {
+                  onChangeTripId(trip.id)
+                  onClose()
+                }}
                 style={{
-                  width: 36,
-                  height: 36,
-                  borderRadius: 11,
-                  background: isActive ? 'var(--sun-light)' : 'var(--sky-light)',
-                  border: `0.5px solid ${isActive ? 'var(--sun-mid)' : 'var(--sky-mid)'}`,
+                  flex: 1,
+                  minWidth: 0,
+                  padding: '12px 16px',
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'center',
-                  flexShrink: 0,
+                  gap: 12,
+                  cursor: 'pointer',
+                  background: 'none',
+                  border: 'none',
+                  textAlign: 'left',
                 }}
               >
-                <FlightIcon
-                  sx={{
-                    fontSize: 17,
-                    color: isActive ? 'var(--sun-dark)' : 'var(--sky-dark)',
-                  }}
-                />
-              </div>
-
-              <div style={{ flex: 1, minWidth: 0 }}>
                 <div
                   style={{
-                    fontSize: 14,
-                    fontWeight: 500,
-                    color: 'var(--ink)',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap',
-                  }}
-                >
-                  {trip.name || '無題'}
-                </div>
-              </div>
-
-              {isActive && (
-                <div
-                  style={{
-                    width: 6,
-                    height: 6,
-                    borderRadius: '50%',
-                    background: 'var(--sun)',
+                    width: 36,
+                    height: 36,
+                    borderRadius: 11,
+                    background: isActive ? 'var(--sun-light)' : 'var(--sky-light)',
+                    border: `0.5px solid ${isActive ? 'var(--sun-mid)' : 'var(--sky-mid)'}`,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
                     flexShrink: 0,
                   }}
-                />
-              )}
+                >
+                  <FlightIcon
+                    sx={{ fontSize: 17, color: isActive ? 'var(--sun-dark)' : 'var(--sky-dark)' }}
+                  />
+                </div>
 
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div
+                    style={{
+                      fontSize: 14,
+                      fontWeight: 500,
+                      color: 'var(--ink)',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap',
+                    }}
+                  >
+                    {trip.name || '無題'}
+                  </div>
+                </div>
+
+                {isActive && (
+                  <div
+                    style={{
+                      width: 6,
+                      height: 6,
+                      borderRadius: '50%',
+                      background: 'var(--sun)',
+                      flexShrink: 0,
+                    }}
+                  />
+                )}
+              </button>
+
+              {/* メニューボタン（兄弟要素として分離） */}
               <IconButton
                 size="small"
                 onClick={(e) => handleMenuOpen(e, trip)}
@@ -183,7 +191,7 @@ export const TripListDrawer = ({
               >
                 <MoreVertIcon fontSize="small" />
               </IconButton>
-            </button>
+            </div>
           )
         })}
 
