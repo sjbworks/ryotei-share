@@ -1,7 +1,30 @@
 import { type FieldErrors, type UseFormRegister } from 'react-hook-form'
 import TextField from '@mui/material/TextField'
-import Box from '@mui/material/Box'
 import { TripsInsertInput } from '@/feature/api/graphql'
+
+const textFieldSx = {
+  width: '100%',
+  '& .MuiOutlinedInput-root': {
+    backgroundColor: '#f9f6f1',
+    borderRadius: '14px',
+  },
+  '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
+    border: '0.5px solid rgba(28,25,23,0.14)',
+    borderRadius: '14px',
+  },
+  '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
+    border: '0.5px solid rgba(28,25,23,0.14)',
+  },
+  '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+    border: '1.5px solid #ff8c42',
+  },
+  '& .MuiInputBase-input': {
+    padding: '12px 14px',
+    fontSize: 14,
+    color: '#1c1917',
+  },
+  '& .MuiFormHelperText-root': { marginLeft: 0, fontSize: 11 },
+}
 
 export const AddTripContent = ({
   register,
@@ -11,29 +34,28 @@ export const AddTripContent = ({
   register: UseFormRegister<TripsInsertInput>
 }) => {
   return (
-    <Box
-      component="form"
-      sx={{
-        '& > :not(style)': { mb: 2 },
-        display: 'flex',
-        flexDirection: 'column',
-      }}
-      noValidate
-      autoComplete="off"
-    >
-      <Box sx={{ fontWeight: 600 }}>旅程名を入力</Box>
-      <TextField
-        {...register('name', { required: true })}
-        error={!!errors.name}
-        helperText={errors.name && '内容を入力してください。'}
-        slotProps={{
-          formHelperText: {
-            sx: { marginLeft: 0 },
-          },
-        }}
-        className="block w-full"
-        multiline
-      />
-    </Box>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+      <div>
+        <span
+          style={{
+            display: 'block',
+            fontSize: 11,
+            fontWeight: 500,
+            color: '#a8a29e',
+            letterSpacing: '0.06em',
+            marginBottom: 6,
+          }}
+        >
+          旅程名
+        </span>
+        <TextField
+          {...register('name', { required: true })}
+          error={!!errors.name}
+          helperText={errors.name && '内容を入力してください。'}
+          placeholder="旅程名を入力"
+          sx={textFieldSx}
+        />
+      </div>
+    </div>
   )
 }
