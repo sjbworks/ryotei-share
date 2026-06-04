@@ -34,6 +34,7 @@ export const MenuControl = ({ onClick, id, datetime, description, className, tri
     label: actionLabel[key as Action],
     action: () => onItemClick(key as Action, { id, datetime, description, trip_id }),
     icon: <Icon />,
+    variant: key === 'deleteRyotei' ? ('danger' as const) : undefined,
   }))
 
   return (

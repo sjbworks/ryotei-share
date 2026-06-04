@@ -7,7 +7,7 @@ import { useRyoteiList } from '../hooks/useRyoteiList'
 import { TimelineView } from './TimelineView'
 import { useRouter } from 'next/navigation'
 import { logout } from '@/feature/auth/api'
-import { Menu } from '@/component/Menu/Menu'
+import { UserMenu } from '@/component/Menu/UserMenu'
 import { useState, useContext, lazy, Suspense } from 'react'
 import { TripListDrawer } from './TripListDrawer'
 import { SnackbarContext } from '@/feature/provider/SnackbarContextProvider'
@@ -25,9 +25,10 @@ type MainViewProps = {
   initialTripsData?: GetTripsQuery | null
   initialRyoteiData?: GetRyoteiQuery | null
   initialSelectedTripId?: string
+  user?: { email?: string | null; name?: string | null }
 }
 
-export const MainView = ({ initialTripsData, initialRyoteiData, initialSelectedTripId }: MainViewProps) => {
+export const MainView = ({ initialTripsData, initialRyoteiData, initialSelectedTripId, user }: MainViewProps) => {
   const snackbarState = useContext(SnackbarContext)
   const {
     handleMenuClick,
@@ -82,12 +83,6 @@ export const MainView = ({ initialTripsData, initialRyoteiData, initialSelectedT
   const handleMenuClose = () => {
     setAnchorEl(null)
   }
-
-  const menuItems = [
-    { label: 'ログアウト', action: () => { handleMenuClose(); handleLogout() } },
-    { label: '退会', action: () => { handleMenuClose(); onClickWithdrawAccount() } },
-    { label: '利用規約・プライバシーポリシー', action: () => { handleMenuClose(); router.push('/legal') } },
-  ]
 
   const handleClickAdd = () => {
     formState.setAddRyoteiMode()
@@ -169,7 +164,16 @@ export const MainView = ({ initialTripsData, initialRyoteiData, initialSelectedT
         >
           <AccountCircleIcon sx={{ fontSize: 17, color: 'var(--sun-dark)' }} />
         </button>
-        <Menu open={menuOpen} anchorEl={anchorEl} onClose={handleMenuClose} items={menuItems} />
+        <UserMenu
+          open={menuOpen}
+          anchorEl={anchorEl}
+          onClose={handleMenuClose}
+          email={user?.email}
+          name={user?.name}
+          onLogout={handleLogout}
+          onWithdraw={onClickWithdrawAccount}
+          onLegal={() => router.push('/legal')}
+        />
       </header>
 
       <main style={{ background: 'var(--sand)', flex: 1, padding: '0 18px 100px' }}>

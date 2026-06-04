@@ -74,7 +74,7 @@ export const TripListDrawer = ({
 
   const menuItems = [
     { label: '編集', action: handleEdit, icon: <EditIcon /> },
-    { label: '削除', action: handleDelete, icon: <DeleteIcon /> },
+    { label: '削除', action: handleDelete, icon: <DeleteIcon />, variant: 'danger' as const },
   ]
 
   return (
