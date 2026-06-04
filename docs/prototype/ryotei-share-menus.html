@@ -1,0 +1,775 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ryotei Share — メニュー</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+    <style>
+      :root {
+        --sun: #ff8c42;
+        --sun-light: #fff3eb;
+        --sun-mid: #ffd4b3;
+        --sun-dark: #c45d1a;
+        --sky: #3aafcc;
+        --sky-light: #e8f7fb;
+        --sky-mid: #a8dfe9;
+        --sky-dark: #1a7a93;
+        --sand: #f9f6f1;
+        --white: #ffffff;
+        --ink: #1c1917;
+        --ink-2: #57534e;
+        --ink-3: #a8a29e;
+        --border: rgba(28, 25, 23, 0.09);
+        --border-md: rgba(28, 25, 23, 0.14);
+        --red: #dc2626;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body {
+        min-height: 100%;
+        font-family: 'DM Sans', sans-serif;
+        background: #eeebe6;
+        display: flex;
+        justify-content: center;
+        padding: 32px 16px;
+      }
+      .screen {
+        width: 390px;
+        background: var(--white);
+        border-radius: 28px;
+        overflow: hidden;
+        border: 0.5px solid var(--border-md);
+      }
+
+      /* ── Header ── */
+      .header {
+        background: var(--white);
+        padding: 14px 18px;
+        border-bottom: 0.5px solid var(--border);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+      .menu-btn {
+        width: 34px;
+        height: 34px;
+        border-radius: 10px;
+        border: 0.5px solid var(--border-md);
+        background: var(--white);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background 0.15s;
+        flex-shrink: 0;
+      }
+      .menu-btn:hover {
+        background: var(--sand);
+      }
+      .menu-btn i {
+        font-size: 17px;
+        color: var(--ink-2);
+      }
+      .header-title {
+        font-size: 15px;
+        font-weight: 500;
+        color: var(--ink);
+        flex: 1;
+      }
+      .avatar {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background: var(--sun-light);
+        border: 0.5px solid var(--sun-mid);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        flex-shrink: 0;
+        transition: border-color 0.15s;
+      }
+      .avatar.open {
+        border-color: var(--sun);
+        border-width: 1.5px;
+      }
+      .avatar i {
+        font-size: 17px;
+        color: var(--sun-dark);
+      }
+
+      /* ── Timeline ── */
+      .tl-body {
+        background: var(--sand);
+        padding: 12px 18px 100px;
+        position: relative;
+        min-height: 400px;
+      }
+      .date-group {
+        margin-top: 16px;
+      }
+      .date-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        background: var(--sky-light);
+        border: 0.5px solid var(--sky-mid);
+        border-radius: 20px;
+        padding: 4px 13px;
+        margin-bottom: 10px;
+        font-size: 11px;
+        font-weight: 500;
+        color: var(--sky-dark);
+        letter-spacing: 0.03em;
+      }
+      .date-pill i {
+        font-size: 12px;
+      }
+      .tl-row {
+        display: flex;
+        align-items: stretch;
+      }
+      .rail {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 28px;
+        padding-top: 14px;
+        flex-shrink: 0;
+      }
+      .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--sun);
+        flex-shrink: 0;
+      }
+      .line {
+        width: 1.5px;
+        flex: 1;
+        min-height: 20px;
+        background: var(--border-md);
+        margin-top: 4px;
+      }
+      .ev-wrap {
+        flex: 1;
+        position: relative;
+      }
+      .ev-card {
+        background: var(--white);
+        border: 0.5px solid var(--border);
+        border-radius: 14px;
+        padding: 10px 12px;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        transition: border-color 0.15s;
+      }
+      .ev-card.open {
+        border-color: var(--sun-mid);
+      }
+      .ev-meta {
+        font-size: 11px;
+        color: var(--ink-3);
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        margin-bottom: 3px;
+      }
+      .ev-meta i {
+        font-size: 12px;
+      }
+      .ev-title {
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--ink);
+      }
+      .ev-more {
+        padding: 4px;
+        cursor: pointer;
+      }
+      .ev-more i {
+        font-size: 17px;
+        color: var(--ink-3);
+        transition: color 0.15s;
+      }
+      .ev-more.open i {
+        color: var(--sun);
+      }
+
+      /* ── Context menu (shared) ── */
+      .ctx-menu {
+        display: none;
+        position: absolute;
+        right: 0;
+        background: var(--white);
+        border: 0.5px solid var(--border-md);
+        border-radius: 14px;
+        overflow: hidden;
+        width: 160px;
+        z-index: 30;
+      }
+      .ctx-menu.open {
+        display: block;
+      }
+      .ctx-row {
+        padding: 13px 16px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.12s;
+      }
+      .ctx-row:hover {
+        background: var(--sand);
+      }
+      .ctx-row.edit {
+        color: var(--ink);
+        border-bottom: 0.5px solid var(--border);
+      }
+      .ctx-row.edit i {
+        font-size: 16px;
+        color: var(--sky-dark);
+      }
+      .ctx-row.del {
+        color: var(--red);
+      }
+      .ctx-row.del i {
+        font-size: 16px;
+        color: var(--red);
+      }
+
+      /* ── FAB ── */
+      .fab {
+        position: absolute;
+        bottom: 28px;
+        right: 18px;
+        width: 52px;
+        height: 52px;
+        border-radius: 16px;
+        background: var(--sun);
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 20;
+        transition: opacity 0.15s;
+      }
+      .fab:hover {
+        opacity: 0.88;
+      }
+      .fab i {
+        font-size: 24px;
+        color: #fff;
+      }
+
+      /* ── Drawer overlay ── */
+      .drawer-overlay {
+        display: none;
+        position: absolute;
+        inset: 0;
+        background: rgba(28, 25, 23, 0.18);
+        z-index: 40;
+      }
+      .drawer-overlay.open {
+        display: block;
+      }
+
+      /* ── Drawer sheet ── */
+      .drawer-sheet {
+        position: absolute;
+        bottom: -100%;
+        left: 0;
+        right: 0;
+        background: var(--white);
+        border-radius: 22px 22px 0 0;
+        z-index: 50;
+        transition: bottom 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+        max-height: 80%;
+        overflow-y: auto;
+        padding-bottom: 24px;
+      }
+      .drawer-sheet.open {
+        bottom: 0;
+      }
+      .drawer-handle-row {
+        padding: 12px;
+        display: flex;
+        justify-content: center;
+      }
+      .drawer-handle {
+        width: 36px;
+        height: 3px;
+        background: var(--border-md);
+        border-radius: 2px;
+      }
+      .drawer-new {
+        margin: 0 14px 6px;
+        height: 48px;
+        border-radius: 13px;
+        background: var(--sun);
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        color: #fff;
+        transition: opacity 0.15s;
+      }
+      .drawer-new:hover {
+        opacity: 0.88;
+      }
+      .drawer-new i {
+        font-size: 18px;
+        color: rgba(255, 255, 255, 0.85);
+      }
+
+      /* ── Drawer item ── */
+      .d-item {
+        padding: 12px 16px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        border-top: 0.5px solid var(--border);
+        cursor: pointer;
+        transition: background 0.12s;
+        position: relative;
+      }
+      .d-item:hover {
+        background: var(--sand);
+      }
+      .d-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 11px;
+        background: var(--sky-light);
+        border: 0.5px solid var(--sky-mid);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .d-icon i {
+        font-size: 17px;
+        color: var(--sky-dark);
+      }
+      .d-item.active .d-icon {
+        background: var(--sun-light);
+        border-color: var(--sun-mid);
+      }
+      .d-item.active .d-icon i {
+        color: var(--sun-dark);
+      }
+      .d-info {
+        flex: 1;
+        min-width: 0;
+      }
+      .d-name {
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--ink);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .d-sub {
+        font-size: 11px;
+        color: var(--ink-3);
+        margin-top: 1px;
+      }
+      .d-active-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--sun);
+        flex-shrink: 0;
+      }
+      .d-more {
+        padding: 4px;
+        flex-shrink: 0;
+        cursor: pointer;
+      }
+      .d-more i {
+        font-size: 16px;
+        color: var(--ink-3);
+        transition: color 0.15s;
+      }
+      .d-more.open i {
+        color: var(--sun);
+      }
+      .d-ctx {
+        display: none;
+        position: absolute;
+        right: 12px;
+        top: 40px;
+        background: var(--white);
+        border: 0.5px solid var(--border-md);
+        border-radius: 14px;
+        overflow: hidden;
+        width: 160px;
+        z-index: 60;
+      }
+      .d-ctx.open {
+        display: block;
+      }
+
+      /* ── User menu ── */
+      .user-menu-overlay {
+        display: none;
+        position: absolute;
+        inset: 0;
+        z-index: 70;
+      }
+      .user-menu-overlay.open {
+        display: block;
+      }
+      .user-menu {
+        position: absolute;
+        right: 14px;
+        top: 56px;
+        background: var(--white);
+        border: 0.5px solid var(--border-md);
+        border-radius: 16px;
+        overflow: hidden;
+        width: 220px;
+        z-index: 80;
+      }
+      .um-header {
+        padding: 14px 16px 12px;
+        border-bottom: 0.5px solid var(--border);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .um-avatar {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        background: var(--sun-light);
+        border: 0.5px solid var(--sun-mid);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .um-avatar i {
+        font-size: 19px;
+        color: var(--sun-dark);
+      }
+      .um-name {
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--ink);
+      }
+      .um-email {
+        font-size: 11px;
+        color: var(--ink-3);
+        margin-top: 1px;
+      }
+      .um-row {
+        padding: 12px 16px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--ink);
+        border-bottom: 0.5px solid var(--border);
+        cursor: pointer;
+        transition: background 0.12s;
+      }
+      .um-row:last-child {
+        border-bottom: none;
+      }
+      .um-row:hover {
+        background: var(--sand);
+      }
+      .um-row i {
+        font-size: 17px;
+        color: var(--ink-3);
+      }
+      .um-row.logout i {
+        color: var(--sky-dark);
+      }
+      .um-row.danger {
+        color: var(--red);
+      }
+      .um-row.danger i {
+        color: var(--red);
+      }
+      .um-row.muted {
+        font-size: 13px;
+        font-weight: 400;
+        color: var(--ink-3);
+      }
+      .um-row.muted i {
+        font-size: 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="screen" style="position: relative; overflow: hidden">
+      <!-- Header -->
+      <header class="header">
+        <button class="menu-btn" onclick="openDrawer()" aria-label="旅程一覧">
+          <i class="ti ti-layout-sidebar"></i>
+        </button>
+        <span class="header-title">旅程テスト２</span>
+        <div class="avatar" id="avatarBtn" onclick="toggleUserMenu()" aria-label="ユーザーメニュー">
+          <i class="ti ti-user"></i>
+        </div>
+      </header>
+
+      <!-- Timeline -->
+      <div class="tl-body">
+        <div class="date-group">
+          <div class="date-pill"><i class="ti ti-calendar"></i>2025年12月15日</div>
+          <div class="tl-row">
+            <div class="rail">
+              <div class="dot"></div>
+              <div class="line"></div>
+            </div>
+            <div class="ev-wrap">
+              <div class="ev-card" id="ev1">
+                <div>
+                  <div class="ev-meta"><i class="ti ti-clock"></i>21:20</div>
+                  <div class="ev-title">$1</div>
+                </div>
+                <div class="ev-more" id="evMore1" onclick="toggleEvMenu('ev1','evMore1','evCtx1')">
+                  <i class="ti ti-dots-vertical"></i>
+                </div>
+              </div>
+              <div class="ctx-menu" id="evCtx1" style="top: 36px">
+                <div class="ctx-row edit"><i class="ti ti-pencil"></i>編集</div>
+                <div class="ctx-row del"><i class="ti ti-trash"></i>削除</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="date-group">
+          <div class="date-pill"><i class="ti ti-calendar"></i>2026年2月23日</div>
+          <div class="tl-row">
+            <div class="rail">
+              <div class="dot"></div>
+              <div class="line"></div>
+            </div>
+            <div class="ev-wrap">
+              <div class="ev-card" id="ev2">
+                <div>
+                  <div class="ev-meta"><i class="ti ti-clock"></i>22:05</div>
+                  <div class="ev-title">え？</div>
+                </div>
+                <div class="ev-more" id="evMore2" onclick="toggleEvMenu('ev2','evMore2','evCtx2')">
+                  <i class="ti ti-dots-vertical"></i>
+                </div>
+              </div>
+              <div class="ctx-menu" id="evCtx2" style="top: 36px">
+                <div class="ctx-row edit"><i class="ti ti-pencil"></i>編集</div>
+                <div class="ctx-row del"><i class="ti ti-trash"></i>削除</div>
+              </div>
+            </div>
+          </div>
+          <div class="tl-row">
+            <div class="rail">
+              <div class="dot"></div>
+              <div class="line"></div>
+            </div>
+            <div class="ev-wrap">
+              <div class="ev-card" id="ev3">
+                <div>
+                  <div class="ev-meta"><i class="ti ti-clock"></i>23:05</div>
+                  <div class="ev-title">お</div>
+                </div>
+                <div class="ev-more" id="evMore3" onclick="toggleEvMenu('ev3','evMore3','evCtx3')">
+                  <i class="ti ti-dots-vertical"></i>
+                </div>
+              </div>
+              <div class="ctx-menu" id="evCtx3" style="top: 36px">
+                <div class="ctx-row edit"><i class="ti ti-pencil"></i>編集</div>
+                <div class="ctx-row del"><i class="ti ti-trash"></i>削除</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button class="fab" aria-label="予定を追加"><i class="ti ti-plus"></i></button>
+      </div>
+
+      <!-- Drawer overlay -->
+      <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+
+      <!-- Drawer sheet -->
+      <div class="drawer-sheet" id="drawerSheet">
+        <div class="drawer-handle-row"><div class="drawer-handle"></div></div>
+        <button class="drawer-new"><i class="ti ti-plus"></i>旅程を作成</button>
+
+        <div class="d-item active">
+          <div class="d-icon"><i class="ti ti-plane"></i></div>
+          <div class="d-info">
+            <div class="d-name">旅程テスト２</div>
+            <div class="d-sub">3 件の予定</div>
+          </div>
+          <div class="d-active-dot"></div>
+          <div class="d-more" id="dMore1" onclick="toggleDMenu(event,'dMore1','dCtx1')">
+            <i class="ti ti-dots-vertical"></i>
+          </div>
+          <div class="d-ctx" id="dCtx1">
+            <div class="ctx-row edit"><i class="ti ti-pencil"></i>名前を編集</div>
+            <div class="ctx-row del"><i class="ti ti-trash"></i>削除</div>
+          </div>
+        </div>
+
+        <div class="d-item">
+          <div class="d-icon"><i class="ti ti-map-pin"></i></div>
+          <div class="d-info">
+            <div class="d-name">旅程てすと１</div>
+            <div class="d-sub">2 件の予定</div>
+          </div>
+          <div class="d-more" id="dMore2" onclick="toggleDMenu(event,'dMore2','dCtx2')">
+            <i class="ti ti-dots-vertical"></i>
+          </div>
+          <div class="d-ctx" id="dCtx2">
+            <div class="ctx-row edit"><i class="ti ti-pencil"></i>名前を編集</div>
+            <div class="ctx-row del"><i class="ti ti-trash"></i>削除</div>
+          </div>
+        </div>
+
+        <div class="d-item">
+          <div class="d-icon"><i class="ti ti-luggage"></i></div>
+          <div class="d-info">
+            <div class="d-name">佳澄と旅行だ</div>
+            <div class="d-sub">1 件の予定</div>
+          </div>
+          <div class="d-more" id="dMore3" onclick="toggleDMenu(event,'dMore3','dCtx3')">
+            <i class="ti ti-dots-vertical"></i>
+          </div>
+          <div class="d-ctx" id="dCtx3">
+            <div class="ctx-row edit"><i class="ti ti-pencil"></i>名前を編集</div>
+            <div class="ctx-row del"><i class="ti ti-trash"></i>削除</div>
+          </div>
+        </div>
+
+        <div class="d-item">
+          <div class="d-icon"><i class="ti ti-mountain"></i></div>
+          <div class="d-info">
+            <div class="d-name">テスト３</div>
+            <div class="d-sub">4 件の予定</div>
+          </div>
+          <div class="d-more" id="dMore4" onclick="toggleDMenu(event,'dMore4','dCtx4')">
+            <i class="ti ti-dots-vertical"></i>
+          </div>
+          <div class="d-ctx" id="dCtx4">
+            <div class="ctx-row edit"><i class="ti ti-pencil"></i>名前を編集</div>
+            <div class="ctx-row del"><i class="ti ti-trash"></i>削除</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- User menu overlay -->
+      <div class="user-menu-overlay" id="userMenuOverlay" onclick="closeUserMenu()"></div>
+      <div class="user-menu" id="userMenu" style="display: none">
+        <div class="um-header">
+          <div class="um-avatar"><i class="ti ti-user"></i></div>
+          <div>
+            <div class="um-name">Shoko</div>
+            <div class="um-email">shoko@example.com</div>
+          </div>
+        </div>
+        <div class="um-row logout"><i class="ti ti-logout"></i>ログアウト</div>
+        <div class="um-row danger"><i class="ti ti-user-x"></i>退会</div>
+        <div class="um-row muted"><i class="ti ti-file-text"></i>利用規約・プライバシーポリシー</div>
+      </div>
+    </div>
+
+    <script>
+      function closeAll() {
+        document.querySelectorAll('.ctx-menu, .d-ctx').forEach((m) => m.classList.remove('open'))
+        document.querySelectorAll('.ev-card').forEach((c) => c.classList.remove('open'))
+        document.querySelectorAll('.ev-more, .d-more').forEach((b) => b.classList.remove('open'))
+      }
+
+      function openDrawer() {
+        closeAll()
+        closeUserMenu()
+        document.getElementById('drawerOverlay').classList.add('open')
+        document.getElementById('drawerSheet').classList.add('open')
+      }
+      function closeDrawer() {
+        closeAll()
+        document.getElementById('drawerOverlay').classList.remove('open')
+        document.getElementById('drawerSheet').classList.remove('open')
+      }
+
+      function toggleEvMenu(cardId, btnId, menuId) {
+        const isOpen = document.getElementById(menuId).classList.contains('open')
+        closeAll()
+        if (!isOpen) {
+          document.getElementById(menuId).classList.add('open')
+          document.getElementById(cardId).classList.add('open')
+          document.getElementById(btnId).classList.add('open')
+        }
+      }
+
+      function toggleDMenu(e, btnId, menuId) {
+        e.stopPropagation()
+        const isOpen = document.getElementById(menuId).classList.contains('open')
+        closeAll()
+        if (!isOpen) {
+          document.getElementById(menuId).classList.add('open')
+          document.getElementById(btnId).classList.add('open')
+        }
+      }
+
+      function toggleUserMenu() {
+        const menu = document.getElementById('userMenu')
+        const overlay = document.getElementById('userMenuOverlay')
+        const avatar = document.getElementById('avatarBtn')
+        const isOpen = menu.style.display === 'block'
+        closeAll()
+        if (!isOpen) {
+          menu.style.display = 'block'
+          overlay.classList.add('open')
+          avatar.classList.add('open')
+        } else {
+          closeUserMenu()
+        }
+      }
+      function closeUserMenu() {
+        document.getElementById('userMenu').style.display = 'none'
+        document.getElementById('userMenuOverlay').classList.remove('open')
+        document.getElementById('avatarBtn').classList.remove('open')
+      }
+
+      document.addEventListener('click', (e) => {
+        if (
+          !e.target.closest('.ev-more') &&
+          !e.target.closest('.ctx-menu') &&
+          !e.target.closest('.d-more') &&
+          !e.target.closest('.d-ctx')
+        ) {
+          closeAll()
+        }
+      })
+    </script>
+  </body>
+</html>
