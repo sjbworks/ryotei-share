@@ -1,6 +1,6 @@
 'use client'
 
-import { BottomDrawer, Modal, Snackbar } from '@/component'
+import { BottomDrawer, Snackbar } from '@/component'
 import { useTimeline } from '@/feature/ryotei/hooks/useTimeline'
 import { useGetRyotei } from '../hooks/useGetRyotei'
 import { useRyoteiList } from '../hooks/useRyoteiList'
@@ -10,7 +10,6 @@ import { logout } from '@/feature/auth/api'
 import { Menu } from '@/component/Menu/Menu'
 import { useState, useContext, lazy, Suspense } from 'react'
 import { TripListDrawer } from './TripListDrawer'
-import { useModal } from '../hooks/useModal'
 import { SnackbarContext } from '@/feature/provider/SnackbarContextProvider'
 import { GetTripsQuery, GetRyoteiQuery } from '@/feature/api/graphql'
 import MenuIcon from '@mui/icons-material/Menu'
@@ -45,18 +44,31 @@ export const MainView = ({ initialTripsData, initialRyoteiData, initialSelectedT
   } = useRyoteiList(initialTripsData, initialSelectedTripId)
   const { data, refetch, loading: ryoteiLoading, error: ryoteiError } = useGetRyotei(selectedTripId, initialRyoteiData)
   const loading = tripLoading || ryoteiLoading
-  const { handleClick, bottomSheet, bottomFormProps, onMenuClick, onClickAddTrip, formState } = useTimeline(
+
+  const router = useRouter()
+
+  const handleWithdrawAccount = async () => {
+    try {
+      const response = await fetch('/api/user/delete', { method: 'DELETE' })
+      if (response.ok) {
+        router.push('/login')
+      }
+    } catch (error) {
+      console.error('Error deleting account:', error)
+    }
+  }
+
+  const { handleClick, bottomSheet, bottomFormProps, onMenuClick, onClickAddTrip, onClickWithdrawAccount, formState } = useTimeline(
     refetch,
     refetchTrip,
     selectedTripId,
     onSideClose,
     onChangeTripId,
+    handleWithdrawAccount,
   )
 
-  const router = useRouter()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const menuOpen = Boolean(anchorEl)
-  const withdrawModal = useModal()
 
   const handleLogout = async () => {
     await logout()
@@ -71,25 +83,9 @@ export const MainView = ({ initialTripsData, initialRyoteiData, initialSelectedT
     setAnchorEl(null)
   }
 
-  const handleWithdrawAccount = async () => {
-    try {
-      const response = await fetch('/api/user/delete', { method: 'DELETE' })
-      if (response.ok) {
-        router.push('/login')
-      }
-    } catch (error) {
-      console.error('Error deleting account:', error)
-    }
-  }
-
-  const handleWithdraw = () => {
-    handleMenuClose()
-    withdrawModal.open()
-  }
-
   const menuItems = [
     { label: 'ログアウト', action: () => { handleMenuClose(); handleLogout() } },
-    { label: '退会', action: handleWithdraw },
+    { label: '退会', action: () => { handleMenuClose(); onClickWithdrawAccount() } },
     { label: '利用規約・プライバシーポリシー', action: () => { handleMenuClose(); router.push('/legal') } },
   ]
 
@@ -260,12 +256,6 @@ export const MainView = ({ initialTripsData, initialRyoteiData, initialSelectedT
           <Form {...bottomFormProps} open={bottomSheet.open} />
         </Suspense>
       </BottomDrawer>
-
-      <Modal isOpen={withdrawModal.isOpen}>
-        <Suspense fallback={<div style={{ padding: '20px' }}>読み込み中...</div>}>
-          <Form mode="withdrawAccount" onSubmit={handleWithdrawAccount} onClose={withdrawModal.close} action={{ label: '退会' }} />
-        </Suspense>
-      </Modal>
 
       <Snackbar {...snackbarState} />
     </div>

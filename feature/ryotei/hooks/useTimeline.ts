@@ -16,7 +16,8 @@ export const useTimeline = (
   refetchTrip: () => void,
   selectedTripId?: string,
   onSideClose?: () => void,
-  onChangeTripId?: (id: string) => void
+  onChangeTripId?: (id: string) => void,
+  onWithdrawAccount?: () => Promise<void>
 ) => {
   const modal = useModal()
   const bottomSheet = useBottomSheet()
@@ -33,6 +34,11 @@ export const useTimeline = (
   const onClickAddTrip = () => {
     formState.setAddTripMode()
     onSideClose?.()
+    bottomSheet.open()
+  }
+
+  const onClickWithdrawAccount = () => {
+    formState.setWithdrawAccountMode()
     bottomSheet.open()
   }
 
@@ -61,7 +67,8 @@ export const useTimeline = (
         await updateTrip({ id: tripId, name: tripData.name })
       }
     } else if (formState.mode === 'withdrawAccount') {
-      // Handle withdraw account logic here
+      await onWithdrawAccount?.()
+      return
     } else if (formState.mode === 'shareTrip') {
       await shareTrip(data)
     } else if (formState.mode === 'switchTripStatus') {
@@ -174,6 +181,7 @@ export const useTimeline = (
     modalOpen: modal.isOpen,
     onMenuClick,
     onClickAddTrip,
+    onClickWithdrawAccount,
     handleModalSubmit,
     formState,
     shareTrip,

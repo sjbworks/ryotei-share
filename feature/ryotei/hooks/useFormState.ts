@@ -49,6 +49,10 @@ export const useFormState = () => {
     setSwitchTripStatusData(shareData)
   }
 
+  const setWithdrawAccountMode = () => {
+    setMode('withdrawAccount')
+  }
+
   const resetMode = () => {
     setMode(null)
     setSelectedPlan(null)
@@ -79,6 +83,7 @@ export const useFormState = () => {
     setSelectedPlan,
     setShareTripMode,
     setSwitchTripStatusMode,
+    setWithdrawAccountMode,
   }
 }
 
