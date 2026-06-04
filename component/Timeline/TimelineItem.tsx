@@ -1,52 +1,66 @@
 'use client'
-import {
-  TimelineItem as MUITimelineItem,
-  TimelineSeparator,
-  TimelineConnector,
-  TimelineContent,
-  TimelineDot,
-  TimelineDotProps,
-} from '@mui/lab'
 import { FC } from 'react'
 import { AccessTimeIcon } from '../Icon'
 import { MenuControl, Action } from './MenuControl'
 import { format, parseISO } from 'date-fns'
-import { Text } from '@/component/Text'
 
 export type Plan = { datetime: string; description: string; id: string; trip_id: string }
 export type TimelineItemProps = Plan & {
-  color?: TimelineDotProps['color']
   onClick?: (action: Action, value: Plan) => void
   readOnly?: boolean
 }
 
-export const TimelineItem: FC<TimelineItemProps> = (props) => {
-  const { id, datetime, description, color, onClick, trip_id, readOnly } = props
-  const timeSx = {
-    display: 'flex',
-    alignItems: 'center',
-  }
+export const TimelineItem: FC<TimelineItemProps> = ({ id, datetime, description, onClick, trip_id, readOnly }) => {
   const time = format(parseISO(datetime), 'HH:mm')
   return (
-    <MUITimelineItem>
-      <TimelineSeparator>
-        <TimelineDot color={color} />
-        <TimelineConnector />
-      </TimelineSeparator>
-      <TimelineContent sx={{ paddingRight: 0 }}>
-        <div className="flex justify-between flex-start">
-          <Text variant="subtitle2" component="span" color="grey.500" sx={timeSx}>
-            <AccessTimeIcon fontSize="small" sx={{ marginRight: '2px' }} />
-            {time}
-          </Text>
+    <div style={{ display: 'flex', alignItems: 'stretch' }}>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          width: 28,
+          paddingTop: 14,
+          flexShrink: 0,
+        }}
+      >
+        <div style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--sun)', flexShrink: 0 }} />
+        <div style={{ width: 1.5, flex: 1, minHeight: 20, background: 'var(--border-md)', marginTop: 4 }} />
+      </div>
+      <div style={{ flex: 1 }}>
+        <div
+          style={{
+            background: '#fff',
+            border: '0.5px solid var(--border)',
+            borderRadius: 14,
+            padding: '10px 12px',
+            marginBottom: 8,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
+        >
+          <div>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 4,
+                fontSize: 11,
+                color: 'var(--ink-3)',
+                marginBottom: 3,
+              }}
+            >
+              <AccessTimeIcon sx={{ fontSize: 12, color: 'var(--ink-3)' }} />
+              <span>{time}</span>
+            </div>
+            <div style={{ fontSize: 14, fontWeight: 500, color: 'var(--ink)' }}>{description}</div>
+          </div>
           {!readOnly && (
             <MenuControl onClick={onClick} id={id} datetime={datetime} description={description} trip_id={trip_id} />
           )}
         </div>
-        <Text variant="body1" color="grey.800">
-          {description}
-        </Text>
-      </TimelineContent>
-    </MUITimelineItem>
+      </div>
+    </div>
   )
 }

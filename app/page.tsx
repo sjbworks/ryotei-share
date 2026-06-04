@@ -19,9 +19,20 @@ async function HomeContent() {
   if (!accessToken) {
     redirect('/login')
   }
+  const { data: { user } } = await supabase.auth.getUser()
   const tripsData = await getTripsWithAuth(accessToken)
   const selectedTripId = tripsData?.tripsCollection?.edges?.[0]?.node.id
   const ryoteiData = selectedTripId ? await getRyoteiByTripIdWithAuth(selectedTripId, accessToken) : null
 
-  return <MainView initialTripsData={tripsData} initialRyoteiData={ryoteiData} initialSelectedTripId={selectedTripId} />
+  return (
+    <MainView
+      initialTripsData={tripsData}
+      initialRyoteiData={ryoteiData}
+      initialSelectedTripId={selectedTripId}
+      user={{
+        email: user?.email ?? null,
+        name: user?.user_metadata?.full_name ?? user?.user_metadata?.name ?? null,
+      }}
+    />
+  )
 }
