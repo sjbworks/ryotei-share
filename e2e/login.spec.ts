@@ -10,8 +10,8 @@ test.describe('Login page', () => {
 
   test('shows Google and GitHub login buttons', async ({ page }) => {
     await page.goto('/login')
-    await expect(page.getByRole('button', { name: 'Googleでログイン' })).toBeVisible()
-    await expect(page.getByRole('button', { name: 'Githubでログイン' })).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Google でログイン' })).toBeVisible()
+    await expect(page.getByRole('button', { name: 'GitHub でログイン' })).toBeVisible()
   })
 
   test('redirects to /login when accessing / without auth', async ({ page }) => {

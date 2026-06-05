@@ -104,18 +104,17 @@ test.describe('Itinerary detail flow', () => {
   })
 
   test('shows account menu icon', async ({ page }) => {
-    await expect(page.getByRole('button', { name: 'account menu' })).toBeVisible()
+    await expect(page.getByRole('button', { name: 'アカウントメニュー' })).toBeVisible()
   })
 
-  test('shows SpeedDial action buttons', async ({ page }) => {
-    const speedDial = page.getByLabel('SpeedDial: 予定を追加, 旅程をシェア')
-    await expect(speedDial).toBeVisible()
+  test('shows add schedule button', async ({ page }) => {
+    await expect(page.getByRole('button', { name: '予定を追加' })).toBeVisible()
   })
 
   test('opens account menu with logout option', async ({ page }) => {
-    await page.getByRole('button', { name: 'account menu' }).click()
-    await expect(page.getByRole('menuitem', { name: 'ログアウト' })).toBeVisible()
-    await expect(page.getByRole('menuitem', { name: '退会' })).toBeVisible()
-    await expect(page.getByRole('menuitem', { name: '利用規約・プライバシーポリシー' })).toBeVisible()
+    await page.getByRole('button', { name: 'アカウントメニュー' }).click()
+    await expect(page.getByRole('button', { name: 'ログアウト' })).toBeVisible()
+    await expect(page.getByRole('button', { name: '退会' })).toBeVisible()
+    await expect(page.getByRole('button', { name: '利用規約・プライバシーポリシー' })).toBeVisible()
   })
 })
