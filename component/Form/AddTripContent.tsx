@@ -1,6 +1,7 @@
 import { type FieldErrors, type UseFormRegister } from 'react-hook-form'
 import TextField from '@mui/material/TextField'
 import { TripsInsertInput } from '@/feature/api/graphql'
+import { Text } from '@/component/Text'
 
 const textFieldSx = {
   width: '100%',
@@ -36,18 +37,19 @@ export const AddTripContent = ({
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <div>
-        <span
-          style={{
+        <Text
+          component="span"
+          sx={{
             display: 'block',
             fontSize: 11,
             fontWeight: 500,
-            color: '#a8a29e',
+            color: 'var(--ink-3)',
             letterSpacing: '0.06em',
-            marginBottom: 6,
+            mb: '6px',
           }}
         >
           旅程名
-        </span>
+        </Text>
         <TextField
           {...register('name', { required: true })}
           error={!!errors.name}

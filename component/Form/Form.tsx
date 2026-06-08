@@ -10,6 +10,8 @@ import { ShareTripContent } from './ShareTripContent'
 import { ChangeTripStatusContent } from './ChangeTripStatusContent'
 import { CreateUpdateContent } from './CreateUpdateContent'
 import { AddTripContent } from './AddTripContent'
+import { Button } from '@/component/Button'
+import { Text } from '@/component/Text'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 
 type Props = {
@@ -76,9 +78,15 @@ export const Form = ({ onSubmit, data, onClose, action, mode, open }: Props) => 
       case 'editTrip':
         return <AddTripContent register={tripRegister} errors={tripErrors} />
       case 'shareTrip':
-        return <ShareTripContent />
+        return <ShareTripContent onPublish={getSubmitHandler()} onClose={onClose} />
       case 'switchTripStatus':
-        return <ChangeTripStatusContent key={String(open)} data={data as ShareInsertInput} />
+        return (
+          <ChangeTripStatusContent
+            key={String(open)}
+            data={data as ShareInsertInput}
+            onStopSharing={getSubmitHandler()}
+          />
+        )
       default:
         return <CreateUpdateContent register={register} control={control} errors={errors} />
     }
@@ -127,47 +135,36 @@ export const Form = ({ onSubmit, data, onClose, action, mode, open }: Props) => 
         >
           <ExpandMoreIcon sx={{ fontSize: 18, color: 'var(--ink-2)' }} />
         </button>
-        <span style={{ fontSize: 15, fontWeight: 500, color: 'var(--ink)' }}>{title}</span>
+        <Text sx={{ fontSize: 15, fontWeight: 500, color: 'var(--ink)' }}>{title}</Text>
       </div>
 
-      <div style={{ padding: '24px 18px', display: 'flex', flexDirection: 'column', gap: 16 }}>
-        {renderContent()}
+      {(() => {
+        const isShareMode = mode === 'shareTrip' || mode === 'switchTripStatus'
+        return (
+          <div style={{ padding: isShareMode ? '16px 18px 24px' : '24px 18px', display: 'flex', flexDirection: 'column', gap: isShareMode ? 0 : 16 }}>
+            {renderContent()}
 
-        <div style={{ display: 'flex', gap: 10, marginTop: 4 }}>
-          <button
-            onClick={() => onClose?.()}
-            style={{
-              flex: 1,
-              height: 48,
-              borderRadius: 14,
-              border: '0.5px solid var(--border-md)',
-              background: '#fff',
-              fontSize: 14,
-              fontWeight: 500,
-              color: 'var(--ink-2)',
-              cursor: 'pointer',
-            }}
-          >
-            キャンセル
-          </button>
-          <button
-            onClick={getSubmitHandler()}
-            style={{
-              flex: 2,
-              height: 48,
-              borderRadius: 14,
-              border: 'none',
-              background: destructive ? '#dc2626' : 'var(--sun)',
-              fontSize: 14,
-              fontWeight: 500,
-              color: '#fff',
-              cursor: 'pointer',
-            }}
-          >
-            {action?.label || '登録'}
-          </button>
-        </div>
-      </div>
+            {!isShareMode && (
+              <div style={{ display: 'flex', gap: 10, marginTop: 4 }}>
+                <Button
+                  variant="secondary"
+                  onClick={() => onClose?.()}
+                  sx={{ flex: 1 }}
+                >
+                  キャンセル
+                </Button>
+                <Button
+                  variant={destructive ? 'danger' : 'primary'}
+                  onClick={getSubmitHandler()}
+                  sx={{ flex: 2 }}
+                >
+                  {action?.label || '登録'}
+                </Button>
+              </div>
+            )}
+          </div>
+        )
+      })()}
     </div>
   )
 }
