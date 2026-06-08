@@ -1,3 +1,5 @@
+import { Text } from '@/component/Text'
+
 export default function ErrorPage() {
-  return <p>Sorry, something went wrong</p>
+  return <Text>Sorry, something went wrong</Text>
 }
