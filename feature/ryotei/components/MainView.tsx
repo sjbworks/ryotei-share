@@ -15,7 +15,9 @@ import { GetTripsQuery, GetRyoteiQuery } from '@/feature/api/graphql'
 import MenuIcon from '@mui/icons-material/Menu'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import AddIcon from '@mui/icons-material/Add'
+import IosShareIcon from '@mui/icons-material/IosShare'
 import { Text } from '@/component/Text'
+import { Button } from '@/component/Button'
 import Image from 'next/image'
 import Orbit from '@/assets/image/orbit.png'
 
@@ -59,7 +61,7 @@ export const MainView = ({ initialTripsData, initialRyoteiData, initialSelectedT
     }
   }
 
-  const { handleClick, bottomSheet, bottomFormProps, onMenuClick, onClickAddTrip, onClickWithdrawAccount, formState } = useTimeline(
+  const { handleClick, bottomSheet, bottomFormProps, onMenuClick, onClickAddTrip, onClickWithdrawAccount, formState, onClickShareTrip } = useTimeline(
     refetch,
     refetchTrip,
     selectedTripId,
@@ -132,19 +134,38 @@ export const MainView = ({ initialTripsData, initialRyoteiData, initialSelectedT
           <MenuIcon sx={{ fontSize: 17, color: 'var(--ink-2)' }} />
         </button>
 
-        <span
-          style={{
+        <Text
+          noWrap
+          sx={{
             fontSize: 15,
             fontWeight: 500,
             color: 'var(--ink)',
             flex: 1,
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            whiteSpace: 'nowrap',
           }}
         >
           {title}
-        </span>
+        </Text>
+
+        {selectedTripId && trips.length > 0 && (
+          <button
+            onClick={() => onClickShareTrip({ trip_id: selectedTripId })}
+            aria-label="旅程をシェア"
+            style={{
+              width: 34,
+              height: 34,
+              borderRadius: 10,
+              border: '0.5px solid var(--border-md)',
+              background: '#fff',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              flexShrink: 0,
+            }}
+          >
+            <IosShareIcon sx={{ fontSize: 17, color: 'var(--sky-dark)' }} />
+          </button>
+        )}
 
         <button
           onClick={handleMenuOpen}
@@ -188,23 +209,13 @@ export const MainView = ({ initialTripsData, initialRyoteiData, initialSelectedT
             <Text variant="body1">旅行の予定を立てるために、まず旅程を作成してください。</Text>
             <Image src={Orbit} alt="Orbit Image" width={150} height={150} style={{ margin: 28 }} priority />
             {!loading && (
-              <button
+              <Button
+                variant="primary"
                 onClick={onSideOpen}
-                style={{
-                  marginTop: 4,
-                  height: 48,
-                  padding: '0 24px',
-                  borderRadius: 14,
-                  background: 'var(--sun)',
-                  border: 'none',
-                  color: '#fff',
-                  fontSize: 14,
-                  fontWeight: 500,
-                  cursor: 'pointer',
-                }}
+                sx={{ mt: '4px', px: '24px' }}
               >
                 旅程を作成
-              </button>
+              </Button>
             )}
           </div>
         ) : ryoteiError ? (
