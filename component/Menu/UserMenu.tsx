@@ -5,6 +5,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import LogoutIcon from '@mui/icons-material/Logout'
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove'
 import ArticleIcon from '@mui/icons-material/Article'
+import { Text } from '@/component/Text'
 
 type Props = {
   open: boolean
@@ -101,14 +102,20 @@ export const UserMenu = ({ open, anchorEl, onClose, email, name, onLogout, onWit
         </div>
         <div style={{ minWidth: 0 }}>
           {name && (
-            <div style={{ fontSize: 13, fontWeight: 500, color: '#1c1917', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+            <Text
+              noWrap
+              sx={{ fontSize: 13, fontWeight: 500, color: 'var(--ink)' }}
+            >
               {name}
-            </div>
+            </Text>
           )}
           {email && (
-            <div style={{ fontSize: 11, color: '#a8a29e', marginTop: name ? 1 : 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+            <Text
+              noWrap
+              sx={{ fontSize: 11, color: 'var(--ink-3)', mt: name ? '1px' : 0 }}
+            >
               {email}
-            </div>
+            </Text>
           )}
         </div>
       </div>
