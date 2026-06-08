@@ -674,6 +674,120 @@
         color: var(--ink-2);
         text-align: center;
       }
+
+      /* ── Share: published state ── */
+      .sh-status {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 0 18px 10px;
+        padding: 10px 14px;
+        background: #f0fdf4;
+        border: 0.5px solid #bbf7d0;
+        border-radius: 12px;
+      }
+      .sh-status-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #16a34a;
+        flex-shrink: 0;
+      }
+      .sh-status-text {
+        font-size: 13px;
+        font-weight: 500;
+        color: #16a34a;
+      }
+      .sh-divider-soft {
+        height: 0.5px;
+        background: var(--border);
+        margin: 14px 0;
+      }
+      .sh-desc {
+        margin: 0 18px 16px;
+        padding: 12px 14px;
+        background: var(--sand);
+        border: 0.5px solid var(--border-md);
+        border-radius: 12px;
+        font-size: 13px;
+        color: var(--ink-2);
+        line-height: 1.6;
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      .sh-desc i {
+        font-size: 17px;
+        color: var(--ink-3);
+        margin-top: 1px;
+        flex-shrink: 0;
+      }
+      .sh-publish {
+        margin: 0 18px 10px;
+        height: 48px;
+        border-radius: 13px;
+        background: var(--sun);
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        color: #fff;
+        transition: opacity 0.15s;
+      }
+      .sh-publish:hover {
+        opacity: 0.88;
+      }
+      .sh-publish i {
+        font-size: 18px;
+        color: rgba(255, 255, 255, 0.85);
+      }
+      .sh-cancel-btn {
+        margin: 0 18px;
+        height: 44px;
+        border-radius: 13px;
+        border: 0.5px solid var(--border-md);
+        background: var(--white);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--ink-2);
+        transition: background 0.15s;
+      }
+      .sh-cancel-btn:hover {
+        background: var(--sand);
+      }
+      .sh-stop {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin: 0 18px;
+        height: 46px;
+        border-radius: 12px;
+        border: 0.5px solid #fecaca;
+        background: #fef2f2;
+        font-size: 14px;
+        font-weight: 500;
+        color: #dc2626;
+        cursor: pointer;
+        transition: opacity 0.15s;
+      }
+      .sh-stop:hover {
+        opacity: 0.8;
+      }
+      .sh-stop i {
+        font-size: 17px;
+        color: #dc2626;
+      }
     </style>
   </head>
   <body>
@@ -860,42 +974,64 @@
       <div class="share-sheet" id="shareSheet">
         <div class="sh-handle-row"><div class="sh-handle"></div></div>
         <p class="sh-title">旅程をシェア</p>
-        <div class="sh-url">
-          <span class="sh-url-text" id="shareUrl">https://ryotei.app/share/abc123</span>
-          <div class="sh-copy" id="copyBtn" onclick="copyUrl()">
-            <i class="ti ti-copy"></i><span id="copyLabel">コピー</span>
+
+        <!-- 未公開状態 -->
+        <div id="shUnpublished">
+          <div class="sh-desc">
+            <i class="ti ti-info-circle"></i>
+            <span>公開するとURLを知っている人が旅程を閲覧できます。公開後にいつでも停止できます。</span>
           </div>
+          <button class="sh-publish" onclick="publishShare()">
+            <i class="ti ti-world-upload"></i>公開してシェアする
+          </button>
+          <button class="sh-cancel-btn" onclick="closeShare()">キャンセル</button>
         </div>
-        <a class="sh-link" href="https://ryotei.app/share/abc123" target="_blank" rel="noopener">
-          <i class="ti ti-external-link"></i>
-          <span>ブラウザで開く</span>
-        </a>
-        <div class="sh-divider"></div>
-        <div class="sh-grid">
-          <div class="sh-app">
-            <div class="sh-app-icon" style="background: #e7f4ff; border-color: #bde0ff">
-              <i class="ti ti-brand-twitter" style="color: #1a8cd8"></i>
-            </div>
-            <span class="sh-app-label">X</span>
+
+        <!-- 公開済み状態 -->
+        <div id="shPublished" style="display: none">
+          <div class="sh-status">
+            <div class="sh-status-dot"></div>
+            <span class="sh-status-text">公開中</span>
           </div>
-          <div class="sh-app">
-            <div class="sh-app-icon" style="background: #e8f8ee; border-color: #b5e8c8">
-              <i class="ti ti-brand-line" style="color: #06c755"></i>
+          <div class="sh-url">
+            <span class="sh-url-text" id="shareUrl">https://ryotei.app/share/abc123</span>
+            <div class="sh-copy" id="copyBtn" onclick="copyUrl()">
+              <i class="ti ti-copy"></i><span id="copyLabel">コピー</span>
             </div>
-            <span class="sh-app-label">LINE</span>
           </div>
-          <div class="sh-app">
-            <div class="sh-app-icon" style="background: var(--sun-light); border-color: var(--sun-mid)">
-              <i class="ti ti-mail" style="color: var(--sun-dark)"></i>
+          <a class="sh-link" href="https://ryotei.app/share/abc123" target="_blank" rel="noopener">
+            <i class="ti ti-external-link"></i>
+            <span>ブラウザで開く</span>
+          </a>
+          <div class="sh-divider"></div>
+          <div class="sh-grid" style="margin-bottom: 0">
+            <div class="sh-app">
+              <div class="sh-app-icon" style="background: #e7f4ff; border-color: #bde0ff">
+                <i class="ti ti-brand-twitter" style="color: #1a8cd8"></i>
+              </div>
+              <span class="sh-app-label">X</span>
             </div>
-            <span class="sh-app-label">メール</span>
-          </div>
-          <div class="sh-app">
-            <div class="sh-app-icon" style="background: var(--sand); border-color: var(--border-md)">
-              <i class="ti ti-dots-horizontal" style="color: var(--ink-2)"></i>
+            <div class="sh-app">
+              <div class="sh-app-icon" style="background: #e8f8ee; border-color: #b5e8c8">
+                <i class="ti ti-brand-line" style="color: #06c755"></i>
+              </div>
+              <span class="sh-app-label">LINE</span>
             </div>
-            <span class="sh-app-label">その他</span>
+            <div class="sh-app">
+              <div class="sh-app-icon" style="background: var(--sun-light); border-color: var(--sun-mid)">
+                <i class="ti ti-mail" style="color: var(--sun-dark)"></i>
+              </div>
+              <span class="sh-app-label">メール</span>
+            </div>
+            <div class="sh-app">
+              <div class="sh-app-icon" style="background: var(--sand); border-color: var(--border-md)">
+                <i class="ti ti-dots-horizontal" style="color: var(--ink-2)"></i>
+              </div>
+              <span class="sh-app-label">その他</span>
+            </div>
           </div>
+          <div class="sh-divider-soft"></div>
+          <div class="sh-stop" onclick="stopSharing()"><i class="ti ti-eye-off"></i>公開を停止する</div>
         </div>
       </div>
     </div>
@@ -966,6 +1102,7 @@
         closeAll()
         closeUserMenu()
         if (!isOpen) {
+          renderShareSheet()
           openShare()
         } else {
           closeShare()
@@ -980,6 +1117,24 @@
         document.getElementById('shareOverlay').classList.remove('open')
         document.getElementById('shareSheet').classList.remove('open')
         document.getElementById('shareBtn').classList.remove('open')
+      }
+
+      let isPublished = false // ← 実装時はAPIから取得
+
+      function renderShareSheet() {
+        document.getElementById('shUnpublished').style.display = isPublished ? 'none' : 'block'
+        document.getElementById('shPublished').style.display = isPublished ? 'block' : 'none'
+      }
+
+      function publishShare() {
+        isPublished = true
+        renderShareSheet()
+      }
+
+      function stopSharing() {
+        if (!confirm('公開を停止しますか？\nリンクを知っている人がアクセスできなくなります。')) return
+        isPublished = false
+        renderShareSheet()
       }
 
       function copyUrl() {
