@@ -10,10 +10,10 @@ type Props = {
   style?: CSSProperties
   component?: ElementType
   sx?: SxProps
+  noWrap?: boolean
 }
 
-export const Text = (props: Props) => {
-  const { children, ...textProps } = props
+export const Text = ({ children, ...textProps }: Props) => {
   return (
     <Typography fontFamily={'inherit'} {...textProps}>
       {children}

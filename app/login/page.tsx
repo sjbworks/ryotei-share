@@ -8,6 +8,8 @@ import ShareIcon from '@mui/icons-material/Share'
 import LuggageIcon from '@mui/icons-material/Luggage'
 import GoogleIcon from '@mui/icons-material/Google'
 import GitHubIcon from '@mui/icons-material/GitHub'
+import { Text } from '@/component/Text'
+import { Button } from '@/component/Button'
 
 const featureCards = [
   {
@@ -54,10 +56,10 @@ export default function Login() {
           >
             <FlightIcon style={{ fontSize: 20, color: '#fff', transform: 'rotate(45deg)' }} />
           </div>
-          <span style={{ fontSize: 22, fontWeight: 500, color: 'var(--ink)' }}>Ryotei Share</span>
+          <Text sx={{ fontSize: 22, fontWeight: 500, color: 'var(--ink)' }}>Ryotei Share</Text>
         </div>
 
-        <p style={{ fontSize: 14, color: 'var(--ink-2)', marginTop: 8 }}>旅程を作って、シェアしよう</p>
+        <Text sx={{ fontSize: 14, color: 'var(--ink-2)', mt: 1 }}>旅程を作って、シェアしよう</Text>
 
         <div className="grid grid-cols-2 gap-3 w-full" style={{ marginTop: 40 }}>
           {featureCards.map(({ icon, label, sub }) => (
@@ -74,46 +76,32 @@ export default function Login() {
               }}
             >
               {icon}
-              <span style={{ fontSize: 13, fontWeight: 500, color: 'var(--ink)' }}>{label}</span>
-              <span style={{ fontSize: 11, color: 'var(--ink-3)' }}>{sub}</span>
+              <Text sx={{ fontSize: 13, fontWeight: 500, color: 'var(--ink)' }}>{label}</Text>
+              <Text sx={{ fontSize: 11, color: 'var(--ink-3)' }}>{sub}</Text>
             </div>
           ))}
         </div>
 
         <div className="flex flex-col gap-2.5 w-full" style={{ marginTop: 48 }}>
-          <button
+          <Button
+            variant="primary"
+            fullWidth
+            startIcon={<GoogleIcon style={{ fontSize: 20, color: 'rgba(255,255,255,0.85)' }} />}
             onClick={() => login('google' as Provider)}
-            className="flex items-center justify-center gap-2.5 w-full cursor-pointer transition-opacity hover:opacity-90 active:opacity-80"
-            style={{
-              height: 50,
-              borderRadius: 15,
-              border: 'none',
-              background: 'var(--sun)',
-              color: '#fff',
-              fontSize: 15,
-              fontWeight: 500,
-            }}
+            sx={{ borderRadius: '15px', height: 50, fontSize: 15 }}
           >
-            <GoogleIcon style={{ fontSize: 20, color: 'rgba(255,255,255,0.85)' }} />
             Google でログイン
-          </button>
+          </Button>
 
-          <button
+          <Button
+            variant="secondary"
+            fullWidth
+            startIcon={<GitHubIcon style={{ fontSize: 20, color: 'var(--ink-3)' }} />}
             onClick={() => login('github' as Provider)}
-            className="flex items-center justify-center gap-2.5 w-full cursor-pointer transition-opacity hover:opacity-90 active:opacity-80"
-            style={{
-              height: 50,
-              borderRadius: 15,
-              border: '0.5px solid var(--border-md)',
-              background: '#fff',
-              color: 'var(--ink)',
-              fontSize: 15,
-              fontWeight: 500,
-            }}
+            sx={{ borderRadius: '15px', height: 50, fontSize: 15 }}
           >
-            <GitHubIcon style={{ fontSize: 20, color: 'var(--ink-3)' }} />
             GitHub でログイン
-          </button>
+          </Button>
         </div>
       </div>
     </div>

@@ -2,6 +2,7 @@
 import { BottomDrawer } from '@/component/Drawer/BottomDrawer'
 import { Menu } from '@/component/Menu/Menu'
 import { EditIcon, DeleteIcon } from '@/component'
+import { Button } from '@/component/Button'
 import IconButton from '@mui/material/IconButton'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import FlightIcon from '@mui/icons-material/Flight'
@@ -80,31 +81,17 @@ export const TripListDrawer = ({
   return (
     <BottomDrawer open={open} onClose={onClose} onOpen={onOpen}>
       <div data-testid="trip-list-drawer" style={{ paddingTop: 16, paddingBottom: 16 }}>
-        <button
+        <Button
+          variant="primary"
+          startIcon={<AddIcon sx={{ fontSize: 18, color: 'rgba(255,255,255,0.85)' }} />}
           onClick={() => {
             onClickAddTrip()
             onClose()
           }}
-          style={{
-            margin: '0 14px 6px',
-            width: 'calc(100% - 28px)',
-            height: 48,
-            borderRadius: 14,
-            background: 'var(--sun)',
-            border: 'none',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: 8,
-            fontSize: 14,
-            fontWeight: 500,
-            color: '#fff',
-          }}
+          sx={{ mx: '14px', mb: '6px', width: 'calc(100% - 28px)' }}
         >
-          <AddIcon sx={{ fontSize: 18, color: 'rgba(255,255,255,0.85)' }} />
           旅程を作成
-        </button>
+        </Button>
 
         {trips.map((trip) => {
           const isActive = trip.id === selectedTripId
@@ -118,7 +105,6 @@ export const TripListDrawer = ({
                 paddingRight: 8,
               }}
             >
-              {/* 旅程選択ボタン（行の大部分） */}
               <button
                 onClick={() => {
                   onChangeTripId(trip.id)
@@ -183,7 +169,6 @@ export const TripListDrawer = ({
                 )}
               </button>
 
-              {/* メニューボタン（兄弟要素として分離） */}
               <IconButton
                 size="small"
                 onClick={(e) => handleMenuOpen(e, trip)}

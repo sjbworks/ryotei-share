@@ -674,6 +674,58 @@
         color: var(--ink-2);
         text-align: center;
       }
+
+      /* ── Share: published state ── */
+      .sh-status {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 0 18px 10px;
+        padding: 10px 14px;
+        background: #f0fdf4;
+        border: 0.5px solid #bbf7d0;
+        border-radius: 12px;
+      }
+      .sh-status-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #16a34a;
+        flex-shrink: 0;
+      }
+      .sh-status-text {
+        font-size: 13px;
+        font-weight: 500;
+        color: #16a34a;
+      }
+      .sh-divider-soft {
+        height: 0.5px;
+        background: var(--border);
+        margin: 14px 0;
+      }
+      .sh-stop {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin: 0 18px;
+        height: 46px;
+        border-radius: 12px;
+        border: 0.5px solid #fecaca;
+        background: #fef2f2;
+        font-size: 14px;
+        font-weight: 500;
+        color: #dc2626;
+        cursor: pointer;
+        transition: opacity 0.15s;
+      }
+      .sh-stop:hover {
+        opacity: 0.8;
+      }
+      .sh-stop i {
+        font-size: 17px;
+        color: #dc2626;
+      }
     </style>
   </head>
   <body>
@@ -860,6 +912,13 @@
       <div class="share-sheet" id="shareSheet">
         <div class="sh-handle-row"><div class="sh-handle"></div></div>
         <p class="sh-title">旅程をシェア</p>
+
+        <!-- 公開中バッジ（公開済み時のみ表示） -->
+        <div class="sh-status" id="shStatus" style="display: none">
+          <div class="sh-status-dot"></div>
+          <span class="sh-status-text">公開中</span>
+        </div>
+
         <div class="sh-url">
           <span class="sh-url-text" id="shareUrl">https://ryotei.app/share/abc123</span>
           <div class="sh-copy" id="copyBtn" onclick="copyUrl()">
@@ -871,7 +930,7 @@
           <span>ブラウザで開く</span>
         </a>
         <div class="sh-divider"></div>
-        <div class="sh-grid">
+        <div class="sh-grid" style="margin-bottom: 0">
           <div class="sh-app">
             <div class="sh-app-icon" style="background: #e7f4ff; border-color: #bde0ff">
               <i class="ti ti-brand-twitter" style="color: #1a8cd8"></i>
@@ -896,6 +955,12 @@
             </div>
             <span class="sh-app-label">その他</span>
           </div>
+        </div>
+
+        <!-- 公開停止ボタン（公開済み時のみ表示） -->
+        <div id="shStopWrap" style="display: none">
+          <div class="sh-divider-soft"></div>
+          <div class="sh-stop" onclick="stopSharing()"><i class="ti ti-eye-off"></i>公開を停止する</div>
         </div>
       </div>
     </div>
@@ -966,6 +1031,7 @@
         closeAll()
         closeUserMenu()
         if (!isOpen) {
+          renderShareSheet()
           openShare()
         } else {
           closeShare()
@@ -980,6 +1046,21 @@
         document.getElementById('shareOverlay').classList.remove('open')
         document.getElementById('shareSheet').classList.remove('open')
         document.getElementById('shareBtn').classList.remove('open')
+      }
+
+      /* ---- 公開状態の管理 ---- */
+      let isPublished = true // ← true: 公開済み / false: 未公開（実装時はAPIから取得）
+
+      function renderShareSheet() {
+        document.getElementById('shStatus').style.display = isPublished ? 'flex' : 'none'
+        document.getElementById('shStopWrap').style.display = isPublished ? 'block' : 'none'
+      }
+
+      function stopSharing() {
+        if (!confirm('公開を停止しますか？\nリンクを知っている人がアクセスできなくなります。')) return
+        isPublished = false
+        document.getElementById('shStatus').style.display = 'none'
+        document.getElementById('shStopWrap').style.display = 'none'
       }
 
       function copyUrl() {

@@ -4,6 +4,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import TextField from '@mui/material/TextField'
 import { RyoteiInsertInput } from '@/feature/api/graphql'
 import { ja } from 'date-fns/locale/ja'
+import { Text } from '@/component/Text'
 
 // MUI X v8 では PickersOutlinedInput / PickersInputBase 系のクラスを使う
 const datePickerTextFieldSx = {
@@ -58,18 +59,19 @@ const textFieldSx = {
 }
 
 const FieldLabel = ({ children }: { children: string }) => (
-  <span
-    style={{
+  <Text
+    component="span"
+    sx={{
       display: 'block',
       fontSize: 11,
       fontWeight: 500,
-      color: '#a8a29e',
+      color: 'var(--ink-3)',
       letterSpacing: '0.06em',
-      marginBottom: 6,
+      mb: '6px',
     }}
   >
     {children}
-  </span>
+  </Text>
 )
 
 export const CreateUpdateContent = ({

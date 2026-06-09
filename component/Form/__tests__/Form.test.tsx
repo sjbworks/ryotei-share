@@ -399,7 +399,7 @@ describe('Form', () => {
       share_id: 'share123',
     }
 
-    it('renders share trip confirmation message', () => {
+    it('renders share trip content with publish button', () => {
       render(
         <Form
           mode="shareTrip"
@@ -410,8 +410,8 @@ describe('Form', () => {
         />
       )
 
-      expect(screen.getByText('この旅程をシェアしますか？')).toBeInTheDocument()
-      expect(screen.getByRole('button', { name: 'シェア' })).toBeInTheDocument()
+      expect(screen.getByText('公開してシェアする')).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: 'キャンセル' })).toBeInTheDocument()
     })
   })
 
@@ -433,8 +433,8 @@ describe('Form', () => {
         />
       )
 
-      expect(screen.getByText('シェアしているURL')).toBeInTheDocument()
-      expect(screen.getByText('リンクをコピー')).toBeInTheDocument()
+      expect(screen.getByText('公開中')).toBeInTheDocument()
+      expect(screen.getByText('コピー')).toBeInTheDocument()
       // jsdom defaults to http://localhost
       const shareUrl = 'http://localhost/share123'
       expect(screen.getByText(shareUrl)).toBeInTheDocument()
@@ -452,7 +452,7 @@ describe('Form', () => {
         />
       )
 
-      const copyButton = screen.getByRole('button', { name: '' })
+      const copyButton = screen.getByRole('button', { name: /コピー/ })
       fireEvent.click(copyButton)
 
       await waitFor(() => {
@@ -460,7 +460,7 @@ describe('Form', () => {
       })
 
       await waitFor(() => {
-        expect(screen.getByText('リンクをコピーしました')).toBeInTheDocument()
+        expect(screen.getByText('コピー済み')).toBeInTheDocument()
       })
     })
 
@@ -476,11 +476,11 @@ describe('Form', () => {
         />
       )
 
-      const copyButton = screen.getByRole('button', { name: '' })
+      const copyButton = screen.getByRole('button', { name: /コピー/ })
       fireEvent.click(copyButton)
 
       await waitFor(() => {
-        expect(screen.getByText('リンクをコピーしました')).toBeInTheDocument()
+        expect(screen.getByText('コピー済み')).toBeInTheDocument()
       })
 
       // Close modal
@@ -496,7 +496,7 @@ describe('Form', () => {
       )
 
       await waitFor(() => {
-        expect(screen.queryByText('リンクをコピーしました')).not.toBeInTheDocument()
+        expect(screen.queryByText('コピー済み')).not.toBeInTheDocument()
       })
     })
   })
