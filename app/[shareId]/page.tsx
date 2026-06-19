@@ -30,7 +30,7 @@ export default async function Share({ params }: { params: Promise<{ shareId: str
 
   if (!tripId || !tripData?.is_public) {
     return (
-      <div className="flex flex-col items-center justify-center h-full background">
+      <div style={{ flex: 1, background: 'var(--sand)', width: '100%' }} className="flex flex-col items-center justify-center">
         <div className="flex flex-col items-center justify-center p-8 text-center gap-2">
           <Text variant="h6">旅程が見つかりませんでした</Text>
           <Text color="grey.600" variant="body1">
@@ -48,16 +48,18 @@ export default async function Share({ params }: { params: Promise<{ shareId: str
   }
 
   return (
-    <div className="flex flex-col gap-4 relative max-w-2xl mx-auto w-full py-8 px-6">
-      <div className="flex items-center gap-2 pt-4">
-        <Image src={World} alt="World Image" width={48} height={48} />
-        <Text variant="h5" fontWeight="700">
-          {tripName}
-        </Text>
+    <div style={{ flex: 1, background: 'var(--sand)', width: '100%' }}>
+      <div className="flex flex-col gap-4 relative max-w-2xl mx-auto w-full py-8 px-6">
+        <div className="flex items-center gap-2 pt-4">
+          <Image src={World} alt="World Image" width={48} height={48} />
+          <Text variant="h5" fontWeight="700">
+            {tripName}
+          </Text>
+        </div>
+        {Object.entries(ryoteiList).map(([key, item]) => (
+          <Timeline key={key} title={key} items={item} readOnly={true} className="mb-3" />
+        ))}
       </div>
-      {Object.entries(ryoteiList).map(([key, item]) => (
-        <Timeline key={key} title={key} items={item} readOnly={true} className="mb-3" />
-      ))}
     </div>
   )
 }
