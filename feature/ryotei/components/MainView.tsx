@@ -104,7 +104,7 @@ export const MainView = ({ initialTripsData, initialRyoteiData, initialSelectedT
     >
       <header
         style={{
-          background: '#fff',
+          background: 'var(--sand)',
           padding: '14px 18px',
           borderBottom: '0.5px solid var(--border)',
           display: 'flex',
