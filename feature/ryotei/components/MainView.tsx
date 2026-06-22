@@ -224,7 +224,7 @@ export const MainView = ({ initialTripsData, initialRyoteiData, initialSelectedT
             <Text color="grey.600" variant="body1">しばらく時間をおいてから再度お試しください。</Text>
           </div>
         ) : (
-          <TimelineView data={data} onMenuClick={onMenuClick} />
+          <TimelineView data={data} onMenuClick={onMenuClick} onAdd={handleClickAdd} />
         )}
       </main>
 

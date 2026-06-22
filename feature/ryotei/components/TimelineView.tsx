@@ -6,11 +6,12 @@ import { Plan } from '@/component/Timeline/TimelineItem'
 type Props = {
   data: Record<string, Plan[]> | undefined
   onMenuClick?: (action: ActionType, plan: Plan) => void
+  onAdd?: () => void
 }
 
-export const TimelineView = ({ data, onMenuClick }: Props) => {
+export const TimelineView = ({ data, onMenuClick, onAdd }: Props) => {
   const isExist = useMemo(() => data && Object.keys(data).length > 0, [data])
-  if (!isExist) return <NoData />
+  if (!isExist) return <NoData onAdd={onAdd} />
 
   return (
     <>
