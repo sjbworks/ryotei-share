@@ -133,6 +133,7 @@ export const NoData = ({ onAdd }: Props) => {
             fontWeight: 500,
             color: '#fff',
           }}
+          type="button"
         >
           <AddIcon style={{ fontSize: 20, color: 'rgba(255,255,255,0.85)' }} aria-hidden />
           最初の予定を追加する
