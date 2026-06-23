@@ -108,7 +108,7 @@
         color: var(--sun-dark);
       }
 
-      /* ── Timeline body (behind drawer) ── */
+      /* ── Timeline ── */
       .tl-body {
         background: var(--sand);
         padding: 12px 18px 80px;
@@ -199,7 +199,6 @@
         inset: 0;
         background: rgba(28, 25, 23, 0.18);
         z-index: 40;
-        transition: opacity 0.3s;
       }
       .overlay.open {
         display: block;
@@ -351,19 +350,46 @@
         font-weight: 500;
         color: var(--ink);
       }
+
+      /* ── Form body ── */
       .form-body {
-        padding: 24px 18px;
+        padding: 20px 18px;
         display: flex;
         flex-direction: column;
-        gap: 16px;
+        gap: 14px;
+      }
+
+      /* フィールドラベル行 */
+      .field-label-row {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 6px;
       }
       .field-label {
         font-size: 11px;
         font-weight: 500;
         color: var(--ink-3);
         letter-spacing: 0.06em;
-        margin-bottom: 6px;
       }
+      .field-badge {
+        font-size: 10px;
+        font-weight: 500;
+        padding: 2px 6px;
+        border-radius: 4px;
+        letter-spacing: 0.03em;
+      }
+      .field-badge.required {
+        background: var(--sun-light);
+        color: var(--sun-dark);
+      }
+      .field-badge.optional {
+        background: var(--sand);
+        color: var(--ink-3);
+        border: 0.5px solid var(--border-md);
+      }
+
+      /* フィールドコントロール */
       .field-ctrl {
         height: 48px;
         background: var(--sand);
@@ -386,6 +412,55 @@
         font-size: 16px;
         color: var(--ink-3);
       }
+
+      /* 場所フィールド */
+      .field-ctrl.location {
+        transition: border-color 0.15s;
+      }
+      .field-ctrl.location.filled {
+        border-color: var(--sky-mid);
+      }
+      .field-ctrl.location.filled .location-icon {
+        color: var(--sky-dark);
+      }
+      .location-icon {
+        font-size: 16px;
+        color: var(--ink-3);
+        flex-shrink: 0;
+      }
+      .location-text {
+        flex: 1;
+        font-size: 14px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        padding: 0 8px;
+      }
+      .location-text.placeholder {
+        color: var(--ink-3);
+      }
+      .location-text.value {
+        color: var(--ink);
+      }
+      .location-clear {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: var(--border-md);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        flex-shrink: 0;
+      }
+      .location-clear i {
+        font-size: 11px;
+        color: var(--ink-2);
+      }
+      .field-ctrl.location.filled .location-clear {
+        display: flex;
+      }
+
       .form-actions {
         display: flex;
         gap: 10px;
@@ -469,7 +544,7 @@
         <div class="avatar"><i class="ti ti-user"></i></div>
       </header>
 
-      <!-- Timeline (behind drawer) -->
+      <!-- Timeline -->
       <div class="tl-body" id="tlBody">
         <div style="margin-top: 16px">
           <div class="date-pill"><i class="ti ti-calendar"></i>2025年12月15日</div>
@@ -577,19 +652,44 @@
             <span class="form-header-title">予定を入力</span>
           </div>
           <div class="form-body">
+            <!-- 日時（必須） -->
             <div>
-              <div class="field-label">日時</div>
+              <div class="field-label-row">
+                <span class="field-label">日時</span>
+                <span class="field-badge required">必須</span>
+              </div>
               <div class="field-ctrl focus">
                 <span>2025 / 12 / 15　21:20</span>
                 <i class="ti ti-calendar"></i>
               </div>
             </div>
+
+            <!-- 内容（必須） -->
             <div>
-              <div class="field-label">内容</div>
+              <div class="field-label-row">
+                <span class="field-label">内容</span>
+                <span class="field-badge required">必須</span>
+              </div>
               <div class="field-ctrl">
                 <span style="color: var(--ink-3)">予定の内容を入力</span>
               </div>
             </div>
+
+            <!-- 場所（任意） -->
+            <div>
+              <div class="field-label-row">
+                <span class="field-label">場所</span>
+                <span class="field-badge optional">任意</span>
+              </div>
+              <div class="field-ctrl location" id="locationCtrl" onclick="toggleLocation()">
+                <i class="ti ti-map-pin location-icon"></i>
+                <span class="location-text placeholder" id="locationText">場所を追加</span>
+                <div class="location-clear" id="locationClear" onclick="clearLocation(event)">
+                  <i class="ti ti-x"></i>
+                </div>
+              </div>
+            </div>
+
             <div class="form-actions">
               <button class="btn-cancel" onclick="closeForm()">キャンセル</button>
               <button class="btn-submit"><i class="ti ti-check"></i>追加する</button>
@@ -617,6 +717,32 @@
       }
       function closeForm() {
         document.getElementById('formOverlay').classList.remove('open')
+      }
+
+      /* 場所フィールドのトグル（プロトタイプ用：クリックで入力済み状態を切り替え） */
+      const DEMO_LOCATION = '成田国際空港 第1ターミナル'
+      let locationFilled = false
+
+      function toggleLocation() {
+        if (locationFilled) return
+        locationFilled = true
+        const ctrl = document.getElementById('locationCtrl')
+        const text = document.getElementById('locationText')
+        ctrl.classList.add('filled')
+        text.textContent = DEMO_LOCATION
+        text.classList.remove('placeholder')
+        text.classList.add('value')
+      }
+
+      function clearLocation(e) {
+        e.stopPropagation()
+        locationFilled = false
+        const ctrl = document.getElementById('locationCtrl')
+        const text = document.getElementById('locationText')
+        ctrl.classList.remove('filled')
+        text.textContent = '場所を追加'
+        text.classList.remove('value')
+        text.classList.add('placeholder')
       }
     </script>
   </body>
