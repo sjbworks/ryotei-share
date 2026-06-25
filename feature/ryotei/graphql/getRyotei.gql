@@ -6,6 +6,10 @@ query GetRyotei($orderBy: [ryoteiOrderBy!], $filter: ryoteiFilter) {
         description
         datetime
         trip_id
+        place_name
+        place_id
+        latitude
+        longitude
       }
     }
   }

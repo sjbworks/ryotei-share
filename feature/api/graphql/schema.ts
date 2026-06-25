@@ -403,8 +403,12 @@ export type Ryotei = Node & {
   datetime: Scalars['Datetime']['output']
   description: Scalars['String']['output']
   id: Scalars['UUID']['output']
+  latitude?: Maybe<Scalars['Float']['output']>
+  longitude?: Maybe<Scalars['Float']['output']>
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output']
+  place_id?: Maybe<Scalars['String']['output']>
+  place_name?: Maybe<Scalars['String']['output']>
   trip_id: Scalars['UUID']['output']
   trips?: Maybe<Trips>
   update_at?: Maybe<Scalars['Datetime']['output']>
@@ -438,11 +442,15 @@ export type RyoteiFilter = {
   datetime?: InputMaybe<DatetimeFilter>
   description?: InputMaybe<StringFilter>
   id?: InputMaybe<UuidFilter>
+  latitude?: InputMaybe<FloatFilter>
+  longitude?: InputMaybe<FloatFilter>
   nodeId?: InputMaybe<IdFilter>
   /** Negates a filter */
   not?: InputMaybe<RyoteiFilter>
   /** Returns true if at least one of its inner filters is true, otherwise returns false */
   or?: InputMaybe<Array<RyoteiFilter>>
+  place_id?: InputMaybe<StringFilter>
+  place_name?: InputMaybe<StringFilter>
   trip_id?: InputMaybe<UuidFilter>
   update_at?: InputMaybe<DatetimeFilter>
   user_id?: InputMaybe<UuidFilter>
@@ -453,6 +461,10 @@ export type RyoteiInsertInput = {
   datetime?: InputMaybe<Scalars['Datetime']['input']>
   description?: InputMaybe<Scalars['String']['input']>
   id?: InputMaybe<Scalars['UUID']['input']>
+  latitude?: InputMaybe<Scalars['Float']['input']>
+  longitude?: InputMaybe<Scalars['Float']['input']>
+  place_id?: InputMaybe<Scalars['String']['input']>
+  place_name?: InputMaybe<Scalars['String']['input']>
   trip_id?: InputMaybe<Scalars['UUID']['input']>
   update_at?: InputMaybe<Scalars['Datetime']['input']>
   user_id?: InputMaybe<Scalars['UUID']['input']>
@@ -471,6 +483,10 @@ export type RyoteiOrderBy = {
   datetime?: InputMaybe<OrderByDirection>
   description?: InputMaybe<OrderByDirection>
   id?: InputMaybe<OrderByDirection>
+  latitude?: InputMaybe<OrderByDirection>
+  longitude?: InputMaybe<OrderByDirection>
+  place_id?: InputMaybe<OrderByDirection>
+  place_name?: InputMaybe<OrderByDirection>
   trip_id?: InputMaybe<OrderByDirection>
   update_at?: InputMaybe<OrderByDirection>
   user_id?: InputMaybe<OrderByDirection>
@@ -481,6 +497,10 @@ export type RyoteiUpdateInput = {
   datetime?: InputMaybe<Scalars['Datetime']['input']>
   description?: InputMaybe<Scalars['String']['input']>
   id?: InputMaybe<Scalars['UUID']['input']>
+  latitude?: InputMaybe<Scalars['Float']['input']>
+  longitude?: InputMaybe<Scalars['Float']['input']>
+  place_id?: InputMaybe<Scalars['String']['input']>
+  place_name?: InputMaybe<Scalars['String']['input']>
   trip_id?: InputMaybe<Scalars['UUID']['input']>
   update_at?: InputMaybe<Scalars['Datetime']['input']>
   user_id?: InputMaybe<Scalars['UUID']['input']>

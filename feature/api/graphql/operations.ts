@@ -110,7 +110,17 @@ export type GetRyoteiQuery = {
     __typename?: 'ryoteiConnection'
     edges: Array<{
       __typename?: 'ryoteiEdge'
-      node: { __typename?: 'ryotei'; id: any; description: string; datetime: any; trip_id: any }
+      node: {
+        __typename?: 'ryotei'
+        id: any
+        description: string
+        datetime: any
+        trip_id: any
+        place_name?: string | null
+        place_id?: string | null
+        latitude?: number | null
+        longitude?: number | null
+      }
     }>
   } | null
 }
