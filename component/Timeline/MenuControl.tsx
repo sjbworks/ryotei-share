@@ -22,7 +22,7 @@ type Props = Plan & {
   className?: string
 }
 
-export const MenuControl = ({ onClick, id, datetime, description, className, trip_id }: Props) => {
+export const MenuControl = ({ onClick, id, datetime, description, className, trip_id, place_name, place_id, latitude, longitude }: Props) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
   const onOpen = (e: MouseEvent<HTMLButtonElement>) => setAnchorEl(e.currentTarget)
   const onClose = () => setAnchorEl(null)
@@ -32,7 +32,7 @@ export const MenuControl = ({ onClick, id, datetime, description, className, tri
   }
   const items = Object.entries(action).map(([key, Icon]) => ({
     label: actionLabel[key as Action],
-    action: () => onItemClick(key as Action, { id, datetime, description, trip_id }),
+    action: () => onItemClick(key as Action, { id, datetime, description, trip_id, place_name, place_id, latitude, longitude }),
     icon: <Icon />,
     variant: key === 'deleteRyotei' ? ('danger' as const) : undefined,
   }))

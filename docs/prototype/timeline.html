@@ -167,14 +167,18 @@
         border-radius: 14px;
         padding: 10px 12px;
         margin-bottom: 8px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
         cursor: pointer;
         transition: border-color 0.15s;
       }
       .event-card:hover {
         border-color: var(--border-md);
+      }
+
+      /* カード上段：時刻・タイトル・メニューボタン */
+      .event-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
       }
       .event-meta {
         display: flex;
@@ -195,10 +199,47 @@
       .event-more {
         padding: 4px;
         cursor: pointer;
+        flex-shrink: 0;
       }
       .event-more i {
         font-size: 17px;
         color: var(--ink-3);
+      }
+
+      /* 場所情報行 */
+      .event-location {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 8px;
+        padding-top: 8px;
+        border-top: 0.5px solid var(--border);
+        text-decoration: none;
+      }
+      .event-location i {
+        font-size: 13px;
+        color: var(--sky-dark);
+        flex-shrink: 0;
+      }
+      .event-location-name {
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--sky-dark);
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .event-location-link {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+        font-size: 11px;
+        color: var(--ink-3);
+        flex-shrink: 0;
+      }
+      .event-location-link i {
+        font-size: 12px;
       }
 
       /* FAB */
@@ -288,6 +329,8 @@
       <div class="body">
         <div class="date-group">
           <div class="date-pill"><i class="ti ti-calendar"></i>2025年12月15日</div>
+
+          <!-- 場所あり -->
           <div class="tl-row">
             <div class="rail">
               <div class="dot"></div>
@@ -295,11 +338,18 @@
             </div>
             <div class="event-wrap">
               <div class="event-card">
-                <div>
-                  <div class="event-meta"><i class="ti ti-clock"></i>21:20</div>
-                  <div class="event-title">$1</div>
+                <div class="event-top">
+                  <div>
+                    <div class="event-meta"><i class="ti ti-clock"></i>21:20</div>
+                    <div class="event-title">$1</div>
+                  </div>
+                  <div class="event-more" onclick="toggleMenu(this)"><i class="ti ti-dots-vertical"></i></div>
                 </div>
-                <div class="event-more" onclick="toggleMenu(this)"><i class="ti ti-dots-vertical"></i></div>
+                <a class="event-location" href="https://maps.google.com/?q=成田国際空港" target="_blank" rel="noopener">
+                  <i class="ti ti-map-pin"></i>
+                  <span class="event-location-name">成田国際空港 第1ターミナル</span>
+                  <span class="event-location-link"><i class="ti ti-external-link"></i>地図</span>
+                </a>
               </div>
               <div class="ctx-menu">
                 <div class="ctx-item edit"><i class="ti ti-pencil"></i>編集</div>
@@ -311,6 +361,8 @@
 
         <div class="date-group">
           <div class="date-pill"><i class="ti ti-calendar"></i>2025年12月16日</div>
+
+          <!-- 場所なし -->
           <div class="tl-row">
             <div class="rail">
               <div class="dot"></div>
@@ -318,11 +370,13 @@
             </div>
             <div class="event-wrap">
               <div class="event-card">
-                <div>
-                  <div class="event-meta"><i class="ti ti-clock"></i>21:20</div>
-                  <div class="event-title">$1</div>
+                <div class="event-top">
+                  <div>
+                    <div class="event-meta"><i class="ti ti-clock"></i>21:20</div>
+                    <div class="event-title">$1</div>
+                  </div>
+                  <div class="event-more" onclick="toggleMenu(this)"><i class="ti ti-dots-vertical"></i></div>
                 </div>
-                <div class="event-more" onclick="toggleMenu(this)"><i class="ti ti-dots-vertical"></i></div>
               </div>
               <div class="ctx-menu">
                 <div class="ctx-item edit"><i class="ti ti-pencil"></i>編集</div>
@@ -334,6 +388,8 @@
 
         <div class="date-group">
           <div class="date-pill"><i class="ti ti-calendar"></i>2026年2月23日</div>
+
+          <!-- 場所あり -->
           <div class="tl-row">
             <div class="rail">
               <div class="dot"></div>
@@ -341,11 +397,18 @@
             </div>
             <div class="event-wrap">
               <div class="event-card">
-                <div>
-                  <div class="event-meta"><i class="ti ti-clock"></i>22:05</div>
-                  <div class="event-title">え？</div>
+                <div class="event-top">
+                  <div>
+                    <div class="event-meta"><i class="ti ti-clock"></i>22:05</div>
+                    <div class="event-title">え？</div>
+                  </div>
+                  <div class="event-more" onclick="toggleMenu(this)"><i class="ti ti-dots-vertical"></i></div>
                 </div>
-                <div class="event-more" onclick="toggleMenu(this)"><i class="ti ti-dots-vertical"></i></div>
+                <a class="event-location" href="https://maps.google.com/?q=例の場所" target="_blank" rel="noopener">
+                  <i class="ti ti-map-pin"></i>
+                  <span class="event-location-name">例の場所</span>
+                  <span class="event-location-link"><i class="ti ti-external-link"></i>地図</span>
+                </a>
               </div>
               <div class="ctx-menu">
                 <div class="ctx-item edit"><i class="ti ti-pencil"></i>編集</div>
@@ -353,6 +416,8 @@
               </div>
             </div>
           </div>
+
+          <!-- 場所なし -->
           <div class="tl-row">
             <div class="rail">
               <div class="dot"></div>
@@ -360,11 +425,13 @@
             </div>
             <div class="event-wrap">
               <div class="event-card">
-                <div>
-                  <div class="event-meta"><i class="ti ti-clock"></i>23:05</div>
-                  <div class="event-title">お</div>
+                <div class="event-top">
+                  <div>
+                    <div class="event-meta"><i class="ti ti-clock"></i>23:05</div>
+                    <div class="event-title">お</div>
+                  </div>
+                  <div class="event-more" onclick="toggleMenu(this)"><i class="ti ti-dots-vertical"></i></div>
                 </div>
-                <div class="event-more" onclick="toggleMenu(this)"><i class="ti ti-dots-vertical"></i></div>
               </div>
               <div class="ctx-menu">
                 <div class="ctx-item edit"><i class="ti ti-pencil"></i>編集</div>
@@ -372,6 +439,8 @@
               </div>
             </div>
           </div>
+
+          <!-- 場所なし -->
           <div class="tl-row">
             <div class="rail">
               <div class="dot"></div>
@@ -379,11 +448,13 @@
             </div>
             <div class="event-wrap">
               <div class="event-card">
-                <div>
-                  <div class="event-meta"><i class="ti ti-clock"></i>23:05</div>
-                  <div class="event-title">ん？</div>
+                <div class="event-top">
+                  <div>
+                    <div class="event-meta"><i class="ti ti-clock"></i>23:05</div>
+                    <div class="event-title">ん？</div>
+                  </div>
+                  <div class="event-more" onclick="toggleMenu(this)"><i class="ti ti-dots-vertical"></i></div>
                 </div>
-                <div class="event-more" onclick="toggleMenu(this)"><i class="ti ti-dots-vertical"></i></div>
               </div>
               <div class="ctx-menu">
                 <div class="ctx-item edit"><i class="ti ti-pencil"></i>編集</div>
@@ -395,6 +466,8 @@
 
         <div class="date-group">
           <div class="date-pill"><i class="ti ti-calendar"></i>2026年3月1日</div>
+
+          <!-- 場所あり -->
           <div class="tl-row">
             <div class="rail">
               <div class="dot"></div>
@@ -402,11 +475,18 @@
             </div>
             <div class="event-wrap">
               <div class="event-card">
-                <div>
-                  <div class="event-meta"><i class="ti ti-clock"></i>14:30</div>
-                  <div class="event-title">イベント</div>
+                <div class="event-top">
+                  <div>
+                    <div class="event-meta"><i class="ti ti-clock"></i>14:30</div>
+                    <div class="event-title">イベント</div>
+                  </div>
+                  <div class="event-more" onclick="toggleMenu(this)"><i class="ti ti-dots-vertical"></i></div>
                 </div>
-                <div class="event-more" onclick="toggleMenu(this)"><i class="ti ti-dots-vertical"></i></div>
+                <a class="event-location" href="https://maps.google.com/?q=イベント会場" target="_blank" rel="noopener">
+                  <i class="ti ti-map-pin"></i>
+                  <span class="event-location-name">イベント会場</span>
+                  <span class="event-location-link"><i class="ti ti-external-link"></i>地図</span>
+                </a>
               </div>
               <div class="ctx-menu">
                 <div class="ctx-item edit"><i class="ti ti-pencil"></i>編集</div>

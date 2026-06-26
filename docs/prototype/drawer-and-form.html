@@ -108,7 +108,7 @@
         color: var(--sun-dark);
       }
 
-      /* ── Timeline body (behind drawer) ── */
+      /* ── Timeline ── */
       .tl-body {
         background: var(--sand);
         padding: 12px 18px 80px;
@@ -199,7 +199,6 @@
         inset: 0;
         background: rgba(28, 25, 23, 0.18);
         z-index: 40;
-        transition: opacity 0.3s;
       }
       .overlay.open {
         display: block;
@@ -351,19 +350,46 @@
         font-weight: 500;
         color: var(--ink);
       }
+
+      /* ── Form body ── */
       .form-body {
-        padding: 24px 18px;
+        padding: 20px 18px;
         display: flex;
         flex-direction: column;
-        gap: 16px;
+        gap: 14px;
+      }
+
+      /* フィールドラベル行 */
+      .field-label-row {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 6px;
       }
       .field-label {
         font-size: 11px;
         font-weight: 500;
         color: var(--ink-3);
         letter-spacing: 0.06em;
-        margin-bottom: 6px;
       }
+      .field-badge {
+        font-size: 10px;
+        font-weight: 500;
+        padding: 2px 6px;
+        border-radius: 4px;
+        letter-spacing: 0.03em;
+      }
+      .field-badge.required {
+        background: var(--sun-light);
+        color: var(--sun-dark);
+      }
+      .field-badge.optional {
+        background: var(--sand);
+        color: var(--ink-3);
+        border: 0.5px solid var(--border-md);
+      }
+
+      /* フィールドコントロール */
       .field-ctrl {
         height: 48px;
         background: var(--sand);
@@ -386,6 +412,132 @@
         font-size: 16px;
         color: var(--ink-3);
       }
+
+      /* 場所フィールド */
+      .location-wrap {
+        position: relative;
+      }
+      .field-ctrl.location {
+        transition: border-color 0.15s;
+      }
+      .field-ctrl.location.editing {
+        border: 1.5px solid var(--sun);
+      }
+      .field-ctrl.location.filled {
+        border-color: var(--sky-mid);
+      }
+      .field-ctrl.location.filled .location-icon,
+      .field-ctrl.location.editing .location-icon {
+        color: var(--sky-dark);
+      }
+      .location-icon {
+        font-size: 16px;
+        color: var(--ink-3);
+        flex-shrink: 0;
+      }
+      .location-text {
+        flex: 1;
+        font-size: 14px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        padding: 0 8px;
+      }
+      .location-text.placeholder {
+        color: var(--ink-3);
+      }
+      .location-text.value {
+        color: var(--ink);
+      }
+      .location-clear {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: var(--border-md);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        flex-shrink: 0;
+      }
+      .location-clear i {
+        font-size: 11px;
+        color: var(--ink-2);
+      }
+      .field-ctrl.location.filled .location-clear {
+        display: flex;
+      }
+
+      /* 場所入力フィールド */
+      .location-input {
+        flex: 1;
+        border: none;
+        background: transparent;
+        outline: none;
+        font-size: 14px;
+        color: var(--ink);
+        font-family: 'DM Sans', sans-serif;
+        padding: 0 8px;
+        display: none;
+      }
+      .field-ctrl.location.editing .location-input {
+        display: block;
+      }
+      .field-ctrl.location.editing .location-static {
+        display: none;
+      }
+      .location-static {
+        display: flex;
+        flex: 1;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      /* 候補ドロップダウン */
+      .location-suggestions {
+        display: none;
+        position: absolute;
+        top: calc(100% + 4px);
+        left: 0;
+        right: 0;
+        background: var(--white);
+        border: 0.5px solid var(--border-md);
+        border-radius: 14px;
+        overflow: hidden;
+        z-index: 200;
+        box-shadow: 0 4px 16px rgba(28,25,23,0.1);
+      }
+      .location-suggestions.open {
+        display: block;
+      }
+      .suggestion-item {
+        padding: 10px 14px;
+        border-top: 0.5px solid var(--border);
+        cursor: pointer;
+        font-size: 13px;
+        color: var(--ink);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: background 0.1s;
+      }
+      .suggestion-item:first-child {
+        border-top: none;
+      }
+      .suggestion-item:hover {
+        background: var(--sand);
+      }
+      .suggestion-item i {
+        font-size: 14px;
+        color: var(--ink-3);
+        flex-shrink: 0;
+      }
+      .suggestion-item span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
       .form-actions {
         display: flex;
         gap: 10px;
@@ -469,7 +621,7 @@
         <div class="avatar"><i class="ti ti-user"></i></div>
       </header>
 
-      <!-- Timeline (behind drawer) -->
+      <!-- Timeline -->
       <div class="tl-body" id="tlBody">
         <div style="margin-top: 16px">
           <div class="date-pill"><i class="ti ti-calendar"></i>2025年12月15日</div>
@@ -577,19 +729,72 @@
             <span class="form-header-title">予定を入力</span>
           </div>
           <div class="form-body">
+            <!-- 日時（必須） -->
             <div>
-              <div class="field-label">日時</div>
+              <div class="field-label-row">
+                <span class="field-label">日時</span>
+                <span class="field-badge required">必須</span>
+              </div>
               <div class="field-ctrl focus">
                 <span>2025 / 12 / 15　21:20</span>
                 <i class="ti ti-calendar"></i>
               </div>
             </div>
+
+            <!-- 内容（必須） -->
             <div>
-              <div class="field-label">内容</div>
+              <div class="field-label-row">
+                <span class="field-label">内容</span>
+                <span class="field-badge required">必須</span>
+              </div>
               <div class="field-ctrl">
                 <span style="color: var(--ink-3)">予定の内容を入力</span>
               </div>
             </div>
+
+            <!-- 場所（任意） -->
+            <div class="location-wrap">
+              <div class="field-label-row">
+                <span class="field-label">場所</span>
+                <span class="field-badge optional">任意</span>
+              </div>
+              <div class="field-ctrl location" id="locationCtrl" onclick="openLocationEdit()">
+                <i class="ti ti-map-pin location-icon"></i>
+                <div class="location-static" id="locationStatic">
+                  <span class="location-text placeholder" id="locationText">場所を追加</span>
+                  <div class="location-clear" id="locationClear" onclick="clearLocation(event)">
+                    <i class="ti ti-x"></i>
+                  </div>
+                </div>
+                <input
+                  id="locationInput"
+                  class="location-input"
+                  type="text"
+                  placeholder="場所を追加"
+                  oninput="onLocationInput(this.value)"
+                  onblur="closeLocationEditDelayed()"
+                  onclick="event.stopPropagation()"
+                />
+              </div>
+              <div class="location-suggestions" id="locationSuggestions">
+                <div class="suggestion-item" onmousedown="selectLocation('成田国際空港 (NRT), 成田市, 千葉県, 日本')">
+                  <i class="ti ti-map-pin"></i><span>成田国際空港 (NRT), 成田市, 千葉県, 日本</span>
+                </div>
+                <div class="suggestion-item" onmousedown="selectLocation('東京国際空港 (羽田空港), 大田区, 東京都, 日本')">
+                  <i class="ti ti-map-pin"></i><span>東京国際空港 (羽田空港), 大田区, 東京都, 日本</span>
+                </div>
+                <div class="suggestion-item" onmousedown="selectLocation('東京スカイツリー, 墨田区, 東京都, 日本')">
+                  <i class="ti ti-map-pin"></i><span>東京スカイツリー, 墨田区, 東京都, 日本</span>
+                </div>
+                <div class="suggestion-item" onmousedown="selectLocation('新宿駅, 新宿区, 東京都, 日本')">
+                  <i class="ti ti-map-pin"></i><span>新宿駅, 新宿区, 東京都, 日本</span>
+                </div>
+                <div class="suggestion-item" onmousedown="selectLocation('渋谷駅, 渋谷区, 東京都, 日本')">
+                  <i class="ti ti-map-pin"></i><span>渋谷駅, 渋谷区, 東京都, 日本</span>
+                </div>
+              </div>
+            </div>
+
             <div class="form-actions">
               <button class="btn-cancel" onclick="closeForm()">キャンセル</button>
               <button class="btn-submit"><i class="ti ti-check"></i>追加する</button>
@@ -617,6 +822,60 @@
       }
       function closeForm() {
         document.getElementById('formOverlay').classList.remove('open')
+      }
+
+      /* 場所フィールド */
+      let locationFilled = false
+
+      function openLocationEdit() {
+        if (locationFilled) return
+        const ctrl = document.getElementById('locationCtrl')
+        ctrl.classList.add('editing')
+        setTimeout(() => document.getElementById('locationInput').focus(), 0)
+      }
+
+      function closeLocationEdit() {
+        const ctrl = document.getElementById('locationCtrl')
+        ctrl.classList.remove('editing')
+        document.getElementById('locationInput').value = ''
+        document.getElementById('locationSuggestions').classList.remove('open')
+      }
+
+      function closeLocationEditDelayed() {
+        setTimeout(closeLocationEdit, 150)
+      }
+
+      function onLocationInput(value) {
+        if (value.length > 0) {
+          document.getElementById('locationSuggestions').classList.add('open')
+        } else {
+          document.getElementById('locationSuggestions').classList.remove('open')
+        }
+      }
+
+      function selectLocation(name) {
+        locationFilled = true
+        const ctrl = document.getElementById('locationCtrl')
+        const text = document.getElementById('locationText')
+        ctrl.classList.remove('editing')
+        ctrl.classList.add('filled')
+        text.textContent = name
+        text.classList.remove('placeholder')
+        text.classList.add('value')
+        document.getElementById('locationInput').value = ''
+        document.getElementById('locationSuggestions').classList.remove('open')
+      }
+
+      function clearLocation(e) {
+        e.stopPropagation()
+        locationFilled = false
+        const ctrl = document.getElementById('locationCtrl')
+        const text = document.getElementById('locationText')
+        ctrl.classList.remove('filled')
+        ctrl.classList.remove('editing')
+        text.textContent = '場所を追加'
+        text.classList.remove('value')
+        text.classList.add('placeholder')
       }
     </script>
   </body>

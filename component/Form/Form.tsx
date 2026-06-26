@@ -1,8 +1,10 @@
 'use client'
+import { useState, useMemo, useRef } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 import { RyoteiInsertInput, TripsInsertInput, ShareInsertInput } from '@/feature/api/graphql'
 import { ActionType } from '@/feature/ryotei/types'
 import { useRyoteiForm, useTripForm, saveFormValues } from './hooks'
+import type { PlaceData } from './PlaceAutocomplete'
 import { DeleteContent } from './DeleteContent'
 import { DeleteTripContent } from './DeleteTripContent'
 import { WithdrawAccountContent } from './WithdrawAccountContent'
@@ -42,6 +44,24 @@ const isDestructiveMode = (mode?: ActionType | null) =>
   mode === 'withdrawAccount' || mode === 'deleteRyotei' || mode === 'deleteTrip'
 
 export const Form = ({ onSubmit, data, onClose, action, mode, open }: Props) => {
+  const initialPlace = useMemo<PlaceData | null>(() => {
+    if (!data || !('place_name' in data) || !data.place_name) return null
+    const d = data as RyoteiInsertInput
+    return {
+      name: d.place_name as string,
+      placeId: (d.place_id as string | null) ?? '',
+      lat: (d.latitude as number | null) ?? 0,
+      lng: (d.longitude as number | null) ?? 0,
+    }
+  }, [data])
+
+  const [placeData, setPlaceData] = useState<PlaceData | null>(initialPlace)
+  const prevInitialPlaceRef = useRef(initialPlace)
+  if (prevInitialPlaceRef.current !== initialPlace) {
+    prevInitialPlaceRef.current = initialPlace
+    setPlaceData(initialPlace)
+  }
+
   const {
     register,
     handleSubmit,
@@ -55,14 +75,22 @@ export const Form = ({ onSubmit, data, onClose, action, mode, open }: Props) => 
   } = useTripForm(data)
 
   const handleClick: SubmitHandler<RyoteiInsertInput | ShareInsertInput> = async (formData) => {
-    const submitData = mode === 'deleteRyotei' || mode === 'shareTrip' ? data : formData
+    let submitData: RyoteiInsertInput | ShareInsertInput =
+      mode === 'deleteRyotei' || mode === 'shareTrip' ? (data as RyoteiInsertInput | ShareInsertInput) : formData
 
     if ((mode === 'addRyotei' || mode === 'editRyotei') && 'datetime' in formData && 'description' in formData) {
       saveFormValues(formData.datetime as Date, formData.description as string)
+      submitData = {
+        ...submitData,
+        place_name: placeData?.name ?? null,
+        place_id: placeData?.placeId ?? null,
+        latitude: placeData?.lat ?? null,
+        longitude: placeData?.lng ?? null,
+      } as RyoteiInsertInput
     }
 
     if (onSubmit) {
-      onSubmit(submitData as RyoteiInsertInput | ShareInsertInput)
+      onSubmit(submitData)
     }
   }
 
@@ -88,7 +116,15 @@ export const Form = ({ onSubmit, data, onClose, action, mode, open }: Props) => 
           />
         )
       default:
-        return <CreateUpdateContent register={register} control={control} errors={errors} />
+        return (
+          <CreateUpdateContent
+            register={register}
+            control={control}
+            errors={errors}
+            place={placeData}
+            onPlaceChange={setPlaceData}
+          />
+        )
     }
   }
 
@@ -141,23 +177,22 @@ export const Form = ({ onSubmit, data, onClose, action, mode, open }: Props) => 
       {(() => {
         const isShareMode = mode === 'shareTrip' || mode === 'switchTripStatus'
         return (
-          <div style={{ padding: isShareMode ? '16px 18px 24px' : '24px 18px', display: 'flex', flexDirection: 'column', gap: isShareMode ? 0 : 16 }}>
+          <div
+            style={{
+              padding: isShareMode ? '16px 18px 24px' : '24px 18px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: isShareMode ? 0 : 16,
+            }}
+          >
             {renderContent()}
 
             {!isShareMode && (
               <div style={{ display: 'flex', gap: 10, marginTop: 4 }}>
-                <Button
-                  variant="secondary"
-                  onClick={() => onClose?.()}
-                  sx={{ flex: 1 }}
-                >
+                <Button variant="secondary" onClick={() => onClose?.()} sx={{ flex: 1 }}>
                   キャンセル
                 </Button>
-                <Button
-                  variant={destructive ? 'danger' : 'primary'}
-                  onClick={getSubmitHandler()}
-                  sx={{ flex: 2 }}
-                >
+                <Button variant={destructive ? 'danger' : 'primary'} onClick={getSubmitHandler()} sx={{ flex: 2 }}>
                   {action?.label || '登録'}
                 </Button>
               </div>
