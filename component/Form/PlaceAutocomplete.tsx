@@ -143,8 +143,8 @@ export const PlaceAutocomplete = ({ value, onChange, placeholder = '場所を追
   return (
     <div style={{ position: 'relative' }}>
       <div
-        role="button"
-        tabIndex={0}
+        role={!isEditing && !value ? 'button' : undefined}
+        tabIndex={!isEditing && !value ? 0 : -1}
         onClick={() => {
           if (!value) setIsEditing(true)
         }}
@@ -164,7 +164,7 @@ export const PlaceAutocomplete = ({ value, onChange, placeholder = '場所を追
           cursor: isEditing ? 'text' : 'pointer',
           transition: 'border-color 0.15s',
         }}
-        aria-label="場所を選択"
+        aria-label={!isEditing && !value ? '場所を選択' : undefined}
       >
         <RoomOutlinedIcon
           sx={{ fontSize: 16, color: isEditing || value ? 'var(--sky-dark)' : 'var(--ink-3)', flexShrink: 0 }}
@@ -172,6 +172,12 @@ export const PlaceAutocomplete = ({ value, onChange, placeholder = '場所を追
         {isEditing ? (
           <input
             ref={inputRef}
+            role="combobox"
+            aria-expanded={suggestions.length > 0}
+            aria-haspopup="listbox"
+            aria-controls="place-suggestions"
+            aria-autocomplete="list"
+            aria-label="場所を検索"
             value={inputValue}
             onChange={(e) => handleSearch(e.target.value)}
             onBlur={handleBlur}
@@ -227,6 +233,7 @@ export const PlaceAutocomplete = ({ value, onChange, placeholder = '場所を追
 
       {isEditing && suggestions.length > 0 && (
         <ul
+          id="place-suggestions"
           role="listbox"
           aria-label="場所の候補"
           style={{

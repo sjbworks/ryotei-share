@@ -1,5 +1,5 @@
 'use client'
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useMemo, useRef } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 import { RyoteiInsertInput, TripsInsertInput, ShareInsertInput } from '@/feature/api/graphql'
 import { ActionType } from '@/feature/ryotei/types'
@@ -56,10 +56,11 @@ export const Form = ({ onSubmit, data, onClose, action, mode, open }: Props) => 
   }, [data])
 
   const [placeData, setPlaceData] = useState<PlaceData | null>(initialPlace)
-
-  useEffect(() => {
+  const prevInitialPlaceRef = useRef(initialPlace)
+  if (prevInitialPlaceRef.current !== initialPlace) {
+    prevInitialPlaceRef.current = initialPlace
     setPlaceData(initialPlace)
-  }, [initialPlace])
+  }
 
   const {
     register,
@@ -75,9 +76,7 @@ export const Form = ({ onSubmit, data, onClose, action, mode, open }: Props) => 
 
   const handleClick: SubmitHandler<RyoteiInsertInput | ShareInsertInput> = async (formData) => {
     let submitData: RyoteiInsertInput | ShareInsertInput =
-      mode === 'deleteRyotei' || mode === 'shareTrip'
-        ? (data as RyoteiInsertInput | ShareInsertInput)
-        : formData
+      mode === 'deleteRyotei' || mode === 'shareTrip' ? (data as RyoteiInsertInput | ShareInsertInput) : formData
 
     if ((mode === 'addRyotei' || mode === 'editRyotei') && 'datetime' in formData && 'description' in formData) {
       saveFormValues(formData.datetime as Date, formData.description as string)
@@ -122,7 +121,7 @@ export const Form = ({ onSubmit, data, onClose, action, mode, open }: Props) => 
             register={register}
             control={control}
             errors={errors}
-            initialPlace={initialPlace}
+            place={placeData}
             onPlaceChange={setPlaceData}
           />
         )
@@ -178,23 +177,22 @@ export const Form = ({ onSubmit, data, onClose, action, mode, open }: Props) => 
       {(() => {
         const isShareMode = mode === 'shareTrip' || mode === 'switchTripStatus'
         return (
-          <div style={{ padding: isShareMode ? '16px 18px 24px' : '24px 18px', display: 'flex', flexDirection: 'column', gap: isShareMode ? 0 : 16 }}>
+          <div
+            style={{
+              padding: isShareMode ? '16px 18px 24px' : '24px 18px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: isShareMode ? 0 : 16,
+            }}
+          >
             {renderContent()}
 
             {!isShareMode && (
               <div style={{ display: 'flex', gap: 10, marginTop: 4 }}>
-                <Button
-                  variant="secondary"
-                  onClick={() => onClose?.()}
-                  sx={{ flex: 1 }}
-                >
+                <Button variant="secondary" onClick={() => onClose?.()} sx={{ flex: 1 }}>
                   キャンセル
                 </Button>
-                <Button
-                  variant={destructive ? 'danger' : 'primary'}
-                  onClick={getSubmitHandler()}
-                  sx={{ flex: 2 }}
-                >
+                <Button variant={destructive ? 'danger' : 'primary'} onClick={getSubmitHandler()} sx={{ flex: 2 }}>
                   {action?.label || '登録'}
                 </Button>
               </div>

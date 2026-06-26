@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Controller, type Control, type FieldErrors, type UseFormRegister } from 'react-hook-form'
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
@@ -97,21 +96,14 @@ export const CreateUpdateContent = ({
   errors,
   register,
   onPlaceChange,
-  initialPlace,
+  place,
 }: {
   control: Control<RyoteiInsertInput, unknown>
   errors: FieldErrors<RyoteiInsertInput>
   register: UseFormRegister<RyoteiInsertInput>
   onPlaceChange?: (place: PlaceData | null) => void
-  initialPlace?: PlaceData | null
+  place?: PlaceData | null
 }) => {
-  const [place, setPlace] = useState<PlaceData | null>(initialPlace ?? null)
-
-  const handlePlaceChange = (newPlace: PlaceData | null) => {
-    setPlace(newPlace)
-    onPlaceChange?.(newPlace)
-  }
-
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <div>
@@ -151,7 +143,7 @@ export const CreateUpdateContent = ({
       </div>
       <div style={{ position: 'relative' }}>
         <FieldLabel badge="optional">場所</FieldLabel>
-        <PlaceAutocomplete value={place} onChange={handlePlaceChange} placeholder="場所を追加" />
+        <PlaceAutocomplete value={place ?? null} onChange={onPlaceChange} placeholder="場所を追加" />
       </div>
     </div>
   )
