@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { setOptions, importLibrary } from '@googlemaps/js-api-loader'
 import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined'
 import ClearIcon from '@mui/icons-material/Clear'
+import { logError } from '@/utils/logger'
 
 export interface PlaceData {
   name: string
@@ -26,7 +27,12 @@ const ensureMapsLoaded = () => {
     key: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? '',
     language: 'ja',
   })
-  mapsLoadingPromise = importLibrary('places').then(() => {})
+  mapsLoadingPromise = importLibrary('places')
+    .then(() => {})
+    .catch((err: unknown) => {
+      mapsLoadingPromise = null
+      throw err
+    })
   return mapsLoadingPromise
 }
 
@@ -41,7 +47,11 @@ export const PlaceAutocomplete = ({ value, onChange, placeholder = '場所を追
   useEffect(() => {
     ensureMapsLoaded()
       .then(() => setIsApiLoaded(true))
-      .catch(() => {})
+      .catch((err: unknown) => {
+        logError('Failed to load Google Maps', {
+          message: err instanceof Error ? err.message : String(err),
+        })
+      })
   }, [])
 
   useEffect(() => {
@@ -60,11 +70,12 @@ export const PlaceAutocomplete = ({ value, onChange, placeholder = '場所を追
 
       debounceRef.current = setTimeout(async () => {
         try {
-          const { suggestions: results } =
-            await google.maps.places.AutocompleteSuggestion.fetchAutocompleteSuggestions({
+          const { suggestions: results } = await google.maps.places.AutocompleteSuggestion.fetchAutocompleteSuggestions(
+            {
               input: query,
               language: 'ja',
-            })
+            }
+          )
           setSuggestions(results.slice(0, 5))
         } catch {
           setSuggestions([])
@@ -123,13 +134,23 @@ export const PlaceAutocomplete = ({ value, onChange, placeholder = '場所を追
       ? '0.5px solid var(--sky-mid)'
       : '0.5px solid rgba(28,25,23,0.14)'
 
+  useEffect(() => {
+    return () => {
+      if (debounceRef.current) clearTimeout(debounceRef.current)
+    }
+  }, [])
+
   return (
     <div style={{ position: 'relative' }}>
       <div
         role="button"
         tabIndex={0}
-        onClick={() => { if (!value) setIsEditing(true) }}
-        onKeyDown={(e) => { if ((e.key === 'Enter' || e.key === ' ') && !value) setIsEditing(true) }}
+        onClick={() => {
+          if (!value) setIsEditing(true)
+        }}
+        onKeyDown={(e) => {
+          if ((e.key === 'Enter' || e.key === ' ') && !value) setIsEditing(true)
+        }}
         style={{
           width: '100%',
           height: 48,
