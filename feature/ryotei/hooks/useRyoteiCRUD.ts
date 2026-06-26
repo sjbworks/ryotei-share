@@ -68,6 +68,10 @@ export const useRyoteiCRUD = (selectedTripId?: string, refetch?: () => void) => 
           set: {
             datetime: data?.datetime.toISOString(),
             description: data?.description,
+            place_name: data?.place_name ?? null,
+            place_id: data?.place_id ?? null,
+            latitude: data?.latitude ?? null,
+            longitude: data?.longitude ?? null,
           },
           filter: { id: { eq: id } },
         },

@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Controller, type Control, type FieldErrors, type UseFormRegister } from 'react-hook-form'
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
@@ -5,8 +6,8 @@ import TextField from '@mui/material/TextField'
 import { RyoteiInsertInput } from '@/feature/api/graphql'
 import { ja } from 'date-fns/locale/ja'
 import { Text } from '@/component/Text'
+import { PlaceAutocomplete, type PlaceData } from './PlaceAutocomplete'
 
-// MUI X v8 では PickersOutlinedInput / PickersInputBase 系のクラスを使う
 const datePickerTextFieldSx = {
   width: '100%',
   '& .MuiPickersOutlinedInput-root': {
@@ -58,35 +59,63 @@ const textFieldSx = {
   '& .MuiFormHelperText-root': { marginLeft: 0, fontSize: 11 },
 }
 
-const FieldLabel = ({ children }: { children: string }) => (
-  <Text
-    component="span"
-    sx={{
-      display: 'block',
-      fontSize: 11,
-      fontWeight: 500,
-      color: 'var(--ink-3)',
-      letterSpacing: '0.06em',
-      mb: '6px',
-    }}
-  >
-    {children}
-  </Text>
+const FieldLabel = ({ children, badge }: { children: string; badge?: 'required' | 'optional' }) => (
+  <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 6 }}>
+    <Text
+      component="span"
+      sx={{
+        display: 'block',
+        fontSize: 11,
+        fontWeight: 500,
+        color: 'var(--ink-3)',
+        letterSpacing: '0.06em',
+      }}
+    >
+      {children}
+    </Text>
+    {badge && (
+      <span
+        style={{
+          fontSize: 10,
+          fontWeight: 500,
+          padding: '2px 6px',
+          borderRadius: 4,
+          letterSpacing: '0.03em',
+          background: badge === 'required' ? 'var(--sun-light)' : 'var(--sand)',
+          color: badge === 'required' ? 'var(--sun-dark)' : 'var(--ink-3)',
+          border: badge === 'optional' ? '0.5px solid rgba(28,25,23,0.14)' : 'none',
+        }}
+      >
+        {badge === 'required' ? '必須' : '任意'}
+      </span>
+    )}
+  </div>
 )
 
 export const CreateUpdateContent = ({
   control,
   errors,
   register,
+  onPlaceChange,
+  initialPlace,
 }: {
   control: Control<RyoteiInsertInput, unknown>
   errors: FieldErrors<RyoteiInsertInput>
   register: UseFormRegister<RyoteiInsertInput>
+  onPlaceChange?: (place: PlaceData | null) => void
+  initialPlace?: PlaceData | null
 }) => {
+  const [place, setPlace] = useState<PlaceData | null>(initialPlace ?? null)
+
+  const handlePlaceChange = (newPlace: PlaceData | null) => {
+    setPlace(newPlace)
+    onPlaceChange?.(newPlace)
+  }
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <div>
-        <FieldLabel>日時</FieldLabel>
+        <FieldLabel badge="required">日時</FieldLabel>
         <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ja}>
           <Controller
             control={control}
@@ -109,7 +138,7 @@ export const CreateUpdateContent = ({
         </LocalizationProvider>
       </div>
       <div>
-        <FieldLabel>内容</FieldLabel>
+        <FieldLabel badge="required">内容</FieldLabel>
         <TextField
           {...register('description', { required: true })}
           error={!!errors.description}
@@ -119,6 +148,10 @@ export const CreateUpdateContent = ({
           minRows={1}
           sx={textFieldSx}
         />
+      </div>
+      <div style={{ position: 'relative' }}>
+        <FieldLabel badge="optional">場所</FieldLabel>
+        <PlaceAutocomplete value={place} onChange={handlePlaceChange} placeholder="場所を追加" />
       </div>
     </div>
   )

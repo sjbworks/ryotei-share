@@ -3,14 +3,36 @@ import { FC } from 'react'
 import { AccessTimeIcon } from '../Icon'
 import { MenuControl, Action } from './MenuControl'
 import { format, parseISO } from 'date-fns'
+import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined'
 
-export type Plan = { datetime: string; description: string; id: string; trip_id: string }
+export type Plan = {
+  datetime: string
+  description: string
+  id: string
+  trip_id: string
+  place_name?: string | null
+  place_id?: string | null
+  latitude?: number | null
+  longitude?: number | null
+}
+
 export type TimelineItemProps = Plan & {
   onClick?: (action: Action, value: Plan) => void
   readOnly?: boolean
 }
 
-export const TimelineItem: FC<TimelineItemProps> = ({ id, datetime, description, onClick, trip_id, readOnly }) => {
+export const TimelineItem: FC<TimelineItemProps> = ({
+  id,
+  datetime,
+  description,
+  onClick,
+  trip_id,
+  readOnly,
+  place_name,
+  place_id,
+  latitude,
+  longitude,
+}) => {
   const time = format(parseISO(datetime), 'HH:mm')
   return (
     <div style={{ display: 'flex', alignItems: 'stretch' }}>
@@ -40,7 +62,7 @@ export const TimelineItem: FC<TimelineItemProps> = ({ id, datetime, description,
             justifyContent: 'space-between',
           }}
         >
-          <div>
+          <div style={{ flex: 1, minWidth: 0 }}>
             <div
               style={{
                 display: 'flex',
@@ -55,9 +77,56 @@ export const TimelineItem: FC<TimelineItemProps> = ({ id, datetime, description,
               <span>{time}</span>
             </div>
             <div style={{ fontSize: 14, fontWeight: 500, color: 'var(--ink)' }}>{description}</div>
+            {place_name && (
+              <a
+                href={
+                  place_id
+                    ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place_name)}&query_place_id=${place_id}`
+                    : latitude && longitude
+                      ? `https://www.google.com/maps/?q=${latitude},${longitude}`
+                      : `https://www.google.com/maps/search/?q=${encodeURIComponent(place_name)}`
+                }
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 4,
+                  fontSize: 11,
+                  color: 'var(--sky-dark)',
+                  marginTop: 4,
+                  overflow: 'hidden',
+                  textDecoration: 'none',
+                }}
+              >
+                <RoomOutlinedIcon sx={{ fontSize: 12, color: 'var(--sky-dark)', flexShrink: 0 }} />
+                <span
+                  style={{
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                    textDecoration: 'underline',
+                    textUnderlineOffset: 2,
+                  }}
+                >
+                  {place_name}
+                </span>
+              </a>
+            )}
           </div>
           {!readOnly && (
-            <MenuControl onClick={onClick} id={id} datetime={datetime} description={description} trip_id={trip_id} />
+            <MenuControl
+              onClick={onClick}
+              id={id}
+              datetime={datetime}
+              description={description}
+              trip_id={trip_id}
+              place_name={place_name}
+              place_id={place_id}
+              latitude={latitude}
+              longitude={longitude}
+            />
           )}
         </div>
       </div>

@@ -1,8 +1,10 @@
 'use client'
+import { useState, useMemo, useEffect } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 import { RyoteiInsertInput, TripsInsertInput, ShareInsertInput } from '@/feature/api/graphql'
 import { ActionType } from '@/feature/ryotei/types'
 import { useRyoteiForm, useTripForm, saveFormValues } from './hooks'
+import type { PlaceData } from './PlaceAutocomplete'
 import { DeleteContent } from './DeleteContent'
 import { DeleteTripContent } from './DeleteTripContent'
 import { WithdrawAccountContent } from './WithdrawAccountContent'
@@ -42,6 +44,23 @@ const isDestructiveMode = (mode?: ActionType | null) =>
   mode === 'withdrawAccount' || mode === 'deleteRyotei' || mode === 'deleteTrip'
 
 export const Form = ({ onSubmit, data, onClose, action, mode, open }: Props) => {
+  const initialPlace = useMemo<PlaceData | null>(() => {
+    if (!data || !('place_name' in data) || !data.place_name) return null
+    const d = data as RyoteiInsertInput
+    return {
+      name: d.place_name as string,
+      placeId: (d.place_id as string | null) ?? '',
+      lat: (d.latitude as number | null) ?? 0,
+      lng: (d.longitude as number | null) ?? 0,
+    }
+  }, [data])
+
+  const [placeData, setPlaceData] = useState<PlaceData | null>(initialPlace)
+
+  useEffect(() => {
+    setPlaceData(initialPlace)
+  }, [initialPlace])
+
   const {
     register,
     handleSubmit,
@@ -55,14 +74,24 @@ export const Form = ({ onSubmit, data, onClose, action, mode, open }: Props) => 
   } = useTripForm(data)
 
   const handleClick: SubmitHandler<RyoteiInsertInput | ShareInsertInput> = async (formData) => {
-    const submitData = mode === 'deleteRyotei' || mode === 'shareTrip' ? data : formData
+    let submitData: RyoteiInsertInput | ShareInsertInput =
+      mode === 'deleteRyotei' || mode === 'shareTrip'
+        ? (data as RyoteiInsertInput | ShareInsertInput)
+        : formData
 
     if ((mode === 'addRyotei' || mode === 'editRyotei') && 'datetime' in formData && 'description' in formData) {
       saveFormValues(formData.datetime as Date, formData.description as string)
+      submitData = {
+        ...submitData,
+        place_name: placeData?.name ?? null,
+        place_id: placeData?.placeId ?? null,
+        latitude: placeData?.lat ?? null,
+        longitude: placeData?.lng ?? null,
+      } as RyoteiInsertInput
     }
 
     if (onSubmit) {
-      onSubmit(submitData as RyoteiInsertInput | ShareInsertInput)
+      onSubmit(submitData)
     }
   }
 
@@ -88,7 +117,15 @@ export const Form = ({ onSubmit, data, onClose, action, mode, open }: Props) => 
           />
         )
       default:
-        return <CreateUpdateContent register={register} control={control} errors={errors} />
+        return (
+          <CreateUpdateContent
+            register={register}
+            control={control}
+            errors={errors}
+            initialPlace={initialPlace}
+            onPlaceChange={setPlaceData}
+          />
+        )
     }
   }
 
