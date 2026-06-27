@@ -102,7 +102,7 @@ export const TimelineItem: FC<TimelineItemProps> = ({
                 <RoomOutlinedIcon sx={{ fontSize: 12, color: 'var(--sky-dark)', flexShrink: 0 }} />
                 <span
                   style={{
-                    wordBreak: 'break-all',
+                    overflowWrap: 'anywhere',
                     textDecoration: 'underline',
                     textUnderlineOffset: 2,
                   }}
