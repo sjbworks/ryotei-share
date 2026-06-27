@@ -15,10 +15,10 @@ export default function Legal() {
 
   const articleStyle = 'flex flex-col gap-2'
   const articleTitleStyle = 'text-sm font-medium text-[#57534E] tracking-wide'
-  const paragraphStyle = 'text-sm text-[#57534E] leading-relaxed'
+  const paragraphStyle = 'text-sm text-[#57534E] leading-relaxed [overflow-wrap:anywhere]'
 
   const listStyle = 'flex flex-col gap-1.5'
-  const listItemStyle = 'flex items-start gap-2 text-sm text-[#57534E] leading-relaxed'
+  const listItemStyle = 'flex items-start gap-2 text-sm text-[#57534E] leading-relaxed [overflow-wrap:anywhere]'
   const bulletStyle = 'mt-[7px] w-1 h-1 rounded-full bg-[#A8A29E] flex-shrink-0'
 
   const dividerStyle = 'h-px bg-[#1C19170F]'
