@@ -91,21 +91,18 @@ export const TimelineItem: FC<TimelineItemProps> = ({
                 onClick={(e) => e.stopPropagation()}
                 style={{
                   display: 'flex',
-                  alignItems: 'center',
+                  alignItems: 'flex-start',
                   gap: 4,
                   fontSize: 11,
                   color: 'var(--sky-dark)',
                   marginTop: 4,
-                  overflow: 'hidden',
                   textDecoration: 'none',
                 }}
               >
                 <RoomOutlinedIcon sx={{ fontSize: 12, color: 'var(--sky-dark)', flexShrink: 0 }} />
                 <span
                   style={{
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap',
+                    overflowWrap: 'anywhere',
                     textDecoration: 'underline',
                     textUnderlineOffset: 2,
                   }}
