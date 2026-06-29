@@ -8,11 +8,6 @@ export const Footer = () => {
           利用規約・プライバシーポリシー
         </Link>
       </div>
-      <div className="text-xs text-gray-400">
-        <a href="https://www.freepik.com" target="_blank" rel="noopener noreferrer" className="hover:text-gray-600">
-          Image by Freepik
-        </a>
-      </div>
     </footer>
   )
 }
