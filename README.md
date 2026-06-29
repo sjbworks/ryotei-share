@@ -1,6 +1,6 @@
 # Ryotei Share
 
-![Ryotei Share](assets/image/world.png)
+![Ryotei Share](assets/image/readme.png)
 
 https://ryotei-share.vercel.app/
 
