@@ -18,8 +18,6 @@ import AddIcon from '@mui/icons-material/Add'
 import IosShareIcon from '@mui/icons-material/IosShare'
 import { Text } from '@/component/Text'
 import { Button } from '@/component/Button'
-import Image from 'next/image'
-import Orbit from '@/assets/image/orbit.png'
 
 const Form = lazy(() => import('@/component/Form').then((mod) => ({ default: mod.Form })))
 
@@ -61,14 +59,16 @@ export const MainView = ({ initialTripsData, initialRyoteiData, initialSelectedT
     }
   }
 
-  const { handleClick, bottomSheet, bottomFormProps, onMenuClick, onClickAddTrip, onClickWithdrawAccount, formState, onClickShareTrip } = useTimeline(
-    refetch,
-    refetchTrip,
-    selectedTripId,
-    onSideClose,
-    onChangeTripId,
-    handleWithdrawAccount,
-  )
+  const {
+    handleClick,
+    bottomSheet,
+    bottomFormProps,
+    onMenuClick,
+    onClickAddTrip,
+    onClickWithdrawAccount,
+    formState,
+    onClickShareTrip,
+  } = useTimeline(refetch, refetchTrip, selectedTripId, onSideClose, onChangeTripId, handleWithdrawAccount)
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const menuOpen = Boolean(anchorEl)
@@ -201,19 +201,16 @@ export const MainView = ({ initialTripsData, initialRyoteiData, initialSelectedT
         {tripError ? (
           <div className="flex flex-col items-center justify-center p-8 text-center gap-2">
             <Text variant="h6">旅程の取得に失敗しました</Text>
-            <Text color="grey.600" variant="body1">しばらく時間をおいてから再度お試しください。</Text>
+            <Text color="grey.600" variant="body1">
+              しばらく時間をおいてから再度お試しください。
+            </Text>
           </div>
         ) : loading || trips.length === 0 ? (
           <div className="flex flex-col items-center justify-center p-8 text-center gap-2">
             <Text variant="h6">旅程を作成しましょう</Text>
             <Text variant="body1">旅行の予定を立てるために、まず旅程を作成してください。</Text>
-            <Image src={Orbit} alt="Orbit Image" width={150} height={150} style={{ margin: 28 }} priority />
             {!loading && (
-              <Button
-                variant="primary"
-                onClick={onSideOpen}
-                sx={{ mt: '4px', px: '24px' }}
-              >
+              <Button variant="primary" onClick={onSideOpen} sx={{ mt: '4px', px: '24px' }}>
                 旅程を作成
               </Button>
             )}
@@ -221,7 +218,9 @@ export const MainView = ({ initialTripsData, initialRyoteiData, initialSelectedT
         ) : ryoteiError ? (
           <div className="flex flex-col items-center justify-center p-8 text-center gap-2">
             <Text variant="h6">予定の取得に失敗しました</Text>
-            <Text color="grey.600" variant="body1">しばらく時間をおいてから再度お試しください。</Text>
+            <Text color="grey.600" variant="body1">
+              しばらく時間をおいてから再度お試しください。
+            </Text>
           </div>
         ) : (
           <TimelineView data={data} onMenuClick={onMenuClick} onAdd={handleClickAdd} />
