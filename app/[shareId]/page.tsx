@@ -1,8 +1,6 @@
 import { Timeline, NoData, Text } from '@/component'
-import NoResult from '@/assets/image/no-results.png'
-import World from '@/assets/image/world.png'
-import Image from 'next/image'
 import { getAllPublicShares, getRyoteiByTripId, getTripByShareId } from '@/feature/ryotei/queries'
+import { notFound } from 'next/navigation'
 
 export async function generateStaticParams() {
   const shares = await getAllPublicShares()
@@ -24,22 +22,19 @@ export async function generateMetadata({ params }: { params: Promise<{ shareId: 
 
 export default async function Share({ params }: { params: Promise<{ shareId: string }> }) {
   const { shareId } = await params
-  const tripData = await getTripByShareId(shareId)
+
+  let tripData: Awaited<ReturnType<typeof getTripByShareId>>
+  try {
+    tripData = await getTripByShareId(shareId)
+  } catch {
+    notFound()
+  }
+
   const tripId = tripData?.trip_id
   const tripName = tripData?.trips?.name || '旅程'
 
   if (!tripId || !tripData?.is_public) {
-    return (
-      <div style={{ flex: 1, background: 'var(--sand)', width: '100%' }} className="flex flex-col items-center justify-center">
-        <div className="flex flex-col items-center justify-center p-8 text-center gap-2">
-          <Text variant="h6">旅程が見つかりませんでした</Text>
-          <Text color="grey.600" variant="body1">
-            旅程が削除されたか、非公開になっています。
-          </Text>
-          <Image src={NoResult} alt="No Result Image" width={150} height={150} />
-        </div>
-      </div>
-    )
+    notFound()
   }
 
   const ryoteiList = await getRyoteiByTripId(tripId)
@@ -51,7 +46,6 @@ export default async function Share({ params }: { params: Promise<{ shareId: str
     <div style={{ flex: 1, background: 'var(--sand)', width: '100%' }}>
       <div className="flex flex-col gap-4 relative max-w-2xl mx-auto w-full py-8 px-6">
         <div className="flex items-center gap-2 pt-4">
-          <Image src={World} alt="World Image" width={48} height={48} />
           <Text variant="h5" fontWeight="700">
             {tripName}
           </Text>
