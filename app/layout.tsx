@@ -26,7 +26,7 @@ export const metadata = {
     index: true,
     follow: true,
   },
-  manifest: '/manifest.json',
+  manifest: '/manifest.webmanifest',
   appleWebApp: {
     capable: true, // iOSでPWAとして動作させる
     statusBarStyle: 'black-translucent', // ステータスバーを透過させる
