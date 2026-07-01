@@ -1,15 +1,7 @@
 import bundleAnalyzer from '@next/bundle-analyzer'
-import withPWAInit from '@ducanh2912/next-pwa'
 
 const withBundleAnalyzer = bundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',
-})
-
-const withPWA = withPWAInit({
-  dest: 'public',
-  register: true,
-  skipWaiting: true,
-  disable: process.env.NODE_ENV === 'development',
 })
 
 const securityHeaders = [
@@ -74,4 +66,4 @@ const nextConfig = {
   cacheComponents: true,
 }
 
-export default withBundleAnalyzer(withPWA(nextConfig))
+export default withBundleAnalyzer(nextConfig)
