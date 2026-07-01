@@ -8,6 +8,19 @@
  *
  * バージョンを上げると古いキャッシュは activate 時に破棄される。
  */
+
+/**
+ * キャッシュ名前空間のバージョン。
+ *
+ * 運用ルール: この `sw.js`（＝キャッシュ戦略）を変更したときに手動で bump する。
+ * bump すると sw.js のバイト列が変わりブラウザが SW 更新を検知、activate 時に
+ * 旧バージョンのキャッシュが破棄される。
+ *
+ * アプリのコンテンツ更新（通常のデプロイ）ごとに上げる必要はない。
+ * ナビゲーションは network-first、静的アセットは stale-while-revalidate で
+ * 常に再検証されるため内容の陳腐化は起きず、Next.js の /_next/static/* は
+ * ファイル名にハッシュを含む不変ファイルなので URL 自体が更新ごとに変わる。
+ */
 const VERSION = 'v1'
 const RUNTIME_CACHE = `ryotei-share-runtime-${VERSION}`
 
@@ -48,7 +61,11 @@ async function networkFirst(request) {
     // ナビゲーションのフォールバックとしてルートを試す
     const fallback = await cache.match('/')
     if (fallback) return fallback
-    throw new Error('Network error and no cache available')
+    // キャッシュも無い場合は 503 を返す（staleWhileRevalidate と挙動を揃える）
+    return new Response('Offline', {
+      status: 503,
+      statusText: 'Service Unavailable',
+    })
   }
 }
 
@@ -65,7 +82,7 @@ async function staleWhileRevalidate(request) {
       }
       return response
     })
-    .catch(() => cached)
+    .catch(() => cached ?? new Response('Offline', { status: 503, statusText: 'Service Unavailable' }))
   return cached || fetchPromise
 }
 
