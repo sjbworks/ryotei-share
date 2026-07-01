@@ -2,6 +2,7 @@ import './globals.css'
 import { ApolloProvider } from '@/feature/provider/ApolloProvider'
 import { SnackbarContextProvider } from '@/feature/provider/SnackbarContextProvider'
 import { Footer } from '@/component/Footer'
+import { ServiceWorkerRegister } from '@/component/ServiceWorkerRegister'
 
 export const metadata = {
   title: 'Ryotei Share',
@@ -78,6 +79,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <Footer />
           </SnackbarContextProvider>
         </ApolloProvider>
+        <ServiceWorkerRegister />
       </body>
     </html>
   )
