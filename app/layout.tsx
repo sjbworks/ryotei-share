@@ -2,6 +2,7 @@ import './globals.css'
 import { ApolloProvider } from '@/feature/provider/ApolloProvider'
 import { SnackbarContextProvider } from '@/feature/provider/SnackbarContextProvider'
 import { Footer } from '@/component/Footer'
+import { ServiceWorkerRegister } from '@/component/ServiceWorkerRegister'
 
 export const metadata = {
   title: 'Ryotei Share',
@@ -25,7 +26,7 @@ export const metadata = {
     index: true,
     follow: true,
   },
-  manifest: '/manifest.json',
+  manifest: '/manifest.webmanifest',
   appleWebApp: {
     capable: true, // iOSでPWAとして動作させる
     statusBarStyle: 'black-translucent', // ステータスバーを透過させる
@@ -78,6 +79,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <Footer />
           </SnackbarContextProvider>
         </ApolloProvider>
+        <ServiceWorkerRegister />
       </body>
     </html>
   )
