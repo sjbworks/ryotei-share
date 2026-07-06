@@ -3,10 +3,11 @@ import { createClientForServer } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import { getRyoteiByTripIdWithAuth, getTripsWithAuth } from '@/feature/ryotei/queries'
 import { Suspense } from 'react'
+import { Loading } from '@/component/Loading/Loading'
 
 export default async function Home() {
   return (
-    <Suspense fallback={<div>読み込み中...</div>}>
+    <Suspense fallback={<Loading />}>
       <HomeContent />
     </Suspense>
   )
@@ -19,7 +20,9 @@ async function HomeContent() {
   if (!accessToken) {
     redirect('/login')
   }
-  const { data: { user } } = await supabase.auth.getUser()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
   const tripsData = await getTripsWithAuth(accessToken)
   const selectedTripId = tripsData?.tripsCollection?.edges?.[0]?.node.id
   const ryoteiData = selectedTripId ? await getRyoteiByTripIdWithAuth(selectedTripId, accessToken) : null
