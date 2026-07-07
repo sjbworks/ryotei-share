@@ -24,9 +24,18 @@ export default {
             transform: 'scale(1.35)',
           },
         },
+        'plane-float': {
+          '0%, 100%': {
+            transform: 'translateY(0)',
+          },
+          '50%': {
+            transform: 'translateY(-4px)',
+          },
+        },
       },
       animation: {
         'loading-dot': 'loading-dot 1.2s ease-in-out infinite',
+        'plane-float': 'plane-float 2s ease-in-out infinite',
       },
     },
   },
