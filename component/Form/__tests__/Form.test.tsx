@@ -29,29 +29,6 @@ jest.mock('@mui/x-date-pickers/AdapterDateFns', () => ({
   AdapterDateFns: jest.fn(),
 }))
 
-// Mock localStorage
-const localStorageMock = (() => {
-  let store: Record<string, string> = {}
-
-  return {
-    getItem: (key: string) => store[key] || null,
-    setItem: (key: string, value: string) => {
-      store[key] = value.toString()
-    },
-    removeItem: (key: string) => {
-      delete store[key]
-    },
-    clear: () => {
-      store = {}
-    },
-  }
-})()
-
-Object.defineProperty(window, 'localStorage', {
-  value: localStorageMock,
-  writable: true,
-})
-
 describe('Form', () => {
   const mockOnSubmit = jest.fn()
   const mockOnClose = jest.fn()
@@ -59,7 +36,6 @@ describe('Form', () => {
 
   beforeEach(() => {
     jest.clearAllMocks()
-    localStorageMock.clear()
     mockWriteText = jest.fn().mockResolvedValue(undefined)
 
     // Mock navigator.clipboard before each test
@@ -146,48 +122,8 @@ describe('Form', () => {
       })
     })
 
-    it('saves form values to localStorage when submitting', async () => {
-      const user = userEvent.setup()
-      render(
-        <Form
-          mode="addRyotei"
-          onSubmit={mockOnSubmit}
-          onClose={mockOnClose}
-          action={{ label: '登録' }}
-        />
-      )
-
-      const descriptionField = screen.getByRole('textbox')
-      await user.type(descriptionField, 'Test description for storage')
-
-      const submitButton = screen.getByRole('button', { name: '登録' })
-      fireEvent.click(submitButton)
-
-      await waitFor(() => {
-        expect(mockOnSubmit).toHaveBeenCalled()
-      })
-
-      // Check localStorage was updated
-      const stored = localStorage.getItem('ryotei_form_last_values')
-      expect(stored).toBeTruthy()
-
-      if (stored) {
-        const parsedData = JSON.parse(stored)
-        expect(parsedData.description).toBe('Test description for storage')
-        expect(parsedData.datetime).toBeTruthy()
-      }
-    })
-
-    it('loads previous values from localStorage on mount', () => {
-      // Pre-populate localStorage
-      const testDate = new Date('2024-12-25T15:30:00')
-      localStorage.setItem(
-        'ryotei_form_last_values',
-        JSON.stringify({
-          datetime: testDate.toISOString(),
-          description: 'Previous description',
-        })
-      )
+    it('pre-fills datetime from lastDatetime prop and keeps description blank', () => {
+      const lastDatetime = new Date('2024-12-25T15:30:00')
 
       render(
         <Form
@@ -195,12 +131,16 @@ describe('Form', () => {
           onSubmit={mockOnSubmit}
           onClose={mockOnClose}
           action={{ label: '登録' }}
+          lastDatetime={lastDatetime}
         />
       )
 
-      // Check that the form is pre-filled with stored values
-      const descriptionField = screen.getByRole('textbox')
-      expect(descriptionField).toHaveValue('Previous description')
+      // The datetime is defaulted to the last entry's datetime
+      const datetimeField = screen.getByTestId('datetime-picker')
+      expect(datetimeField).toHaveValue(lastDatetime.toISOString().slice(0, 16))
+
+      // The description is intentionally left blank for a new entry
+      expect(screen.getByRole('textbox')).toHaveValue('')
     })
   })
 

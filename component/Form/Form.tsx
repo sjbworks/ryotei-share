@@ -3,7 +3,7 @@ import { useState, useMemo, useRef } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 import { RyoteiInsertInput, TripsInsertInput, ShareInsertInput } from '@/feature/api/graphql'
 import { ActionType } from '@/feature/ryotei/types'
-import { useRyoteiForm, useTripForm, saveFormValues } from './hooks'
+import { useRyoteiForm, useTripForm } from './hooks'
 import type { PlaceData } from './PlaceAutocomplete'
 import { DeleteContent } from './DeleteContent'
 import { DeleteTripContent } from './DeleteTripContent'
@@ -26,6 +26,7 @@ type Props = {
   }
   mode?: ActionType | null
   open?: boolean
+  lastDatetime?: string | Date | null
 }
 
 const modeTitle: Record<string, string> = {
@@ -43,7 +44,7 @@ const modeTitle: Record<string, string> = {
 const isDestructiveMode = (mode?: ActionType | null) =>
   mode === 'withdrawAccount' || mode === 'deleteRyotei' || mode === 'deleteTrip'
 
-export const Form = ({ onSubmit, data, onClose, action, mode, open }: Props) => {
+export const Form = ({ onSubmit, data, onClose, action, mode, open, lastDatetime }: Props) => {
   const initialPlace = useMemo<PlaceData | null>(() => {
     if (!data || !('place_name' in data) || !data.place_name) return null
     const d = data as RyoteiInsertInput
@@ -67,7 +68,7 @@ export const Form = ({ onSubmit, data, onClose, action, mode, open }: Props) => 
     handleSubmit,
     control,
     formState: { errors },
-  } = useRyoteiForm(data)
+  } = useRyoteiForm(data, lastDatetime)
   const {
     register: tripRegister,
     handleSubmit: tripHandleSubmit,
@@ -79,7 +80,6 @@ export const Form = ({ onSubmit, data, onClose, action, mode, open }: Props) => 
       mode === 'deleteRyotei' || mode === 'shareTrip' ? (data as RyoteiInsertInput | ShareInsertInput) : formData
 
     if ((mode === 'addRyotei' || mode === 'editRyotei') && 'datetime' in formData && 'description' in formData) {
-      saveFormValues(formData.datetime as Date, formData.description as string)
       submitData = {
         ...submitData,
         place_name: placeData?.name ?? null,

@@ -8,7 +8,7 @@ import { TimelineView } from './TimelineView'
 import { useRouter } from 'next/navigation'
 import { logout } from '@/feature/auth/api'
 import { UserMenu } from '@/component/Menu/UserMenu'
-import { useState, useContext, lazy, Suspense } from 'react'
+import { useState, useContext, useMemo, lazy, Suspense } from 'react'
 import { TripListDrawer } from './TripListDrawer'
 import { SnackbarContext } from '@/feature/provider/SnackbarContextProvider'
 import { GetTripsQuery, GetRyoteiQuery } from '@/feature/api/graphql'
@@ -45,6 +45,17 @@ export const MainView = ({ initialTripsData, initialRyoteiData, initialSelectedT
   } = useRyoteiList(initialTripsData, initialSelectedTripId)
   const { data, refetch, loading: ryoteiLoading, error: ryoteiError } = useGetRyotei(selectedTripId, initialRyoteiData)
   const loading = tripLoading || ryoteiLoading
+
+  // Datetime of the last entry in the current trip, used as the default when
+  // adding a new ryotei.
+  const lastRyoteiDatetime = useMemo(() => {
+    const datetimes = Object.values(data ?? {})
+      .flat()
+      .map((plan) => plan.datetime)
+      .filter(Boolean)
+    if (datetimes.length === 0) return null
+    return datetimes.reduce((latest, current) => (current > latest ? current : latest))
+  }, [data])
 
   const router = useRouter()
 
@@ -267,7 +278,7 @@ export const MainView = ({ initialTripsData, initialRyoteiData, initialSelectedT
 
       <BottomDrawer {...bottomSheet}>
         <Suspense fallback={<div style={{ padding: '20px' }}>読み込み中...</div>}>
-          <Form {...bottomFormProps} open={bottomSheet.open} />
+          <Form {...bottomFormProps} open={bottomSheet.open} lastDatetime={lastRyoteiDatetime} />
         </Suspense>
       </BottomDrawer>
 
