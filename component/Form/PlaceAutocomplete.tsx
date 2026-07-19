@@ -5,6 +5,7 @@ import { setOptions, importLibrary } from '@googlemaps/js-api-loader'
 import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined'
 import ClearIcon from '@mui/icons-material/Clear'
 import { logError } from '@/utils/logger'
+import { envPublic } from '@/utils/env-public'
 
 export interface PlaceData {
   name: string
@@ -24,7 +25,7 @@ let mapsLoadingPromise: Promise<void> | null = null
 const ensureMapsLoaded = () => {
   if (mapsLoadingPromise) return mapsLoadingPromise
   setOptions({
-    key: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? '',
+    key: envPublic.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
     language: 'ja',
   })
   mapsLoadingPromise = importLibrary('places')

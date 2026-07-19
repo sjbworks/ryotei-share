@@ -4,6 +4,7 @@ import { HttpLink } from '@apollo/client'
 import { SetContextLink } from '@apollo/client/link/context'
 import { ApolloNextAppProvider, InMemoryCache, ApolloClient } from '@apollo/client-integration-nextjs'
 import { refreshAccessToken } from '@/utils'
+import { envPublic } from '@/utils/env-public'
 import { ErrorLink } from '@apollo/client/link/error'
 import { CombinedGraphQLErrors, CombinedProtocolErrors } from '@apollo/client/errors'
 import { ApolloLink } from '@apollo/client/link'
@@ -11,14 +12,14 @@ import { createBrowserClient } from '@supabase/ssr'
 
 const httpLink = new HttpLink({
   // See more information about this GraphQL endpoint at https://studio.apollographql.com/public/spacex-l4uc6p/variant/main/home
-  uri: process.env.NEXT_PUBLIC_SCHEMA_URL!,
+  uri: envPublic.NEXT_PUBLIC_SCHEMA_URL,
   // you can configure the Next.js fetch cache here if you want to
   fetchOptions: { cache: 'force-cache' },
 })
 
 const supabase = createBrowserClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  envPublic.NEXT_PUBLIC_SUPABASE_URL,
+  envPublic.NEXT_PUBLIC_SUPABASE_ANON_KEY
 )
 
 // セッショントークンをキャッシュ（5秒間有効）
@@ -35,7 +36,7 @@ const authLink = new SetContextLink(async (prevContext) => {
       headers: {
         ...prevContext.headers,
         authorization: `Bearer ${cachedToken}`,
-        apiKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+        apiKey: envPublic.NEXT_PUBLIC_SUPABASE_ANON_KEY,
       },
     }
   }

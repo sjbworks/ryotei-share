@@ -1,5 +1,6 @@
 
 import { createClient } from '@/utils/supabase/client'
+import { envPublic } from '@/utils/env-public'
 
 export async function refreshAccessToken() {
     const supabase = createClient()
@@ -11,7 +12,7 @@ export async function refreshAccessToken() {
     const newToken = data.session?.access_token
     if (newToken) {
         // Save new token to cookies or your preferred storage
-        document.cookie = `sb-${process.env.NEXT_PUBLIC_SUPABASE_PROJECT_ID!}-auth-token=${newToken}; path=/`
+        document.cookie = `sb-${envPublic.NEXT_PUBLIC_SUPABASE_PROJECT_ID}-auth-token=${newToken}; path=/`
     }
     return newToken
 }

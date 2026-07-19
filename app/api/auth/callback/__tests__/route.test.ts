@@ -59,16 +59,6 @@ describe('GET /api/auth/callback', () => {
     expect(response.headers.get('location')).toBe('http://localhost/auth/auth-code-error')
   })
 
-  it('redirects to auth-code-error when Supabase env vars are missing', async () => {
-    delete process.env.NEXT_PUBLIC_SUPABASE_URL
-    const request = makeRequest('http://localhost/api/auth/callback?code=abc123')
-
-    const response = await GET(request)
-
-    expect(response.status).toBe(307)
-    expect(response.headers.get('location')).toBe('http://localhost/auth/auth-code-error')
-  })
-
   it('redirects to origin root on success in development', async () => {
     Object.assign(process.env, { NODE_ENV: 'development' })
     const request = makeRequest('http://localhost/api/auth/callback?code=abc123')

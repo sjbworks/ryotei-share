@@ -1,4 +1,5 @@
 import { createClientForServer } from '@/utils/supabase/server'
+import { env } from '@/utils/env'
 import { createClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
 
@@ -36,8 +37,8 @@ export async function DELETE() {
 
     // Create admin client with Service Role key
     const supabaseAdmin = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!,
+      env.NEXT_PUBLIC_SUPABASE_URL,
+      env.SUPABASE_SERVICE_ROLE_KEY,
       {
         auth: {
           autoRefreshToken: false,
