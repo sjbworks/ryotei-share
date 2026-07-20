@@ -10,10 +10,6 @@ const EnvSchema = z.object({
   SUPABASE_SERVICE_ROLE_KEY: z.string().min(1, 'SUPABASE_SERVICE_ROLE_KEY is required'),
   SUPABASE_ANON_KEY: z.string().min(1, 'SUPABASE_ANON_KEY is required'),
   SCHEMA_URL: z.url({ message: 'SCHEMA_URL must be a valid URL' }),
-  // E2E-only: read by Playwright (e2e/), never by the running app. Keep optional so
-  // the app doesn't fail to boot in environments (e.g. production) without them.
-  E2E_TEST_EMAIL: z.email({ message: 'E2E_TEST_EMAIL must be a valid email address' }).optional(),
-  E2E_TEST_PASSWORD: z.string().min(6, 'E2E_TEST_PASSWORD must be at least 6 characters').optional(),
 })
 
 const parsed = EnvSchema.safeParse(process.env)
