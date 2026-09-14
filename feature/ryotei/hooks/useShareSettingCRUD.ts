@@ -15,6 +15,7 @@ import {
   ShareUpdateInput,
 } from '@/feature/api/graphql'
 import { SnackbarDispatchContext } from '@/feature/provider/SnackbarContextProvider'
+import { createClient } from '@/utils/supabase/client'
 import { useContext } from 'react'
 
 export const useShareSettingCRUD = () => {
@@ -56,11 +57,20 @@ export const useShareSettingCRUD = () => {
       let shareId
       if (shareDataResult.exists) {
         const result = await updatePublicSetting({
-          variables: { objects: insertData, filter: { trip_id: { eq: insertData.trip_id } } },
+          variables: {
+            objects: { is_public: insertData.is_public },
+            filter: { trip_id: { eq: insertData.trip_id } },
+          },
         })
         shareId = result.data?.updateshareCollection?.records[0].share_id
       } else {
-        const result = await addShareSetting({ variables: { objects: insertData } })
+        // NOTE: share.user_id has no auth.uid() default, so it must be sent explicitly
+        // to satisfy the row-level security policy on insert
+        const {
+          data: { user },
+        } = await createClient().auth.getUser()
+        if (!user) throw new Error('ログインが必要です')
+        const result = await addShareSetting({ variables: { objects: { ...insertData, user_id: user.id } } })
         shareId = result.data?.insertIntoshareCollection?.records[0].share_id
       }
       window.open(`/${shareId}`, '_blank', 'noopener,noreferrer')
